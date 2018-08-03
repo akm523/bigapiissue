@@ -1,125 +1,125 @@
-719c0c32cd8a12c5f040f5d5e3323903e3c1253c remotes/origin/development^2~3^2~4,"refix of merge conflict
-",1440096635
-ccc51be96d7f3d86965ba3738973d9291565f1d8 remotes/origin/development^2~3^2~5,"refix of merge conflict
-",1440096555
-89fd75c8bf44420fce9c3d7fba062e138caecb20 remotes/origin/development^2~3^2~6,"fix of uncaught merge conflict
-",1440096499
-65d34243b531c2d69126352bd78e0c8bfb4fead1 remotes/origin/development^2~8," - More bug fixes in unit tests.
-",1440025913
-6abcd408253e1d575c2ac1dfafb83dc6846e6ba0 remotes/origin/development^2~9," - Ongoing updates to docs. Fixed bug in hibImportTests by sorting file paths.
-",1440025351
-371a95a4372c66c45161b45f894d9d21058ab4e9 remotes/origin/development^2~3^2~20,"fixed tests / implemented more tests, cleaned up covariance example
-",1439310882
-cb9b3b1864bb96eaff80bff69f7328bd99281371 remotes/origin/development^2~16," - Beginning work on documentation. javadoc target now works. Testing potential fix to JAR manifest Class-Path problem observed on Windows.
-",1439242604
-d5e43dda1245d52a408ef90f695aecfa22dce4f2 remotes/origin/development^2~18," - Fixed path bug in TestUtils::setupTestoutDirectory.
-",1438800147
-e4587e4d55c70072f27b516f59e365fe8ce389f2 remotes/origin/development~2^2~1,"- Fixed bug in JPEG image header decoding logic.
-",1427393252
-9554c98c6abf91165bb4eeef4c32d1b2170c6203 remotes/origin/development~2^2~2,"- Better error handling for misconfigured build.xml file.
-",1427392281
-aa7dc47d4a066831c4f72f2e137ace244493b11c remotes/origin/development~2^2~8,"- Removed 3rd party libs that are redundant with Hadoop distribution.
+719c0c32cd8a12c5f040f5d5e3323903e3c1253c remotes/origin/development^2~3^2~4,1440096635,,"refix of merge conflict
+"
+ccc51be96d7f3d86965ba3738973d9291565f1d8 remotes/origin/development^2~3^2~5,1440096555,,"refix of merge conflict
+"
+89fd75c8bf44420fce9c3d7fba062e138caecb20 remotes/origin/development^2~3^2~6,1440096499,,"fix of uncaught merge conflict
+"
+65d34243b531c2d69126352bd78e0c8bfb4fead1 remotes/origin/development^2~8,1440025913,," - More bug fixes in unit tests.
+"
+6abcd408253e1d575c2ac1dfafb83dc6846e6ba0 remotes/origin/development^2~9,1440025351,," - Ongoing updates to docs. Fixed bug in hibImportTests by sorting file paths.
+"
+371a95a4372c66c45161b45f894d9d21058ab4e9 remotes/origin/development^2~3^2~20,1439310882,,"fixed tests / implemented more tests, cleaned up covariance example
+"
+cb9b3b1864bb96eaff80bff69f7328bd99281371 remotes/origin/development^2~16,1439242604,," - Beginning work on documentation. javadoc target now works. Testing potential fix to JAR manifest Class-Path problem observed on Windows.
+"
+d5e43dda1245d52a408ef90f695aecfa22dce4f2 remotes/origin/development^2~18,1438800147,," - Fixed path bug in TestUtils::setupTestoutDirectory.
+"
+e4587e4d55c70072f27b516f59e365fe8ce389f2 remotes/origin/development~2^2~1,1427393252,data structure,"- Fixed bug in JPEG image header decoding logic.
+"
+9554c98c6abf91165bb4eeef4c32d1b2170c6203 remotes/origin/development~2^2~2,1427392281,,"- Better error handling for misconfigured build.xml file.
+"
+aa7dc47d4a066831c4f72f2e137ace244493b11c remotes/origin/development~2^2~8,1426728137,performance,"- Removed 3rd party libs that are redundant with Hadoop distribution.
 - Expanded unit tests.
 - Added unit test that causes current JPEG header decode to fail (returns null object).
 - More formatting + style polish.
-",1426728137
-60eb19c6eb5c3872d24e49a82d5960abcdb0edd1 remotes/origin/development~2^2~10,"- Added static method computeSplits to ImageBundleInputFormat to improve code reuse.
+"
+60eb19c6eb5c3872d24e49a82d5960abcdb0edd1 remotes/origin/development~2^2~10,1426279833,"data structure, file format","- Added static method computeSplits to ImageBundleInputFormat to improve code reuse.
 - Streamlined JpegFromHibInputFormat to take advantage of new ImageBundleInputFormat.
 - Added support for PNG in HIBs.
 - Improved JpegFromHib so that it retains the proper file extension.
 - Added comments and improved code style in Downloader.
 - Fixed bug in PNGImageUtil that prevented the image type from being set.
-",1426279833
-7bf13995d23a99b4941b0d60b06e27db932fb23f remotes/origin/development~2^2~12,"Various bug fixes and code hardening in downloader, dumphib.
-",1426193103
-c9629381dd29a0ff2c7b887607eb7c2e88e224a4 remotes/origin/development~3,"likely fix for XMPException
-",1425650278
-689df429b957bc0e4efcc105a38a33d3ca0b8172 remotes/origin/development~5^2~1,"fixed unnoticed bug in covariance.java
-",1424980347
-7f2fdda23d920e21cee9d8e356fa230075704f92 remotes/origin/development~5^2~3,"small formatting fixes / comments
-",1423089879
-25d9129f8a7d4d833ab1775694b160a4153b9009 remotes/origin/development~5^2~5,"reverted formatting on abstractimagebundle and hipiimagebundle to prevent unit test errors
-",1422738815
-a2a2bc7d0221c3f78709094240cd8d8dffb548a8 remotes/origin/development~5^2~7,"additional fixes based on pull request comments
-",1422735108
-95891b81eb3df2f29144e99e85feb7ab87923bf9 remotes/origin/development~5^2~11,"removed unnecessary print statements, dixed bug in JPEGImageUtil
-",1422561056
-c9349b3e6e749ee34cfdc54476b0438e89060773 remotes/origin/development~5^2~12,"cleaned up build files and harimagebundle test case, fixed floatimage delta error
-",1422457483
-7c481625a4640538946e5236559acc31361e2e4b remotes/origin/development~5^2~14,"fixed compression problem in covariance example
-",1421440102
-13d96f8d0c0ad4c6264d2250538809639284835b remotes/origin/development~5^2~29,"added temporary code to create output hib for covariance mean to check integrity of results, fixed bug in JPEGImageUtil which was generating IndexOutOfBounds exceptions
-",1419010041
-d67ce0d49b0aae35162a81c8887bf4ae8cd16656 remotes/origin/development~5^2~33,"removed deprecation errors in HipiImageBundle and SeqImageBundle
-",1418769696
-e08d4ace8a5e82adc0191aa34a7a77e2267a6b83 remotes/origin/development~5^2~39,"jpegromhib example now compiles without migration/deprecation errors/warnings
-",1418160539
-faeb8bae3db672c00926cbf0ad61fa5943da8d9a remotes/origin/development~5^2~40,"all three examples compile with no deprecation errors (still need to clean out deprecated code in hipi src / test correctness of examples
-",1418061942
-0725e147efe638ce068a88efb4109d6275900742 tags/v1.0~4,"fixed warning with Java Advanced Imaging API (basically, using ImageIO
+"
+7bf13995d23a99b4941b0d60b06e27db932fb23f remotes/origin/development~2^2~12,1426193103,IO,"Various bug fixes and code hardening in downloader, dumphib.
+"
+c9629381dd29a0ff2c7b887607eb7c2e88e224a4 remotes/origin/development~3,1425650278,,"likely fix for XMPException
+"
+689df429b957bc0e4efcc105a38a33d3ca0b8172 remotes/origin/development~5^2~1,1424980347,,"fixed unnoticed bug in covariance.java
+"
+7f2fdda23d920e21cee9d8e356fa230075704f92 remotes/origin/development~5^2~3,1423089879,,"small formatting fixes / comments
+"
+25d9129f8a7d4d833ab1775694b160a4153b9009 remotes/origin/development~5^2~5,1422738815,,"reverted formatting on abstractimagebundle and hipiimagebundle to prevent unit test errors
+"
+a2a2bc7d0221c3f78709094240cd8d8dffb548a8 remotes/origin/development~5^2~7,1422735108,,"additional fixes based on pull request comments
+"
+95891b81eb3df2f29144e99e85feb7ab87923bf9 remotes/origin/development~5^2~11,1422561056,,"removed unnecessary print statements, dixed bug in JPEGImageUtil
+"
+c9349b3e6e749ee34cfdc54476b0438e89060773 remotes/origin/development~5^2~12,1422457483,format,"cleaned up build files and harimagebundle test case, fixed floatimage delta error
+"
+7c481625a4640538946e5236559acc31361e2e4b remotes/origin/development~5^2~14,1421440102,memory,"fixed compression problem in covariance example
+"
+13d96f8d0c0ad4c6264d2250538809639284835b remotes/origin/development~5^2~29,1419010041,data partition,"added temporary code to create output hib for covariance mean to check integrity of results, fixed bug in JPEGImageUtil which was generating IndexOutOfBounds exceptions
+"
+d67ce0d49b0aae35162a81c8887bf4ae8cd16656 remotes/origin/development~5^2~33,1418769696,usabiltiy,"removed deprecation errors in HipiImageBundle and SeqImageBundle
+"
+e08d4ace8a5e82adc0191aa34a7a77e2267a6b83 remotes/origin/development~5^2~39,1418160539,,"jpegromhib example now compiles without migration/deprecation errors/warnings
+"
+faeb8bae3db672c00926cbf0ad61fa5943da8d9a remotes/origin/development~5^2~40,1418061942,,"all three examples compile with no deprecation errors (still need to clean out deprecated code in hipi src / test correctness of examples
+"
+0725e147efe638ce068a88efb4109d6275900742 tags/v1.0~4,1328184341,IO,"fixed warning with Java Advanced Imaging API (basically, using ImageIO
 now)
-",1328184341
-41a12161c785dbdde17efaac35d5d4f4ad23b2f9 tags/v1.0~5,"fixed problem with junit
-",1324309379
-28b5804dda3291d78a4c8f89fd707d99fc4a6259 tags/v1.0~21,"sean: fixed scripts to use environment variable. also fixed bug in Covariance that didn't check for command line args
+"
+41a12161c785dbdde17efaac35d5d4f4ad23b2f9 tags/v1.0~5,1324309379,,"fixed problem with junit
+"
+28b5804dda3291d78a4c8f89fd707d99fc4a6259 tags/v1.0~21,1305732116,usabiltiy,"sean: fixed scripts to use environment variable. also fixed bug in Covariance that didn't check for command line args
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@92 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1305732116
-702a94c245f1ff8ee0029151afe2b4411c16aae1 tags/v1.0~26,"sean: lots of updates. scripts are updated to work properly. some updates to the build file. made some modifications to the Downloader program that fixed some bugs. also documentation for the downloader is almost ready, just needs anchor links
+"
+702a94c245f1ff8ee0029151afe2b4411c16aae1 tags/v1.0~26,1305660377,io,"sean: lots of updates. scripts are updated to work properly. some updates to the build file. made some modifications to the Downloader program that fixed some bugs. also documentation for the downloader is almost ready, just needs anchor links
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@87 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1305660377
-15c680b0ce30acbcc92b0c34dd15b639fd3130b1 tags/v1.0~32,"sean: removed debug java drivers
+"
+15c680b0ce30acbcc92b0c34dd15b639fd3130b1 tags/v1.0~32,1305577050,,"sean: removed debug java drivers
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@81 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1305577050
-98db5ddc9f4c1522c3cfac19ceda95d590e584c8 tags/v1.0~41,"error fix, and support for blocksize and replication setting
+"
+98db5ddc9f4c1522c3cfac19ceda95d590e584c8 tags/v1.0~41,1305318486,"parallilsm, jobs","error fix, and support for blocksize and replication setting
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@72 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1305318486
-1c90189a480bf7f979967ca3c1e063c2e9abbc8d tags/v1.0~44,"modified JPEGSequenceFileRecordReader to be more robust to failure
+"
+1c90189a480bf7f979967ca3c1e063c2e9abbc8d tags/v1.0~44,1305304892,io,"modified JPEGSequenceFileRecordReader to be more robust to failure
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@69 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1305304892
-dcd41d139492c48f9fd9f64e409ca9e5bfd27e1b tags/v1.0~45,"fix to inputformat
+"
+dcd41d139492c48f9fd9f64e409ca9e5bfd27e1b tags/v1.0~45,1305304892,io,"fix to inputformat
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@68 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1305304892
-b89f42e374c65041bc6daf1bc76337941ffebf83 tags/v1.0~62,"fixed bugs in experimentation
+"
+b89f42e374c65041bc6daf1bc76337941ffebf83 tags/v1.0~62,1304871305,,"fixed bugs in experimentation
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@51 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1304871305
-a0c0d3068a5ea7cd45b91ce9fc64ddce342ccc56 tags/v1.0~63,"fixed bug with scale in average image experiment
+"
+a0c0d3068a5ea7cd45b91ce9fc64ddce342ccc56 tags/v1.0~63,1304283798,performance,"fixed bug with scale in average image experiment
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@50 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1304283798
-311384b97288d8d8c9939d6fb99fe6fe58fea7ce tags/v1.0~68,"fixed hipi image bundle errors on 100,000 scale
+"
+311384b97288d8d8c9939d6fb99fe6fe58fea7ce tags/v1.0~68,1303525122,performance,"fixed hipi image bundle errors on 100,000 scale
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@45 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1303525122
-92329cc9c9cbcd5f4db012f209f3c8d969c14b07 tags/v1.0~71,"fix file path bug in harimagebundle
+"
+92329cc9c9cbcd5f4db012f209f3c8d969c14b07 tags/v1.0~71,1303517851,io,"fix file path bug in harimagebundle
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@42 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1303517851
-07bd6a9e5ada9b2d0b8028bca54be85b4ff29e7c tags/v1.0~76,"a fast fix on hipiImageBundle
+"
+07bd6a9e5ada9b2d0b8028bca54be85b4ff29e7c tags/v1.0~76,1303084720,Data structure,"a fast fix on hipiImageBundle
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@37 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1303084720
-961c92b8877911d1750998c3d34dd43cfbd850dc tags/v1.0~91,"temp solution to buggy svn
+"
+961c92b8877911d1750998c3d34dd43cfbd850dc tags/v1.0~91,1301015549,,"temp solution to buggy svn
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@22 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1301015549
-15a8c1f6db2ac232454fee16645edf70503dd366 tags/v1.0~92,"Added a private readBytes method that returns the entirety of an inputstream. Previously, we only grabbed the amount of data that was indicated by input_stream.available(), which is not neccessarily the entire stream. This commit fixes this issue.
+"
+15a8c1f6db2ac232454fee16645edf70503dd366 tags/v1.0~92,1300806275,IO,"Added a private readBytes method that returns the entirety of an inputstream. Previously, we only grabbed the amount of data that was indicated by input_stream.available(), which is not neccessarily the entire stream. This commit fixes this issue.
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@21 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1300806275
-1cf1962eb272ada5c4de28c107654c260bb5f35e tags/v1.0~94,"a incremental commit which modified output of decoder to [0..1]
+"
+1cf1962eb272ada5c4de28c107654c260bb5f35e tags/v1.0~94,1300478481,data structure,"a incremental commit which modified output of decoder to [0..1]
 inclusively. also, a bugfix in ImageBundleInputFormat which mistaking
 the length with lastOffset.
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@19 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1300478481
-29914308e52fc3649122808d86b20ec5c0aae8e4 tags/v1.0~100,"HipiImageBundle.java added support for metadata (index file)
+"
+29914308e52fc3649122808d86b20ec5c0aae8e4 tags/v1.0~100,1296106105,"IO, data structutre","HipiImageBundle.java added support for metadata (index file)
 The index of offsets is important to implement InputSplit in Hadoop
 efficiently. Prior to this commit, HipiImageBundle uses one big file
 and very simple file format: (signature, next needle length, next needle
@@ -156,12 +156,12 @@ The good news is, index file can always recovered from data file, but
 takes some time.
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@13 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1296106105
-46bdfbe1a8a979e3a7c198b6d9a81cfe1c79e8fc tags/v1.0~108,"Liu: exposed more accessors on FloatImage, fixed exif_information
+"
+46bdfbe1a8a979e3a7c198b6d9a81cfe1c79e8fc tags/v1.0~108,1287782301,format,"Liu: exposed more accessors on FloatImage, fixed exif_information
 not properly initialized error in ImageHeader, implemented
 encodeImage/decodeImage/decodeImageHeader in JPEGImageUtil,
 encodeImage/decodeImage in PPMImageUtil,  added unittest for
 JPEGImageUtil and PPMImageUtil, added some test images
 
 git-svn-id: svn+ssh://galicia/usr/local/svn/HIPI@5 0c4b1d1f-a87e-43e2-b515-cbd7e906cf19
-",1287782301
+"
