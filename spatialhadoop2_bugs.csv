@@ -1,0 +1,823 @@
+3be538905caf85843660190f3fadefdbdf5f0a8a master~2,"Some code refactor
+
+Fix a minor issue with RStarTree#reInsert
+",1520631948
+7b898806302da7b9c54c76f5971e3a2b4f6ba4fa master~3,"Fixed a bug with node split
+",1520394180
+3fc7ded26e6722074682c6f7f01a7557b6a5f9e6 master~5,"Fixed a few bugs with the RR*tree implementation
+",1520387478
+164e4f731bc3ffb9c8367c8f88307a4f63178c4a master~9,"Another fix of a link in the comments
+",1520080539
+b7b944d2b1d34d9c1b010ca69eee1059db94f705 master~14,"Fixed a bug with RRStarTree#dOvlp
+",1520016490
+03d2710024bdd27eb8a19ffc763d835a1b65e2ea master~15,"Fixed some bugs with RRStarTree#dOvlp
+
+Improved the figure that displays the case studies of test_points
+",1520015857
+3abd838b6c59de407a16de84dcfacbab8bfb2f44 master~20^2~1,"Fixed a bug with AuxiliarySearchStrucure#search for rectangles
+",1519418371
+c2e342d7f376382bc9a028d1db5b3b8fcd30b340 master~20^2~2,"Fixed some bugs with the AuxiliarySearchStructure
+",1519410993
+925f66d729428fc4ba0b890fef14041882a26157 master~20^2~5,"Fixed a bug with the auxiliary data structure
+",1519406595
+391239ca295d7aac50582ff98f8b11542c98ad0b master~20^2~12,"Improved RTreePartitioner to work with infinite MBRs
+
+Fixed a bug with Indexer to work with shapes with empty geometries
+",1519180892
+8dc5d524417057e408ec31b4d6ba6cf0159eef4e master~20^2~21,"Fixed some minor bugs in RTreeGuttman and RStarTree
+
+Added a main method in RStarTree to bulk construct a tree from points
+
+Did some improvements to RStarTree#split to make it faster for bulk loading
+",1519071760
+8d07c8e9f175bec05aeffa2cf714c04cd0fc8f7f master~20^2~22,"Fixed a bug with R-tree split
+
+Updated RTree split to take the minimum split size
+",1519014687
+22b2ba19e59c12727678556b5a1124c1181e4bed master~20^2~23,"Fixed a bug with RTreePartitioner#expansion functions
+",1519007918
+74cbef6967d5e42497fe473f537073feb7c2a700 master~20^2~25,"Fixed a bug with RTreePartitioner#expansion function
+",1518832918
+5f6567dee2c9d9b11e9e510546b6d15d0aa37ae8 master~20^2~26,"Fixed a bug with expansion
+",1518830878
+b951025db97741921b872b8c75d105b6442d9f84 master~20^2~27,"Fixed a bug in RTree split
+",1518827567
+cfd85444dc415414a57ae4d41c26ee309eb791dd master~20^2~29,"Fixed a bug with RTreeGuttman#makeRoomForOneMoreObject
+",1518811946
+0a7ed3d3d71cda5cd1c2346f826ac5e901a36bd2 master~20^2~30,"Fixed a bug with BitArray#resize
+",1518811457
+4180961d56c984152e64ba5b6714fe7a755c8465 master~20^2~31,"Minor typo fix
+",1518810546
+436a4c1214fe70d0e6f9b090109d475945593421 master~20^2~45,"Fixed a bug with tree split
+
+Added a new test when the tree has more than two levels
+",1518663372
+103b4ed87d5b6f5adbe4070a5db7298cafbb6026 master~31,"Improved the visualizations by making the mapping of points to pixels consistent. We always use the floor function rather than using floor at some points and round at some other points. Fixed a bug with merging paths when one path is non-existent
+",1514932369
+0832d9c8c127e7e4c92246ba1ea16fb1d1e97d61 master~37,"Fixed a bug with computing the Histogram. Now it uses the updated MBR for computing the hisotgram and for multilevel plot
+",1509500266
+8e115e14c79d69adfa2406687e7cbcbc1e4bc18a master~43^2,"Removed two tests test_dt15 and test_dt16 that are currently failing
+",1508524481
+479969f21fe216a3e12a9ecb948edc818243fa27 remotes/origin/delaunay~2,"Use IFastSum to avoid precision errors in Delaunay Triangulation computation
+",1499385795
+b9c18bb6061e47a309f19f3acd23bbfefac7eae2 remotes/origin/delaunay~4,"Fixed a precision error problem with GSDTAlgorithm when testing whether a point is inside the circumcircle of three points or not:
+",1499377495
+5c70bda19989263f08897b6df210f7bd072ebe5d remotes/origin/delaunay~9,"Added a failing test case in HDFRecordReader (double check for sanity)
+",1499298818
+0e0842d7c6133286dd165413d8cf3fa83156f501 remotes/origin/delaunay~14,"Fixed a bug while reading integer values from HDF file
+",1499298498
+74bbc0771da7f5f6adeccce2ee444dfe26117e09 remotes/origin/delaunay~16,"Added a new (failing) test case
+",1499298373
+68aea6e090753c154dbb33650a9a130ba0cad303 remotes/origin/delaunay~17,"Refactor: Added some comments and handled a special case to avoid precision error while testing for the intersection of two line segments
+",1499298348
+ebfcc4d375327cd7e8ef0303c87f0b3e0ecadfe4 remotes/origin/delaunay~18,"Fixed a bug with testing correctness of a triangulation
+",1499120927
+62838bfb7bc719feed53daf47c30b7fd83cc3b45 remotes/origin/delaunay~19,"Fixed a bug with point deduplication algorithm
+",1499120886
+ce6b90e905b6207d1c6603a8ea9305f590ad5ee9 remotes/origin/delaunay~22,"Fixed a bug with TileIndex#getMBR
+",1485998827
+65db4d5ac71be51ee7ca3b6b6cc3666136391b99 remotes/origin/delaunay~23,"Fixed a bug with TweetTweetTweet#getMBR
+
+Parallelize part of deduplicatePoints method
+",1485998648
+7ecbb99b70bc7c0cc5864436c1372efdb3996475 remotes/origin/delaunay~26,"Minor bug fixes for the DT algorithms
+",1482965646
+eaa38d57508471e776bfca5558e95b691f71d4fe remotes/origin/delaunay~27,"Merge branch 'delaunay-fixed'
+",1482955132
+a8eba8a56493de36a1aae6a8797e3ea75e353475 remotes/origin/delaunay~27^2~1,"Fixed a bug with deduplicating a set of points
+",1482955003
+a4c6af88a739aaa923baf593e2c6f44353d521ad tags/shadoop-2.4.2,"Added a test for the case where a site has two neighbors at 12 and 6 o'clock and fixed the corresponding bug
+",1482531018
+313ac5e031f4d4ac1565720ca83fc6e95e67dda9 tags/shadoop-2.4.2~11,"Fixed a bug with convex hull when all the points are collinear
+",1482431847
+2f9928c6194749715ecd22673648e16de2b886ed tags/shadoop-2.4.2~17,"Fixed a bug with convex hull to handle the special case correctly
+",1482351996
+110e93b63af3462d9dd97353bd192131732a18a8 tags/shadoop-2.4.2~19,"Small fix with drawing triangulations
+",1482346928
+1cd0beebe1b6466795d63b111f814150ccddf286 tags/shadoop-2.4.2~20,"Fixed a bug with computing CW angle when the angle is exactly 0
+",1482345672
+4cc228291ac49628eed8fb716d68bc80ed8d7d7d tags/shadoop-2.4.2~22,"Added a new test scenario that fails with GSImprovedAlgorithm
+",1482292069
+66e1fdd7ef1afdc830a2cbd39c96141fda9ad33f tags/shadoop-2.4.2~24,"Added a new test scenario and fixed a bug with the DT merge algorithm to pass
+",1482288444
+d2cc01dfcb7c26fe640513da56bcbc47a9e5019a tags/shadoop-2.4.2~25,"Fixed a bug with convex hull to pass all test scenarios
+",1482285765
+99b09be3cbf620b387e6238b72273bd86a977acc tags/shadoop-2.4.2~26,"Fixed a bug with computing convex hull which removed colinear points along one of the convex hull edges which produced incorrect results with Delaunay triangulations
+",1482266244
+690fbd2ce7a5e8642eeb873c1976176ecad0f630 tags/shadoop-2.4.2~27,"Fixed a bug with GSImprovedAlgorithm
+
+Added a new test case that fails with both GSDTAlgorithm and GSImprovedAlgorithm
+",1482263909
+9e0e4ccaa01552cb34366cb5e5cb481f99344d9d tags/shadoop-2.4.2~28,"Fixed a bug with convex hull computation when the sites are not sorted by X
+",1482261392
+906b17abbbf0dcfe6a34977f46ae1d178fc3c0a5 tags/shadoop-2.4.2~29,"Fixed some bugs with the improved DT algorithm
+
+Added a failing test for the improved algorithm that passes with the regular algorithm
+",1482203039
+03712dd60ac39cd1a5d21c4b7fd42b4e53c9489f tags/shadoop-2.4.2~38,"Fixed a bug with Triangulation#compact and used it. Test still pass
+",1481836738
+e730b9b281e988389aff77a3ae39222f6d6b8c8a tags/shadoop-2.4.2~41,"Fixed a bug with sorting neighbors and checking triangles. Now the two tests pass
+",1481681793
+01fde06694941df0bc095eb8a9ecd6cf3086fbff tags/shadoop-2.4.2~42,"Updated the example. Fiexed the sorting of neighbors in CW. The test with the second DT example still fails.
+",1481641461
+907f081fd6f64c5796b5c0b3146b3da59702a340 tags/shadoop-2.4.2~44,"A minor fix to the figure that represnts the test case
+",1481338627
+0c858c740f635fe116c009dc1988a07348cbfbe8 tags/shadoop-2.4.2~46,"Triangles enumerated but each triangle is reported three times, one for each corner. Need to be fixed
+",1481334427
+cd07e776db374b14717037dede362ce416e41032 tags/shadoop-2.4.2~47,"Added a test for partitioning. Currently it is failing
+",1481253081
+b28a2020bf602049a0c2643e1f3ee2423670ff6e tags/shadoop-2.4.2~50,"Fixed a bug in the indexer that causes an exception when using a third party data type
+",1464290154
+8ae7d5c6d9be71416647e16a13741ef89161f23a tags/shadoop-2.4.2~62,"Fixed a bug with displaying images
+",1463161559
+679a3f9c8b50cc02e2816a8cbc60504450d451e4 tags/shadoop-2.4.2~72,"Minor fix to hide the global index when another file is chosen
+",1463003378
+c8018ea8d75075049084d36b268dd7a21e0a6b42 tags/shadoop-2.4.2~79,"Fixed a bug with getting decompressor in a threaded environment
+",1461693612
+f1477dde7851041c1683df283482fcff16dde31f tags/shadoop-2.4~9,"Fixed a bug with SpatioTemporalAggregateQuery
+",1459971808
+51e8c17ff48c9bad94e23ed474999067ea4e6517 tags/shadoop-2.4~12,"Fixed a bug with MultilevelPlot using pyramid partitioning
+",1459393052
+fddfc37bf6b4586340f5f79a4f58e94a0e456f5a tags/shadoop-2.4~13,"Merge branch 'DevFactory-release/remove-dead-stores-fix-1'
+",1458599133
+9dec4c69a767a0380a62cd61d06ca6fb0cbb9cff tags/shadoop-2.4~13^2,"Fixed a bug with non-imported class
+",1458599123
+461a8f8de2211097769f0949571835f65b7a04b4 tags/shadoop-2.4~13^2~1,"Merge branch 'release/remove-dead-stores-fix-1' of git://github.com/DevFactory/spatialhadoop2 into DevFactory-release/remove-dead-stores-fix-1
+",1458599042
+f3eedd8ac8ed36e1f2f30a07dae409e2bf6c136c tags/shadoop-2.4~14,"Merge branch 'DevFactory-release/possible-null-pointer-exception-fix-1'
+",1458598861
+d00e0eab23794022e39ea6089db1c8235511ab10 tags/shadoop-2.4~14^2,"Merge branch 'release/possible-null-pointer-exception-fix-1' of git://github.com/DevFactory/spatialhadoop2 into DevFactory-release/possible-null-pointer-exception-fix-1
+",1458597365
+0ffb6e0e745497e4d61554ea3b11407cdf4b4cf0 tags/shadoop-2.4~15,"Merge branch 'DevFactory-release/using-isempty-fix-1'
+",1458597318
+1c7438bdc01ed87e667ee829f8ba93a6364b7d8c tags/shadoop-2.4~15^2,"Merge branch 'release/using-isempty-fix-1' of git://github.com/DevFactory/spatialhadoop2 into DevFactory-release/using-isempty-fix-1
+",1458597296
+ab5de64c46f54ff74a860eaee0b02b24f6d2cd7f tags/shadoop-2.4~16,"Merge branch 'DevFactory-release/resource-should-be-closed-fix-1'
+",1458597162
+85a7622444700a554ea800a06d5c55dfadfc620e tags/shadoop-2.4~16^2,"Merge branch 'release/resource-should-be-closed-fix-1' of git://github.com/DevFactory/spatialhadoop2 into DevFactory-release/resource-should-be-closed-fix-1
+",1458597135
+846ff81d5b773ed66c750677cb8d74c27b98634c remotes/origin/revert-26-release/replace-synchronized-Collections-fix-1~2,"Merge pull request #31 from DevFactory/release/override-hashcode-fix-1
+
+equals(Object obj)"" and ""hashCode()"" should be overridden in pairs",1458596286
+926b729e257b0202492307de968b47ecec6c84af remotes/origin/revert-26-release/replace-synchronized-Collections-fix-1~3,"Fixed a bug with deserializing TigerShape
+",1458596177
+4c2fbd2b5af7b13521fb3c9d12a4ec7bcb7b577f remotes/origin/revert-26-release/replace-synchronized-Collections-fix-1~4,"Fixed a bug with parsing quoted WKT
+",1458499552
+f5bcde9cc6f9b38525f4d2ce39c204bb7ee69bf1 tags/locationtech-ic-3~4,"Fixed all JavaDoc errors
+",1456349256
+f1c35f0269d4c0ebea74a785d0e4caeecbd9a71b tags/locationtech-ic-3~5,"Fixed a bug with MultilevelPlot
+",1456342385
+c4f2b1bd6fef2808dce493c8be89896dc95a92f5 tags/locationtech-ic-3~9^2,"Minor fixes to the README file to reflect the use of maven for compilation
+",1456265795
+098a201c957c1f4a3f55eb7b02cc84dc9c6376da tags/locationtech-ic-3~9^2~4,"Fixed a bug with MultilevelPlot
+",1456264756
+ef136332dfe42b329827bda2e4173b26f35d688a remotes/origin/hadoop1~3^2,"A minor fix to the created package
+",1456258775
+dc56abaf0bca40e3383232e8001f88e97956aecc remotes/origin/hadoop1~7,"Fixed a bug in writing the cached MBR file
+",1456179605
+a12e032621499e584c6f05012a7f23aa759d94ff remotes/origin/hadoop1~8,"Fixed a bug in serializing null geometries
+",1456179559
+2b95be90973e526dc5d26ca24c8c5d5e1edc4e12 remotes/origin/hadoop1~9^2^2,"Update prepareNextResult() for Errors
+
+A mistake of wrong brace place, maybe because of code copy. I debug the prepareNextResult() using point data set, and always get an error. Then I find this mistake and correct it.",1452914473
+e640c74041ccf41c42499d1c497f39257f863277 remotes/origin/hadoop1~10,"Minor fix to planet-extractor.pig
+",1452615017
+7ceacc9b8e10bf6e7217c809dc725fa8854cbfcb remotes/origin/hadoop1~11,"Refactor Pigeon OSM extractors
+
+Fixed a bug in HasTag
+",1445805239
+46a7fbc5e04f438e084ff0448ed6e5882aac0c6e tags/locationtech-ic-3~13,"Fixed bugs with duplicate avoidance in DJ
+
+Fixed a bug with RTree join of large files
+",1445543827
+60138d26c54eeec8bcc5daf23dbca581394f785e tags/locationtech-ic-3~14,"Fixed minor bugs with SJMR and DJ so that they produce the correct result with special cases
+",1445536702
+d80d63cd27f39249eba780fb5da2b3187db40819 tags/locationtech-ic-3~15,"Refactor the RTree class and fix a spatial join issue
+",1445531995
+3cd615f1d7e36c9e2dd6488e74890b2207022830 tags/locationtech-ic-3~16,"Minor fixes with RTree
+",1445486006
+663af93cf49f5a313d2b3140bf6cb08d3972cf64 tags/locationtech-ic-3~35,"Fixed a bug with union
+",1440356555
+fa5df837adb8120c4d70c97a61546a8b59d07cf4 tags/locationtech-ic-3~42,"Fixed a bug with FarthestPair
+",1439785044
+64185df2d8b1246e6cb72531c6853d4516a9ab1e tags/locationtech-ic-3~43,"Solved a bug with reading files in local algorithms
+
+Added a new parameter thickness in generating circular datasets
+",1439535443
+26df034993e694e2266495b6d614b581a83b8237 tags/locationtech-ic-3~44,"Report errors in ClosestPair#local
+",1439533720
+b3ebc1fce6722b724d7f61d532258d16a5cd9891 tags/locationtech-ic-3~45,"Minor fixes to CG algorithms to work with an input of any type rather than only with Point
+",1439411837
+d74e6f5b71a32e61870c10c3b3c141841d9fba0b tags/locationtech-ic-3~54,"Fixed a bug in DT
+
+Allowed skipping the output
+",1439056673
+c21b7d5f24e785970343895c9763a60fe192dbb2 tags/locationtech-ic-3~57,"Fixed a few bugs with Union
+",1439015485
+34b10f166cccd9baf52e6ecc888e584b3bbbb5bc tags/locationtech-ic-3~60,"Catch and report errors in safeUnion
+",1438993889
+67223226593912e98158f84f6be60c0d46b82479 tags/locationtech-ic-3~66,"Use ArrayList instead of Vector in Union
+
+Decrease the batch size to 1,000 instead of 10,000
+
+Fall back from buffer to union operation in case of a failure
+",1438712066
+16d8592c4ec665142d896175abb2010be41ed1d8 tags/locationtech-ic-3~59^2~12,"Fixed a bug with reporting memory usage
+",1438396864
+52b6dfda378a216362f7a96ad8b87d0a05f8d8f1 tags/locationtech-ic-3~59^2~17,"Increase the accuracy of checking collinear points in calculateCircumCircleCenter
+
+A minor fix for a very special case for nearly collineary points
+",1438371066
+5744bcb9446a51a131912f9b0484a24d30185e26 tags/locationtech-ic-3~59^2~20,"Added DelaunayTriangulation to the list of operations in Main
+
+Fixed a bug with choosing the base edge
+",1438359707
+293ce3d6d27b21a06eb8547c63b242ef46edec51 tags/locationtech-ic-3~59^2~35,"Fixed a bug with Triangulation#test
+",1437697322
+00554ac595866695ac1b4e12b1350b3e0dd84d2e tags/locationtech-ic-3~59^2~38,"Added a method to test for possible errors in the triangulation
+",1437689047
+a0d663ca8a0e3af2ec2db91b0069517f4c0082bf tags/locationtech-ic-3~59^2~40,"Reverted recent commits to resolve a bug
+",1437687938
+7d3e45744192b86a0b51e3b691f5a11a51cf6f84 tags/locationtech-ic-3~59^2~47,"Fixed a bug in removing duplicates in DT
+",1437674773
+8f11a641b86bf083dca82c5de086b1575e726621 tags/locationtech-ic-3~69,"Minor bug fixes
+",1436762460
+2a891234182458cf86b92b6cbd28407cd1ab693e tags/locationtech-ic-3~78,"Fixed a bug with local indexer when it builds a replicated index
+
+Write the master WKT file in the local indexer
+
+Implemented UltimateUnion that works with replicated index
+
+Implemented a simplified version of the old union algorith with the name BasicUnion
+",1436386182
+87f3f7a17717a332dc7e58617d6dc9f96edc5611 tags/locationtech-ic-3~86,"Update the HDF library to read linked blocks. Partially fixed but raised an error with chunked blocks
+",1435559243
+7d31e2d506d8de39a46f791916e603b6d620800d tags/locationtech-ic-3~95^2~1,"Fixed a bug with reader VData header
+
+Refactor some code parts in Hdf
+
+Added LinkedBlock data descriptor class but it is not currently used correctly
+",1434514059
+ed6cc3a9f338f2e64a87ed84a6f66b56fa60eed5 tags/locationtech-ic-3~100,"Fixed a bug with ShahedServer that causes it to ignore user name in the input form
+",1434106685
+54dd63f2d23b9a82e1cc83c5c732cccbea708e56 tags/locationtech-ic-3~101,"Fixed a bug with SJMR
+",1433885854
+5616800f8a8ac527660187345c855b33ed6a1481 tags/locationtech-ic-3~102,"A small fix in linegraph1.html to allow it to work in the CS-hosted web-site
+",1433875207
+36135a8eb30fe3a1d0c59866a8527b1f13e5abe9 tags/locationtech-ic-3~105,"Fixed bugs with HDFToText
+",1433363521
+14c261bf7b4b48dbc42be466f6531c3390a362e8 tags/locationtech-ic-3~107,"Fixed RandomSpatialGenerate#printUsage: Removed 'polygon' from the types of shapes that can be generated. Fix issue #3 on Github [https://github.com/aseldawy/spatialhadoop2/issues/3]
+",1433362308
+6c89d9e3e1f8194823c02a1dbf4e656e6dc507d4 tags/locationtech-ic-3~110,"Fixed a bug with new Indexer operation
+",1433178742
+d14dcca22cd28aa432a9a1de7e4d74ccd145666d tags/locationtech-ic-3~116,"Minor fixes to the new indexer operation
+",1433034104
+d003fd39b49a61355bef9cd563c83e10696a27b4 tags/locationtech-ic-3~122,"Fixed a minor bug with gdelt-download.rb script
+",1432057627
+f30d3d42f269543ca59a55c6cab65e3fe36f65d1 tags/locationtech-ic-3~125,"Fixed some bugs in the JSP visualizer
+",1430372181
+f873a9663680dd9281c9511658fa8a4938172ea8 tags/locationtech-ic-3~128,"Minor fix to avoid recreating Rectangle objects in STRPartitioner
+",1429571978
+2393b6cba6305b83bd6321860addf473be66ac90 tags/locationtech-ic-3~129,"fix something with temporal index matching
+",1429058195
+4fc90c196ff9d9b9e51a4628da49028e68db7203 tags/locationtech-ic-3~130,"fix something with temporal index matching
+",1429057824
+735404eac2a64b860a76d806d8ac68526b51dc01 tags/locationtech-ic-3~131,"add debug info
+",1429057445
+6fce67176683c53a4c438afa6593084a3bbe3180 tags/locationtech-ic-3~132,"fix something with temporal index matching
+",1429056779
+69f3a1aba05cf5ddefdbebd9171ecee0607d26b7 tags/locationtech-ic-3~133,"fix something with temporal index matching
+",1429056485
+1065da8d6c86ad34dc412a68ccd314c91c6d829c tags/locationtech-ic-3~134,"add debug info
+",1429056282
+37c87098223f6bfc65d5629a0075345c8d3bd8f3 tags/locationtech-ic-3~135,"add debug info
+",1429056032
+4e0eae06ee7e6426cf7360fe58ca7b3b36b98d3b tags/locationtech-ic-3~138,"Fixed a bug with sending confirmation email
+",1429045683
+fa97f91f7c4cf11f538c70feff4e293ec85e57fb tags/locationtech-ic-3~143,"Fixed a bug with frontend
+",1428976695
+cd10f8a72811492dc0cca99a1a6b2366f2a10caf tags/locationtech-ic-3~150,"Report failing file name for all errors (including RuntimeException)
+",1428960617
+ae490aaf02f52ef6886c36bd1a2bc04edd33d26f tags/locationtech-ic-3~152,"Report a meaningful error when the aggregate query fails
+",1428960477
+dbcc0b6a5c94d108e3591f5299451c20371fa3db tags/locationtech-ic-3~156^2,"Fixed minor bugs with shahed- front end (still not working)
+",1428953395
+e8572eecfd1fcb84c8f90c214d9ec86bb7efbe25 tags/locationtech-ic-3~160,"Improved the HDF downloader script to give another try to failing files
+",1428459614
+d54e29369fa9330ec956808ed16d2f5a2e5a6bc7 tags/locationtech-ic-3~161,"Handle special cases with indexing and running spatio-temporal queries
+
+Fixed a bug with querying monthly and yearly indexes
+",1428363636
+e3967474e3525a14ec852abaa9955056fbfe4cb6 tags/locationtech-ic-3~162,"Bubble up plot errors to the server
+
+Adjust number of reducers in a better way to deal well with both small and large inputs
+",1428089149
+f6a1aa709dc107f0faa9a387356dfa362356855a tags/locationtech-ic-3~168,"Fixed a bug of decrementing the static variable retries instead of the local copy retryCount
+",1427939242
+4bcb560d6d0a1bd065ffa1ec2686074f4ddc3b9f tags/locationtech-ic-3~173^2~2,"Fail the visualization process if one file fails
+",1427848223
+d91c148d155e6af6c829d937df77c8391158294a tags/locationtech-ic-3~181,"Fixed a bug with generating water mask
+",1427253332
+1f4e358b6a396da63e7cfd010a18082b3f8f7ea3 tags/locationtech-ic-3~179^2~1,"Minor bug fixes with MultiHDFPlot when combine is set
+",1427253331
+2c8b4902fa0284060228f162e9f6f3fa09090702 tags/locationtech-ic-3~185,"Minor fix
+",1427166270
+d441d083f33f88196b2098ab4a0e52a0b430d04a tags/locationtech-ic-3~197,"Small bug fixes
+",1426488077
+a9a41a9a22cbe267cb15f27cb7051a46fd735387 tags/locationtech-ic-3~200,"Added a new page for generating images and videos
+
+Propagate the error of Parallel.forEach to the caller
+
+Write the error message in the failure email
+",1426444911
+044f5f49f6eae36c083ecd39ac49ebab68a7e596 tags/locationtech-ic-3~202,"Fixed a bug with selection query
+",1426393110
+37655f10144b2651bd72ebbd6adb00afb48fe5dc tags/locationtech-ic-3~203,"Report errors in aggregate and selection query
+
+Added a function to the front end to generate a video
+",1426385073
+37aea887645a9ec8cb7a010f3a1f66571719a634 tags/locationtech-ic-3~205,"Minor bug fixes to HDFPlot
+",1426370422
+d7ae54859d067a1810a59a86ca05b2b79b885a64 tags/locationtech-ic-3~208,"Bug fixes to HDFPlot to work with arbitrary ranges
+",1426288562
+73d82d053cb8942da31fb822da05553d1fa7f300 tags/locationtech-ic-3~210,"Fixed a bug with recover holes in y-direction
+",1426218140
+d997186dd278a39ddf179ca4898d545880ea504f tags/locationtech-ic-3~216,"Report unsupported blocks to stderr for debugging issues
+",1426202591
+47be82a0998f8dd7624665b226f7e39dc535da2e tags/locationtech-ic-3~223,"Minor fixes for plotting HDF files
+",1426035710
+93dcccf43a8580c1b18457589bac5c1722a2165e tags/shadoop-2.3~2,"Fixed a bug in the test script when reading results from file
+",1425950512
+e0fac87b964052aec4cc1779a6cb8935c56d6299 tags/shadoop-2.3~10,"Fixed some bugs with plotting functions to work with the new MapReduce interface
+",1425922278
+32e197884caba20ae55f9e7ac7610373baed7cca tags/shadoop-2.3~11,"Fixed a bug with RTree#knn
+",1425856352
+91157d171303625a0cc5238618a35ce27f8150cf tags/shadoop-2.3~17,"Fixed a bug with SpatialRecordReader3 when end-of-line is aligned with end-of-split
+",1425837410
+5c7f259cfbfae51832fc3a6b5eafeb02fd491b4b tags/shadoop-2.3~21,"Fixed a bug with SJMR to insert a default value
+",1425684145
+2649c83d68a84c7cca3ce932c45398ec3f10afa4 tags/shadoop-2.3~22^2,"Fixed a bug with KNN. The tests now pass for RangeQuery and KNN
+",1425665141
+711a35138096d5f13f9fc8368c225db2e5f3c2d9 tags/shadoop-2.3~22^2~1,"Fixed a bug when a custom block filter is specified without a range query
+",1425662273
+0d1fc2e7c1af8c11fe1902d4328e224cca0b9732 tags/shadoop-2.3~22^2~8,"Fixed a bug with RTree#search
+
+Fixed a bug with RTreeRecordReader3 that caused it to always miss the last element
+
+RangeQuery tests pass for this version
+",1425594269
+d23b922acc95e60fe8f3fd7f8717404f824b8790 tags/shadoop-2.3~22^2~20,"Better handling of compressed files
+
+Signal errors in parsing instead of burying them down in an empty catch clause
+",1425506704
+d8eb608bdbdd8d75af5d9a87a22ea6f149f3e60c tags/shadoop-2.3~23,"Fixed a bug with SHAHED front-end that causes it to freeze when a request fails
+",1425494239
+aa74f0b5029956a08a67785dfc9592960e305edf tags/shadoop-2.3~25,"Bug fixes in SHAHED server
+",1425420286
+c9c0ec848f6966a135939aa3533c14fc8b815daa tags/shadoop-2.3~26,"Bug fixes to the SHAHED server
+",1425420247
+dbd51e1782fe3419b247d8e4396d1b1232d7a52f tags/shadoop-2.3~27,"Fixed a bug with the BitArray
+
+Use the correct value of the water mask when recovering errors
+",1425359587
+b66164fb629c5b9ee292135058bf424ca828accb tags/shadoop-2.3~28,"Fixed some bugs with generating and using water mask. Still has some bugs
+",1425358670
+7d5f7206631ad5c72d9ce88b23402dfdc22587f2 tags/shadoop-2.3~30,"Minor bug fixes
+",1425342991
+26070594e548befe5da812320fd3689d50e7518c tags/shadoop-2.3~31,"Fixed a bug in partitioners which sets MBRs to objects other than rectangles
+",1425196322
+10413611892886d871bb3e923e9db49b2c4f4266 tags/exp-partition~1^2~1,"Fixed a bug to allow Indexer to work local (tested)
+",1425109916
+ecbc94e0a0dbdd3e3c5ef393a9030bd802f360fc tags/exp-partition~5,"Fixed a bug with HilbertCurvePartitioner to avoid integer overflow
+",1424734796
+6a43cf22c2fa29626a23599bbb220a06496ba916 tags/exp-partition~6^2,"Bug fix in ZCurvePartitioner and KdTreePartitioner to avoid integer overflow when the sample size and number of partitions are too large
+",1424734488
+519e0b70be846b176590469563a23b5e49e29b42 tags/exp-partition~7^2~1,"Some fixes in the visualization to work with HTTP files
+",1424665821
+39f4b7d2664b56bdf18b9b53eedbe9bbab649ccb tags/exp-partition~21,"Fixed a bug with ZCurvePartitioner#getMBR to reflect the fact that the Z-range is exclusive
+
+Tested QuadTreePartitioner and it seems to be working
+",1424116324
+18a2fa4bab4f14995dd4bc1547c0dfb9e054bc4c tags/exp-partition~38,"Fixed a bug with computing and uncomputing ZOrder
+",1424022067
+3b40b2231c0b60baeaac96bda0b85e9cca978c83 tags/exp-partition~49,"Fixed a bug with TigerShape when the line is too long
+",1423698847
+7eb0a30146371dd44c39f8eea7157257ceda701e tags/exp-partition~50,"Fixed some bugs with the front-end of Shahed
+
+Improved and simplified the code of the front end
+",1423696379
+4d1c040bbd1f8efaa63d36ecd6941a7713757b97 tags/exp-partition~52,"Fixed a bug with serializing/deserializing tiger files
+",1423680209
+cd69743ef7a77c95a77ac656952112b73a250a87 tags/exp-partition~54,"Fixed a bug with serializing/deserialzing Tiger shapes
+",1423677239
+17e8dfad570c77aebc1d25a27f56b7eac37b8acc tags/exp-partition~53^2,"Fixed some bugs with HDFPlot from HTTP files
+",1423540110
+5b9f5bad9558e21d7005e08da419bcd4071b7b05 tags/exp-partition~55,"Fixed a minor bug with KNN
+",1423188966
+77ac42a4ea5bf692c5f79efb1539a503d90e6a40 tags/locationtech-ic-2~3,"Fixed bugs with MutlilevelPlot
+",1423103965
+4e0d92ce86b1a3de4ed1d0ce49936c3c7bd09ac5 tags/locationtech-ic-2~4,"Fixed a bug with PyramidOutputFormat to write raster layers instead of images
+",1423099395
+02003d96c43e3d479393ce6348ca37599a660942 tags/locationtech-ic-2~5,"Fixed a bug with MultilevelPlot
+",1423098603
+e109e971122309cd8a0dfb0cd4c736e7668c2425 tags/locationtech-ic-2~9,"Fixed some bugs in SingleLevelPlot and HDFPlot2
+",1422913803
+f3d0a6f5492f5a89cb8f2937a7aca333bf2b8c50 tags/locationtech-ic-2~10,"Write an error message if no partial output is found by SingleLevelPlot
+",1422905823
+a7c9fe07d93462b6d83f155fe631c79d8e7c11d3 tags/locationtech-ic-2~11,"Avoid renaming the temporary output to a different file name for simplicity and convenience in case the SingeLevelPlot.ImageWriter#commitJob fails in the middle
+",1422904953
+c7faa39c800b555d67f66db1486eac5b50168e54 tags/locationtech-ic-2~15,"Fixed an error in the readme file
+",1421448986
+37e414fd3110bba3b777fb0fc5735654a742bb91 tags/locationtech-ic-2~16^2,"Added a method to plot road network with SVG and modified some bugs
+",1421290656
+ecb43727bcf575d3000257cb5bab44404f716897 tags/locationtech-ic-2~16^2~4,"Added the functionality to skip merge in SingleLevelPlot which is useful for creating figures for paper and for debugging
+",1421121591
+6abc520a9d2a3d780bf30cc4ae9d3170a1f479e3 tags/locationtech-ic-2~16^2~5,"Fixed a bug with SVGGraphics
+",1421116511
+8f526a5857fb4d2167a2e5d33bc09ef8ca82d69f tags/locationtech-ic-2~16^2~8,"Fixed bugs with the new signature of Rasterizer#writeImage
+",1421024807
+2e3ee52008b90e04fa66e24a7bd8b670773bde2a tags/locationtech-ic-2~17,"Fixed a bug with Parallel#forEach when the list size is less than number of processors
+",1420768254
+4a27d2ce5c2f076b8beff6c21bf28aeeb1acf350 remotes/origin/hadoop0~12^2~7^2,"Fixed a bug with HDFPlot2 when works with mapReduce
+",1419494611
+2d690a8cd9bb1bd5c833e9b8003c8485b7592014 remotes/origin/hadoop0~12^2~14,"Bug fixes with plot
+",1418098877
+f9016afd1a6d2cda8475f9bb5c613a827be75aff remotes/origin/hadoop0~12^2~17,"Fixed a bug in GridPartitioner when Shape#getMBR returns null
+
+Ensure that the rasterizer gets configured correctly
+",1417512774
+818dcbbc3ca9f82fbef31421ff9bd7967fdb1abe remotes/origin/hadoop0~12^2~18,"Fixed a bug with GridPartitioner and RepartitionPlot
+",1417512170
+94ae14d3c4f9af175893fa8feb1c43c6d12d2aaf remotes/origin/hadoop0~12^2~20^2~3,"Fixed minor bugs with pyramid partitioning. Still not working completely correct
+",1416358321
+68b3fef9e32f674dec9a93e7fae14bc0612bc863 remotes/origin/hadoop0~12^2~28,"Implemented HeatMapPlot using the new technique and fixed some bugs in SingleLayerPlot
+",1415188427
+dfa5a6c23aa72c087915bf90883cb34d408f5ca0 tags/exp-partition~4^2~31,"commit debuging changes
+",1414885486
+15a6bd02dcb15cc92ac97a49330191bb6bf7aac6 tags/exp-partition~4^2~32,"commit fixing repartion join
+",1414874221
+bbe482351a94451f114ef19374b1e3136bbbcffe remotes/origin/hadoop0~26^2,"Fix bug in HeatMapPlot in Writable of Frequency Map""
+",1412903374
+0c8fe464fb7fe7de3dd7d85223d13995fbd1cecf remotes/origin/hadoop0~26^2~1^2,"Fixed bugs with Skyline
+
+Used the ShapeIterRecordReader with Skyline as a test
+",1412830749
+eaadd209289d71b4b1df188056983e60057b584d remotes/origin/hadoop0~33,"Made a few changes to remove an error when compiling with Hadoop 0.20.0
+",1412745154
+891d14352fdc02e4f5f9461ada2a3c919b13c118 remotes/origin/hadoop0~38,"Fixed a bug with ShapeArrayRecordReader that causes it to skip some records when the input file is compressed
+",1412312210
+c62ce74db248d24fe784d06fa102537d647046be remotes/origin/hadoop0~39,"Bugs fixes for extraction
+",1412306171
+e2996c6e8e5fdc1fb60ceb0299d69913a6fcbd53 remotes/origin/hadoop0~43^2~1,"fixed sjmr version
+",1412127303
+d9ff07254ad38da1b06e67f719e431808f22db39 remotes/origin/hadoop0~44^2^2,"fixed compare() methods to have handle equality cases also
+",1412103872
+fcee1b74c6a5b795d8d31f6f0167370d08a133d9 remotes/origin/hadoop0~47^2~1,"Fixed a bug that causes temporal index to match partially overlapping partitions
+",1411919709
+8dd490f1c546e938d260f8b3d43e1b48134c6938 remotes/origin/hadoop0~56,"Fixed a few bugs in the front end
+",1411399264
+c35a1cb79efdc6a1184dd7b7914d2e7576f42c5d remotes/origin/hadoop0~58,"Fixed some bugs with demo server and client
+
+Incomplete visualization server
+",1411357354
+876890e97979362bf1038b91c6038c7df6f9c468 remotes/origin/hadoop0~60,"Fixed minor bugs with DistributedSpatioTemporalIndexer when working in distributed environment
+",1411350326
+24e9369096fab4b67b8406598a91d2134ec8e212 remotes/origin/hadoop0~62^2~3,"Fixed bugs with RandomCompressedInputStream to avoid reading beyond EOF
+
+Fixed typos in build.xml
+",1411142378
+16a3f379e1ec0013732d698537922396fbe38d6c remotes/origin/hadoop0~62^2~5,"Fixed an error with the main function of AggregateQuadTree
+",1411099516
+cfad61d0d5d33f85891c0bc083650f873749cb5d remotes/origin/hadoop0~40^2~2^2~1,"Fixed a bug in PlotPyramid when vflip is set.
+
+Add functionality to change color in GeometricPlot
+",1410796684
+084fef0894eb879b549c392ebe90368fbae8c897 remotes/origin/hadoop0~72,"Fixed a bug with reading the results of a sample
+",1409935665
+ab20c84db28ea1fae8ecf380e4169fe932a6a501 tags/locationtech-ic~4,"Fixed a bug wit GeometricPlot#local with gradual fade
+",1404584164
+0d603cff3a6b35d776ab3f61e9692218530a31ec tags/locationtech-ic~3^2,"Fixed a bug wit GeometricPlot#local with gradual fade
+",1404271755
+aaee481811aab7b31cb3e02c3a2f481e3924323c tags/locationtech-ic~8,"Fixed a bug with sampleLocalWithRatio when calculating the size of the input directory
+",1404135358
+356a68059ec65b2dd9906ca3e18dd1ba2b97d5e4 tags/locationtech-ic~9,"Fixed a bug with Sample
+",1404105982
+eebae58ad02eebbb7c22151f6262614b77c0f7e1 tags/locationtech-ic~14,"Avoid reinitializing the 2D array of the heatmap if the dimensions are the same
+
+Provide more information in the error message if failed to load cells
+",1404086336
+491b335f710741ce86e619fccb72ca0c52bfc432 tags/locationtech-ic~13^2,"Fixed a bug with FrequencyMap deserialization when a single entry of value 0 is present
+",1404070623
+923a6d266ccb2d49225e1d746c968dfd9324ed7c tags/locationtech-ic~13^2~1,"Fixed a bug with MBR MapReduce version when called on a file not directory
+",1404069113
+3f5a3312612fa50ed486d23e784e273298136158 tags/locationtech-ic~15,"Fixed a bug with serializing Frequency Map using RLE
+",1404019801
+87fa452bc522a1c77798cbb68aac9094efb2af3c tags/locationtech-ic~17,"Fixed a bug with DistributedCopy
+",1404004480
+4ca066d4c4eee462ba8552bbcf480876849154da tags/locationtech-ic~18,"Fixed a bug with distributed copy
+",1404002941
+f28bd22efa7abe04c9c93f8f490bd5080562ffd9 tags/locationtech-ic~22,"Minor fixes
+",1403981595
+4a78c41ec7c15c763c8791791c1c9f867695fae4 tags/locationtech-ic~21^2~2,"Fixed a bug with Repartition that causes sampled file to be of size 0. To do that, the priority of sample type has changed to give a higher priority to sample by ratio over sample by size.
+",1403903084
+bd205a5f8ee86cc96c5940980df22a316b541451 tags/locationtech-ic~24^2,"Bug fix: Ensure ImageOutputFormat stores file MBR as a rectangle not anything of subclass Rectangle
+",1403724655
+f2d46e9d62bd8c74be760320a60c6dfa5926a654 tags/locationtech-ic~28,"Fixed bugs with PlotHeatMap with space partitioning. It now works
+",1403644636
+c32ed573a51ad6883cb4d5d2de13526252d4dfb6 tags/locationtech-ic~30,"Fixed bugs with parsing OSM text files
+",1403591023
+52f298871f2ee580f5eb05554089a9cacdebccee tags/locationtech-ic~1^2~5,"fix recover holes corner case final
+",1402840329
+91693bd7e0b8266807775de97116b37e4201abf7 tags/locationtech-ic~1^2~6,"fix recover holes v2
+",1402839683
+0e2ef49b37240c238282ecd662c96d8289c95ee0 tags/locationtech-ic~1^2~7^2,"fix recoverholes
+",1402834598
+01317eed2ff6a738804e6517386de7ecd9ecc37a tags/locationtech-ic~1^2~7^2~1,"fix corner case recover holes v5
+",1402559801
+7aee19028e6fba3405dfe5855592596808ea9dd5 tags/locationtech-ic~1^2~7^2~2,"fix corner case recover holes v4
+",1402556136
+2d39e66bf37137bf21d0df9e8063e7db510f4368 tags/locationtech-ic~1^2~7^2~3,"fix corner case recover holes v3
+",1402555167
+309ceaeedd46b6a9b989fe3ebd1444a5b809bde3 tags/locationtech-ic~1^2~7^2~4,"fix corner case recover holes v2
+",1402554234
+1a5fd872424b962edb1765ab0206c0e1e777f6bf tags/locationtech-ic~1^2~7^2~5,"total empty cell fixed recover holes
+",1402481542
+483cc09ce9183e4ff6baaba9a88bb69c63459388 tags/locationtech-ic~38,"Propagate parameters to sample local methods
+
+Solved a bug with concurrency issue when flushing an R-tree in the background
+",1402371060
+aa657f749f19e7cc5c37f2535a19e02c1ccd30e2 tags/locationtech-ic~42,"Fixed an error with test custom classes
+",1400501554
+c4b4689028235460bf61aa33554b84c37a57ccf5 tags/locationtech-ic~46,"Fixed a bug with Plot when vflip is on
+",1399820188
+a1a3e6f3dfbea147bdeaffcda78119a5decff075 tags/shadoop-2.2~1,"Test the case of DistributedJoin when indexing a file with a directory
+
+Fix a bug with DistributionJoin when joining a file with a directory
+",1399380288
+ebec2e630ad12cb5be44db84d45b60c1139065b2 tags/shadoop-2.2~5,"Fixed some errors with plot commands
+",1399299594
+73ed608ac0fe99fcd49d75831c88ac30a6400575 tags/shadoop-2.2~6^2,"Fixed bugs with plotting videos
+
+Specify scale range from command line
+",1398584771
+de63cada9f79bfd67f3aa7583a0744a7a134eee8 tags/shadoop-2.2~10,"Several bug fixes and stabilit improvements. 'blocksize' parameter is discontinued from 'index' and 'generate' commands and is now provided through GenericOptionsParser 'dfs.block.size'. Properties of indexes are unified across the code by providing them in lookup tables in GridRecordWriter. SJMR handles correctly the case of a file with replications (i.e. R+-tree). SJMR and Distributed Join now give the same answer across the different indexes given that both files are indexed using the same type of index
+",1398432688
+36a3dbf81b83d0d5b223baf3f558c3982135645d tags/shadoop-2.2~11,"Updated the test script to debug a problem with spatial join
+",1398152740
+1de952a9cf22960e6c36ad6ecfa1aefdbec8a3e6 tags/shadoop-2.2~18,"Handle self spatial join in SJMR
+
+Fix a bug in OGCJTSShape#distanceTo
+",1397659123
+4c1a70dc29b695ffa7e53be2c74477ea0ee3e850 tags/shadoop-2.2~17^2,"Write some progress information in HDF downloader and handle a backward compatiblity issue with ruby 1.9
+",1397553849
+4844c7e4710d9c3ae452a824f0eca99add27081a tags/shadoop-2.2~24,"Fixed a bug with MakeHDFVideo to ensure the size of the overlay image and main images match
+",1397392167
+d1d28c9b4dccb943771a3e6d2110207b0dc5fd44 tags/shadoop-2.2~29,"Fixed some minor bugs with pigeon.jsp
+",1396403484
+4250efa05889de7baf60d55cc22552065d836ffe tags/shadoop-2.2~38,"Fixed a bug with Plot when called on local HDF files
+",1395650027
+3a7b88c77548bb2b12fb24d0c12e99ed904eaabc tags/shadoop-2.2~35^2~6,"Fixed a bug with the old visualizer when plotting an image
+",1395178032
+db4306bd35a37e2c4981131d5eef0050b1531f02 tags/shadoop-2.2~40^2,"Return an error code in Plot and MakeHDFVideo in case of error
+",1395044144
+2f8e2df0ce3dc286bb4b21001148d0d4b68faf05 tags/shadoop-2.2~40^2~4^2~1,"Fixed a bug with CommandLineArguments#getSize when parameter is not set
+",1393848809
+0c3896fc13ce59299f66b4bfe722aa604cce9160 tags/shadoop-2.2~40^2~6^2~1,"Fixed a bug with modifying blocksize in Repartition
+",1393498751
+8374d8ae0a2a0c180f1ae09a39150a5f00e2c71f tags/shadoop-2.2~52,"Use JTS instead of ESRI for OSMPolygon
+
+Fix some bugs with parsing JTS from text
+",1392738771
+30164e6ab1232903347d5b84fe91a9fd63d20075 tags/shadoop-2.2~53,"Fixed some bugs with Repartition to write the output master file correctly
+",1392733124
+91e3dfa3a9365209eb0bb2def083eed3a339d414 tags/shadoop-2.2~51^2~4,"Applied the third-party-shape-class fix to all other operations
+",1392566982
+b1e4926f068e24f609b9d56ce7876044304aff54 tags/shadoop-2.2~56^2,"Resolved a bug with providing a custom class from a third party jar file
+",1392566584
+a8e29583673b4fbfb35ad401a06ac4f76a4ea888 tags/shadoop-2.2~57^2~1,"Handle compressed files in Repartition#repartitionLocal
+
+Fix a bug with text serialization of OSMPolygon
+",1392474099
+622e7a85bc0d9efd094415910ff448db3cae13f4 tags/shadoop-2.2~58,"Handle compressed files in Repartition#repartitionLocal
+
+Fix a bug with text serialization of OSMPolygon
+",1392474076
+55f998917fd4073f598ddedbedacbe52b8d3aac6 tags/shadoop-2.2~40^2~10,"Fixed several bugs with indexing OGCShape
+",1392465525
+35fd13454c02ff10b5575175aa53d0bc55079475 tags/shadoop-2.2~61,"Fixed several bugs with indexing OGCShape
+",1392465502
+41ed02cdfef8c74dcda8a71c0034fa214c96cc48 tags/shadoop-2.2~62^2,"Resolved a bug with Repartition
+",1392463859
+2c7e4581acb47880c07b32f00ac424c9be48e08c tags/shadoop-2.2~62^2~1,"Added a deprecated version of old methods for backward compatibility
+
+Resolved a bug with Rectangle#contains
+",1392290711
+1e00c5c4a1c07cfe58e689b029a9490444b79569 tags/shadoop-2.2~63^2~1,"Resolved all compilation errors
+",1392203772
+9b604d47f535aea0b7c36fa803d2d51e2e772b62 tags/shadoop-2.2~40^2~13,"fix the output format to work with SpatialHadoop directly
+",1392111420
+84b481fdd7f7c97476291f5c714e864d4f41e571 tags/shadoop-2.2~64^2~4,"PlotPyramid now can work in background
+
+Fixed a bug with Plot when plotting OGC shapes of type  GeometryCollection
+",1391671299
+699b03f5d676094dc09b86c43c596b891dfad3d4 tags/shadoop-2.2~64^2~5,"Fixed a bug with ShapeArrayInputFormat
+",1391627719
+5b1184bee06b0948427640e0289d0cdac06e4390 tags/shadoop-2.2~72,"Added a custom version of piggybank that includes a patch for bug PIG3373
+",1391017293
+0216189791f829091431acbdcb9125aba7d194c3 tags/shadoop-2.2~75,"Fixed a bug with Plot#plotLocal and Aggregate#aggregateLocal when working with HDF files
+
+Fixed a bug with Rectangle#draw when -vflip is set
+",1390925671
+c6de61ec3c04224986b72a0fbf24d0c4698ce4a8 tags/shadoop-2.2~79,"Fixed some bugs with automatically retrieving value range from HDF datasets
+",1390808708
+07aec6b4cc5a3809147fd685008452cefbefff40 tags/shadoop-2.2~81^2~2^2~1,"Fixed some minor error with usage hints and java docs
+",1390732767
+59fadb31a9985051314b5ab7d8b0c1cd3c953d6e tags/shadoop-2.1,"Fixed PlotPyramid template to work in full screen (fixed a bug there)
+",1390511323
+87145ee2bd8afde63c712e3ce10d60f7342b1934 tags/shadoop-2.1~7,"Fixed a bug with the ordering of fields in OSMRelation
+",1390302858
+2459c06f244d0b86d49260e61b66534375b9d48c tags/shadoop-2.1~11,"Added NASARectangle to read each reading in NASA HDF files as a rectangle on earth instead of one point
+
+Fixed a bug with Plot that causes some data to be missed when stitching images together
+",1390216888
+a252a2645d332d86090d5c5155e8e6c7b4b1b2f7 tags/shadoop-2.1~12,"Fixed a bug with RecoverHoles
+",1390061841
+eb5355eb1a4a02d33a3a980815345d4fd7199395 tags/shadoop-2.1~15,"Fixed some bugs with plotting
+",1389881769
+8db715c5894df6d597025455c8906b7bae3aa025 tags/shadoop-2.1~16,"Fixed a bug with Plot when vflip is set
+
+Fixed a bug with Plot when an MBR is set
+",1389869907
+a3c9b862c4150aa4f3e9d608a51f5ab4aab05985 tags/shadoop-2.1~21,"Fixed minor bugs with FileMBR
+
+Updated visualizer JSP pages to work with updated APIs
+",1389274662
+d5d6d60f853001ab158902c11937ca2b126179a2 tags/shadoop-2.1~37,"Fixed a bug with GlobalIndex#getMBR. Thanks to Khalid Al-Naami for discovering it
+",1387856691
+054173791357f795232dd97255f2d12e57c48cf6 tags/shadoop-2.1~40,"Fixed a bug with HDFRecordReader that causes it to always read the first dataset
+",1387814109
+125000ea9225cd2db0506ab42ea3a039f01c1c68 tags/shadoop-2.1~47,"Fixed a bug with HTTPFileSystem#getFileStatus when the input path is not fully qualified
+",1387272753
+af064f4b2f0127cacbe5affc1963912a4d49edb6 tags/shadoop-2.1~50,"Fixed some bugs with HTTPFileSystem
+",1387270102
+5131747bbfb03823fef9a4cefe32714dc78636fb tags/shadoop-2.1~59^2,"Fixed bugs with Plot
+",1387166502
+9a8cc62d4a2d9d65bf994fcaed14f833a6213546 tags/shadoop-2.1~71,"Handle special cases in SJMR
+
+Fix a bug in SpatialRecordReader when a split occurs completely in the middle of one line
+",1386468158
+4c0ef014fea53af295c069a3f3d55d54cb744db2 tags/shadoop-2.1~72,"Fixed a bug with SJMR when working on empty OGC shapes
+",1386449671
+daa7d5f574ee26e00c7720c0a649e9a757410080 tags/shadoop-2.1~75,"Fixed a bug with SJMR
+",1386375647
+01425ad8b39112ad9a6d74b7d3d3c6bc70ad6d2a tags/shadoop-2.1~74^2~1,"Fixed a bug with DistributedJoin when deciding which algorithm to use
+",1386366088
+4d3c48e10d775cd17b3ddada0d7bd30820a7d555 tags/shadoop-2.1~76,"Fixed a bug with Plot.local
+",1386359083
+04d3e1fba48be684271bb669cb2c623585a3f2b5 tags/shadoop-2.1~83,"Add the functionality to flip an image vertically as it is produces
+
+Fixed a bug with PlotPyramid that causes data of the same tile to go to different reducers
+
+Added a parameter to choose stroke color for PlotPyramid
+",1385502435
+454ff5658b218d6ff364348feba8504eb003f874 tags/shadoop-2.1~85,"Fixed a bug with SpatialRecordReader when the first line is less than 8 bytes
+",1385331836
+2df48df4debdbc816441f5fcad204c98f9a46bba tags/shadoop-2.1~87,"Fixed a bug with Sampler to work with the correct interface of ShapeLineRecordReader
+",1385168950
+facbef6ecc4fea7b994cbac72831e985903a71d4 tags/shadoop-2.1~88,"Fixed Sampler to work locally with compressed content
+
+Fixed a bug with OSMEdge when caculating MBR
+",1385167114
+8e51889494f49e7d3629736542db28fe9b8b6136 tags/shadoop-2.1~91,"Fixed a bug when indexing points as an R-tree
+",1385118096
+db0024bd2258fc2fbc3b6ae715bec9abe599df41 tags/shadoop-2-b2~2^2,"Fixed a typecast error in ShapeLineInputFormat
+",1383140782
+e36f1ddc80b160b8b1450e7d5036407ab7d020b6 tags/shadoop-2-b2~5,"Fixed a bug with PlotPyramid
+",1381235786
+1dd5253040188687bdbc663aca14530b1e681af5 tags/shadoop-2-b2~6^2,"Bug fixes for TIGER spatial join
+",1380775075
+a0da3d07c86d093badeb784bcd85271e293356fe tags/shadoop-2-b2~9,"Fixed a bug with Repartition
+",1377934852
+1790ca2e24720788ff883bc3b326bfa5050d6e50 tags/shadoop-2-b2~16,"Fixed a bug with Plot where the output file is not closed
+
+Implement both plot image and MBR in preprocess
+",1377534319
+6e181d3f9ab35372bea4b20adc72cd19236c6b6c tags/shadoop-2-b2~30,"Fixed bugs with calls to Plot
+",1375203141
+cd4b0fc3bb4f89589ead3391f8f3d9571f01aa0e tags/shadoop-2-b2~31,"Fixed bugs with Plot operations
+",1375203030
+5bbfa3dffa69713cb5c90169686a887982f82363 tags/shadoop-2-b2~35,"Fixed bugs with data generator
+",1374629143
+c793797ef8b7ea41b036ec19d398dd1f8974f682 tags/ICDE14^2,"Bug fixes
+",1374619099
+903099af9c55f108dda97274084fc63423092aeb tags/ICDE14~4,"Fixed an error with calculating MBR in different locations
+",1374445386
+a39747f5df96fa6809c42ec8605c2edb3401fcc8 tags/ICDE14~7,"Added some debug messages
+",1374374672
+d2fb167105f773d2e401fadd41c9f63e695d7536 tags/ICDE14~8^2,"Fixed a bug when generating a file locally
+
+Handle R-tree (non-replicated) in range query and spatial join
+",1374252931
+bc6b845878adb4930d2a25cfdeeef8d6ff967eb8 tags/ICDE14~10,"Fixed some bugs with generating files using MapReduce
+",1374006042
+5fac6b47560506a54665df5bfff0a723b3eccd84 tags/ICDE14~11^2,"Fixed some bugs with writing and processing the R-tree
+",1373938350
+ad16575cbaa2a3a0d512f95d737c1c0c02966ad5 tags/ICDE14~13,"Raise an error if cannot parse an OGCShape
+
+Handle the case FileMBR when the MBR of a shape is null (happens with empty OGC polygons)
+",1373093802
+d8ac1d5293603d6ae0286df0cc11f89b04d16fa4 tags/ICDE14~15,"Fixed a bug with Repartition when blocksize is not set
+",1372973971
+1d4b08031682a162e2742bbc63da0e809d7cf631 tags/ICDE14~14^2~1,"Fixed a bug with Repartition when blocksize is not set
+",1372973956
+4e40c73cecb65352d6e16afac856489f7585390f tags/ICDE14~17,"Fixed a bug with Rectangle#contains
+
+Improved Repartition to run a single preprocessing step instead of two for RTree
+
+Compute number of partitions correctly when the input file is a directory
+",1372959033
+06cb3e0fd35d617b9cea4dfb3bdad1ad9b8ce892 tags/ICDE14~18,"Fixed a bug with closest pair
+",1372600133
+274e7443091055ef21dd2dcd52cf87609e8b5c33 tags/ICDE14~21,"Removed old debug messages
+",1372572719
+76a021937ddb97193245c8e9d9eedb093c20f510 tags/ICDE14~22,"Removed a debug line
+",1372571731
+c704817805c6c02a62d5bebe73a7bf789d92316f tags/ICDE14~25^2~2,"Fixed a bug with SpatialSite#getGlobalIndex
+
+Added farthest pair and closet pair to Main
+
+Fixed a bug with farthest pair
+
+Removed excess LOG entries
+",1372479651
+cb4a877d99dfc0fdf48973c7c8cd582d06cceaef tags/ICDE14~27^2^2,"Bug fixes for indexes
+",1372124073
+66abd415be2639c5b409d9375a89484600d2cb3a tags/ICDE14~27^2^2~2,"Some bug fixes related to creating indexes
+",1372113510
+a87bef31741608fc776083697e48d78ed4141e5d tags/ICDE14~27^2~6,"Fixed a bug with isRTree
+",1371942203
+599a56ffa4c2e1c7decf0a0ac91da7e471e3cb92 tags/ICDE14~27^2~8,"Bug fix in closest pair. Added the preprocessing sort step
+",1371935577
+3fd708d2eeed12d40a4d28d6e31544e0261f6c8b tags/ICDE14~27^2~9,"Refactor: Set/Get shape class name from SpatialSite
+
+Bug fixes in Union
+",1371923923
+10ef920a192e3ec1996a6d5df1da257e009083a6 tags/ICDE14~30,"Fixed a bug with SpatialSite when storing cellInfos in distributed cache
+",1371404482
+b1ffffe65d86c5f6117f83436dfbd2cc591930b7 tags/ICDE14~32,"Fixed a bug with Skyline filtering of partitions
+
+Store the type of the global index in the extension of the master file
+",1371258040
+daf8ad050b4244eefcf7e21586384103104a5732 tags/ICDE14~34,"Fixed a bug with FileMBR MapReduce implementation
+
+Implemented Skyline for spatially indexed files
+",1371248020
+a6f594d4a362789699cc5a817b5059ad05c5f6e0 tags/ICDE14~35,"Fixed some bugs with GridOutputFormat and GridRecordWriter
+
+Added a new operation that computes the skyline of a set of points (Hadoop only)
+",1371177512
+2638f2b556d038e19bb543502e00ae617167886c tags/ICDE14~37,"Fixed a bug with FileMBR#fileMBRLocal
+",1370805884
+dd95ced2301b78bce6a5a957dc854091fc4bf751 tags/ICDE14~55,"Fixed a bug with DistributedJoin
+",1370408026
+9d613a7b48634ad61170649263074e6f1d2f942b tags/ICDE14~56,"Fixed bugs with repartitioning
+",1370396861
+9c9fde884ea007d2d7e897ae0f0215fc74413953 tags/ICDE14~58,"Fixed bugs with GridRecordWriter and improved it to simplify the interface, compact partition boundaries on contents, and plot an image for the global index
+",1370322502
+a4dd038222f74f58e1121ff26cd5da3a5fb3106c tags/ICDE14~59,"Fixed a bug with Repartition when the input file is already partitioned with some replicated objects
+",1370220332
+ab9dbf19d7d08508a3c357bf76ee73299aaeb957 tags/ICDE14~60,"Fixed multiple bugs with DistributedJoin. Still not working correctly
+",1370126653
+322413c03892b662f25ea7a992b3ec463a6fdd5b tags/ICDE14~61,"Fixed some bugs with KNN on indexed files
+",1370043111
+ad89cd7ce4c3cdaefc07e40c597645b1acfeb5cf tags/ICDE14~63,"Fixed a bug with SpatialRecordReader
+",1369359773
+49762ce2940b61e1f1cd53b7597e7e01855ee37d tags/ICDE14~66,"Fixed minor bugs with Repartition and FileMBR to work with local file
+",1369179188
+e71a54c58376f38aeae898ace0d97b2074a73333 tags/ICDE14~69^2~2,"Fixed a bug with Plot
+",1368992454
+d26fea7cf2620c75b019ca28089fd2d5e22c9e37 tags/ICDE14~75,"Bug fixes
+",1365094309
+aaab891c01aaae7bd0103baee350204b65cb785c tags/ICDE14~81,"Fixed a bug with reading JTSShape from text
+",1364526322
+eda858af6b0cd5f0386760b5d2811e14934afd83 tags/ICDE14~83,"Fixed a bug with CommandLineArguments
+Allowed DistributedJoin to work on RTrees (not tested yet)
+",1363110877
+2ac9c38237f9bc07ef8c3f92d689ce1d6935ed04 tags/ICDE14~86,"Fixed a bug with KNN command line arguments checking
+
+Fixed RTree#Iterator to work with stream input
+",1361297268
+0429a4951fb29628abac3acbfcb75888f261e9cf tags/shadoop-1.0.1~3,"Fixed a bug with KNN that generates duplicates in results
+",1361075981
+3b720e1f01612c0d0847e94430786d2f805a160a tags/shadoop-1.0.1~4,"Fixed a bug with RandomSpatialGenerator that generates zero width or height rectangles
+
+Fixed a bug with skipping the first line in a block in SpatialRecordReader
+",1360871911
+c700de995b338c8038fe053dd0dcffd2a00c83c0 tags/shadoop-1.0.0,"Minor changes to display messages for examples
+
+Fixed a bug with autodetecting input shape
+",1360792770
+9a4494e2bb744b82476ee03b1489cfe46ebf7cac tags/shadoop-1.0.0~3,"Fixed a bug with calculating the MBR of the two files in SJMR
+",1360706453
+9cba91ecc9ba419e0b4f3076d695b1b6a37457a4 tags/shadoop-1.0.0~4,"Fixed a bug with Repartition
+",1360598946

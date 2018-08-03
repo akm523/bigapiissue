@@ -1,0 +1,18 @@
+9a288b19889b1701807f13c0aa7f8f7628eef78a master~14,"fix the POSIX file interface
+",1426817212
+cdc21d2f77230ae35ad97a7572980473bdea811f master~24,"small fix
+",1426190505
+1197d9767cb5276e2f23a31c8bf38c34fc0df442 master~28,"bug fixed, tests passed
+",1426107942
+8ca4fc46e65752dc0857853c39cd4b7ed20788de master~29,"bug fixed
+",1426106720
+dc4ccf97ad2d0503ce6c56b2d8b25478b8fbf6eb master~31,"bug fixes
+",1426055860
+98dd4053725641cadb17547e101d9ac582dfc952 master~47,"fix another two memory leaks
+",1423873204
+bcaaa467f8bd68c2f2d091676a572bf4c55f541e master~48,"fix memory leaks with best effort
+",1423871977
+7c91ad2ba9e7395ccfb0da9c85f2a7ab7769b616 master~50,"fix a bug in sum_ellipse
+",1423854935
+eaf1fa51b3be83c0c19d703d8aaec0bb5808b4e8 master~56,"now the program runs in parallel with fixes in the kira-submit script
+",1423185954

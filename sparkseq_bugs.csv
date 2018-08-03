@@ -1,0 +1,81 @@
+10ed77f89497b7043c037fa962303e30270c0274 master~2^2,"Migration to Apache Spark 1.1-fix
+",1410809147,
+32e7b46600b0b8db484672ab2b6aa5b7f14124c2 remotes/origin/SparkSeqMO~4,"sonar fix
+",1397294957,
+cdd3d0782aadd2d69c9e3f7d29a645cdf67486cf remotes/origin/SparkSeqMO~5,"sonar fix
+",1397294236,
+e3414f479ce3be9c79f1b82e6eade83398f43108 remotes/origin/SparkSeqMO~6,"sonar fix
+",1397292713,
+ec15a4d845fba2bcae8fe7cf8baa330305e9a588 remotes/origin/SparkSeqMO~8,"splicing package fix
+",1397258541,data partition
+bfc4c44173d274da6a55b2da09e74bedc347abd9 remotes/origin/SparkSeqMO~18,"plugins.sbt fix
+",1396254855,
+c57c1e09765ec2d837e0d026662d8e0dc42a1c94 remotes/origin/SparkSeqMO~21,"SparkSeqAnalysis - further bugfixes
+",1395925998,
+2932bd153c80e28139c89c257f79d2a07fff87df remotes/origin/SparkSeqMO~22,"SparkSeqAnalysis - further bugfixes.
+",1395925892,
+bab783df03508a548a9d67f27fdec708224c9485 remotes/origin/SparkSeqMO~24,"SparkSeqAnalysis unmapped bugfix.
+",1395853163,parallelism
+b33d424e56b05d7397b1415e49aad15a58850e7f remotes/origin/SparkSeqDE~25,"SparkSeqConversions - various bug fixes.
+",1394958954,data structure
+f2d8d3cd8f46351be62b131bbfb505c2050a4de8 remotes/origin/SparkSeqDE~27,"Phase 2 bug fixes.
+",1394914870,
+f7295df008d8e1bd1bde4bd28af07998ab6543bd remotes/origin/SparkSeqDE~33,"Issue #16 fix.
+",1394790653,
+35c6db9f3b4f7e290709dd9e6c7ca60891563674 remotes/origin/SparkSeqDE~34,"SparkSeqConversions - Bedfileread quick fix
+",1394787415,IO
+f88c5d10f4378da1385ef01c56dfb1db13ef4464 remotes/origin/SparkSeqDE~35,"DE - filtering the same exons with different id fix 1/2
+",1394753140,data partition
+b3c4f4faeb6de5690ab13cc61c1cbc0b2951c6aa remotes/origin/SparkSeqDE~36,"SparkSeqConversions - readBEDFile quick fix
+",1394723841,IO
+ee8234e0e45943ade15dc9055d18e51bb01990be remotes/origin/SparkSeqDE~38,"Exon length and overlap fix.
+",1394525889,
+1bbe9b93ed21f84d8a26bf72024a51cca69ec47c remotes/origin/SparkSeqDE~40,"DERFinder final fixes.
+",1394300394,
+0212669c52078394e2eb109e4ad9ef8ad07d0b49 remotes/origin/SparkSeqDE~44,"Regions small fixes
+",1394204285,
+f8801bee285b4f9058080126109705bf889c5327 remotes/origin/SparkSeqDE~45,"Multiple regions, Cramer von Mises and missing base
+coverages fixes.
+",1394128021,
+f725526d4b7f1799a6439cbbf9671f229575b619 remotes/origin/SparkSeqDE~46,"CvM dist fixes
+",1394105500,parallelism
+e91025e8eeee4198537f59ca33da587764ef1814 remotes/origin/SparkSeqDE~47,"Region FC bigfix
+",1394064129,
+1fb9df114a9c4dd6975b7fa0edd86c20122a3e59 remotes/origin/SparkSeqDE~48,"Region coalescing fix, part1
+",1394030246,jobs
+477b98075920c12ef0c7ccf831c7f47bbef29c8b remotes/origin/SparkSeqDE~49,"Coverage thresholds bug fixes
+",1393969557,model
+12f53dc63c1f03d5e154a9afa1fb840cccb5da0e remotes/origin/SparkSeqDE~51,"NEWREG -quick fix
+",1393959188,
+2a7e48ca75cea357a6fe8a8847ad134576173818 remotes/origin/SparkSeqDE~57,"Count bugfix + coalesce regions calculation
+",1393787228,jobs
+ae055066afdc26525847304c1deabc43ae47f1a8 remotes/origin/SparkSeqDE~58,"SparkSeqDiffExpr fix (code cleanup and documentation)
+",1393768764,
+9ab2934d33a45aca7f744287474bc0d97cbac774 remotes/origin/SparkSeqDE~59,"SparkSeqDiffExpr fix (code cleanup and documentation)
+",1393768324,
+c3bec79b6a7d695dd076a63d42ae3ecaea29f001 remotes/origin/SparkSeqDE~60,"SparkSeqDiffExpr fix (takeOrdered fix)
+",1393766892,data partition
+4eb203cabdd02100b9b14456d90897ea605ee7f8 remotes/origin/SparkSeqDE~61,"SparkSeqDiffExpr fix (Range->method optim)
+",1393494579,
+bd2a1f7d7332895ecc2d2e62164d0f45f98bd5fa remotes/origin/SparkSeqDE~62,"SparkSeqDiffExpr fix (k=0)
+",1393459608,
+01416a9b1eca267846a6e9eac830b00d837a7e24 remotes/origin/SparkSeqDE~63,"SparkSeqDiffExpr, various performance fixes, getting rid of
+distinct.
+",1393337417,performance
+02b470e314b8dcdd1bb14537608eafe65bfa257f remotes/origin/SparkSeqDE~64,"SparkSeqDiffExpr, various performance fixes, getting rid of
+distinct.
+",1393330140,performance
+3a002048c7e39859ce9301ea6a751b364911014d remotes/origin/SparkSeqOldUnitTests~33,"Long id fixes
+",1392340082,data structure
+74f883d4392eca0dbe49b99569d3114ecc42a0bc remotes/origin/SparkSeqOldUnitTests~34,"Workaround for the potential distnict bug in cluster mode
+",1392330987,jobs
+c825112e92663f4d3be9dd26564384974fe45cb0 remotes/origin/SparkSeqOldUnitTests~35,"Workaround for the potential distnict bug in cluster mode
+",1392330964,jobs
+a9f8231fa576aa51d540f292cbdc39f848648884 remotes/origin/SparkSeqOldUnitTests~36,"Workaround for the potential distnict bug in cluster mode
+",1392330836,jobs
+f67e7a11e9ac047f28a1ef42480b9ebb9470d44a remotes/origin/SparkSeqOldUnitTests~63,"Hadoop Anisble Bugfixes
+",1390771922,parallelism
+ee09f8b77b0751c7e2ed6773d001070c5e901f48 remotes/origin/SparkSeqOldUnitTests~64,"Bugfixes to Hadoop ansible scripts
+",1390751350,parallelism
+549ad4e95f4f05cf21f1f0534f6a54026a94e536 remotes/origin/SparkSeqOldUnitTests~66,"Azure deployment scripts bugfixes
+",1390690324,usablity
