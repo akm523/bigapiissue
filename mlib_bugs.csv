@@ -1,248 +1,248 @@
-fae9dd692d38b6caf251a908f13f01a2942e34ff master^2~2,"fix a compile issue in binaryDataStream.h
+fae9dd692d38b6caf251a908f13f01a2942e34ff master^2~2,,"fix a compile issue in binaryDataStream.h
 ",1529972706
-5308355c4e9db4fc28b43c9be3b10fd7d66d9830 master^2~3,"Fix compile issue in binaryDataStream.h
+5308355c4e9db4fc28b43c9be3b10fd7d66d9830 master^2~3,,"Fix compile issue in binaryDataStream.h
 ",1529972491
-22365090a17917075938d54a0bc5fa417746109e master^2~4,"fix compile in vec6.h
+22365090a17917075938d54a0bc5fa417746109e master^2~4,,"fix compile in vec6.h
 ",1529971623
-456cfd9411989d31faa96da5022601d208ba321b master^2~5,"fix indentation in sparseMatrix.cpp
+456cfd9411989d31faa96da5022601d208ba321b master^2~5,,"fix indentation in sparseMatrix.cpp
 ",1529971359
-64a3b2e6249e6843cc9efdb3fe88571f0754350b master^2~6,"fix indentation in denseMatrix.cpp
+64a3b2e6249e6843cc9efdb3fe88571f0754350b master^2~6,,"fix indentation in denseMatrix.cpp
 ",1529971304
-c00978cbd8226c26d5ee3192702bbdbcba128f69 master^2~8,"fix indentation in grid3.cpp
+c00978cbd8226c26d5ee3192702bbdbcba128f69 master^2~8,,"fix indentation in grid3.cpp
 ",1529970660
-0a7a9b785361ee696833295c7a8fdf593c16207a master^2~9,"fix gcc compile for distanceField3.h
+0a7a9b785361ee696833295c7a8fdf593c16207a master^2~9,,"fix gcc compile for distanceField3.h
 ",1529970555
-f81a1b4e6c743b25bbe39dbc87d558fd3cfa7787 master~1^2~1,"fix removeDuplicateFaces for faceindicestexture & faceindicesnormal
+f81a1b4e6c743b25bbe39dbc87d558fd3cfa7787 master~1^2~1,,"fix removeDuplicateFaces for faceindicestexture & faceindicesnormal
 ",1527113461
-7ada33142355e6af45995ef8672063ae3b4176bc master~6,"Camera fix. The up vector is now correctly computed.
+7ada33142355e6af45995ef8672063ae3b4176bc master~6,data structure,"Camera fix. The up vector is now correctly computed.
 ",1522329224
-cd69b7b25be9a8b17d751d6f8693d06f12bfdf78 master~8,"Fixed a bug that prevented the project from compiling in VS2015 and later.
+cd69b7b25be9a8b17d751d6f8693d06f12bfdf78 master~8,,"Fixed a bug that prevented the project from compiling in VS2015 and later.
 ",1520010297
-bbac936a02ef98263b01d42d9e0fc50c93fa8b3b master~12^2,"Merge pull request #3 from dazinovic/master
+bbac936a02ef98263b01d42d9e0fc50c93fa8b3b master~12^2,formtat,"Merge pull request #3 from dazinovic/master
 
 Bug fix for 3D textures and OBJ files",1510849796
-d2aca244426ea3cda8c574b8f12306a8376e8551 master~12^2^2,"Bug fix for 3D textures
+d2aca244426ea3cda8c574b8f12306a8376e8551 master~12^2^2,data structure,"Bug fix for 3D textures
 
 Fixed the copy constructor of D3D11Texture3D.
 ",1510523344
-dc565f67674a550d415977f286e66f0e8aa3f5cf master~12^2^2~1,"Bug fix for 3D textures and OBJ files
+dc565f67674a550d415977f286e66f0e8aa3f5cf master~12^2^2~1,data structure,"Bug fix for 3D textures and OBJ files
 
 - The template argument in the class D3D11Texture3D was incorrect (RGBColor instead of T)
 - The method loadFromOBJ didn't work correctly if the OBJ file used relative indices. This has been fixed now.
 ",1510354133
-22a875ab500e5a43a476d3479cc809f5200c4219 master~12^2~1,"fixed memory bug in SensorData .append()
+22a875ab500e5a43a476d3479cc809f5200c4219 master~12^2~1,memory,"fixed memory bug in SensorData .append()
 ",1510317383
-ac6b9e9d1da1df00a2293da64a9f146c123fa2ca master~16,"fixed a few smaller bugs:
+ac6b9e9d1da1df00a2293da64a9f146c123fa2ca master~16,io,"fixed a few smaller bugs:
 -d3d buffers do not have the CPU write flag
 -syntax bug in d3d buffer
 -bug in canvas where copy constructor was using """" as named element (caused some weird behavior)
 ",1496593604
-828a0ce773821590f0b22daef7f15759d271ce60 master~19,"fix quat typos
+828a0ce773821590f0b22daef7f15759d271ce60 master~19,,"fix quat typos
 ",1495038177
-f01c48164dd4dd9e1a21c891464fa685df4dca84 master~17^2~2,"fixed compilation in test project
+f01c48164dd4dd9e1a21c891464fa685df4dca84 master~17^2~2,,"fixed compilation in test project
 ",1494317222
-b3c6ef620de2924bb6937635a568662111543248 master~21,"fix color palette bug
+b3c6ef620de2924bb6937635a568662111543248 master~21,,"fix color palette bug
 ",1493989922
-91bde6f6990f50c8aa2cb2f1fc69f33e8b5fe21f master~25,"fixed a small consistency issue in camera.h where a negation for getUp and getWorldUp was missing
+91bde6f6990f50c8aa2cb2f1fc69f33e8b5fe21f master~25,,"fixed a small consistency issue in camera.h where a negation for getUp and getWorldUp was missing
 ",1493148492
-e479b4a73e786900fa2c06a224937fa779cc18fc master~38,"fix bug in rgb to hsv
+e479b4a73e786900fa2c06a224937fa779cc18fc master~38,file format,"fix bug in rgb to hsv
 ",1486842168
-b1ad5376e239b593e3dd61e2efab3669ba60eb73 master~37^2,"fixed some bugs
+b1ad5376e239b593e3dd61e2efab3669ba60eb73 master~37^2,,"fixed some bugs
 ",1486694204
-3d796af55eaec509ee4117cad93342b6d369fb3a master~41,"fix bug in off loader
+3d796af55eaec509ee4117cad93342b6d369fb3a master~41,IO,"fix bug in off loader
 ",1485585596
-df493e6d4f6b0c0751485410f74411355b00f1fd master~40^2~1,"added missing copy constructors
+df493e6d4f6b0c0751485410f74411355b00f1fd master~40^2~1,,"added missing copy constructors
 (failed compilation on vs2015)
 ",1485471340
-209a8fae923d51dc1940df94568977c3a329189f master~40^2~2,"fixed size calculation for texture
+209a8fae923d51dc1940df94568977c3a329189f master~40^2~2,data,"fixed size calculation for texture
 ",1485470989
-e7cc5b763bde4c0f0e67e4a3cf59fbd7f2a21339 master~44,"fix data ordering in binarygrid3
+e7cc5b763bde4c0f0e67e4a3cf59fbd7f2a21339 master~44,data partition,"fix data ordering in binarygrid3
 ",1483764108
-0fff8c8c6980d85a8571035e8fe453d239881b37 master~48^2,"fixes in split by group/material for mesh/obj files
+0fff8c8c6980d85a8571035e8fe453d239881b37 master~48^2,"jobs, paralleism, data partition","fixes in split by group/material for mesh/obj files
 ",1482813829
-335c710318c4cc68ecdab4cadb2b4c8a187cfccc master~51,"windows get error string
+335c710318c4cc68ecdab4cadb2b4c8a187cfccc master~51,,"windows get error string
 ",1482367365
-d0d6a9e6367399cb788935ef19d589b93a98200f master~50^2~2,"few small fixes
+d0d6a9e6367399cb788935ef19d589b93a98200f master~50^2~2,,"few small fixes
 ",1481439327
-b2ec142e22a22d75948f06a6f9826bc68c22888e master~50^2~3,"fixed textur3d
+b2ec142e22a22d75948f06a6f9826bc68c22888e master~50^2~3,data,"fixed textur3d
 ",1481437291
-19b461e4c34bf402cf3557acf448a5e99e68b679 master~50^2~14,"vertex merging
+19b461e4c34bf402cf3557acf448a5e99e68b679 master~50^2~14,,"vertex merging
 fixed a warning with open mesh
 ",1481323343
-ca0b008172cc3f3796ec324b361854e7ff65eeb6 master~50^2~15^2,"Eigen header uses latest eigen version
+ca0b008172cc3f3796ec324b361854e7ff65eeb6 master~50^2~15^2,,"Eigen header uses latest eigen version
 fixed broken code in denseMatrix.cpp
 readData uses references
 ",1481305155
-6111cb47e9fe572b3e4d509a9d8229c318187d99 master~50^2~18,"fix
+6111cb47e9fe572b3e4d509a9d8229c318187d99 master~50^2~18,,"fix
 ",1481069236
-f43554c85e3c0e644c29aea76315ba454c79faa2 master~50^2~23,"cleaned up grid2 and grid3
+f43554c85e3c0e644c29aea76315ba454c79faa2 master~50^2~23,data structure,"cleaned up grid2 and grid3
 fixed the weird index ordering of the internal format of grid3
 ",1481057872
-b933aafc57d3de50b08a4cc2a17f41e7681ab392 master~50^2~26,"fixes
+b933aafc57d3de50b08a4cc2a17f41e7681ab392 master~50^2~26,,"fixes
 ",1480976813
-8bcf671fbe7d3dea840f1bbe4345182be414273b master~50^2~28^2,"fixes for textured rendering
+8bcf671fbe7d3dea840f1bbe4345182be414273b master~50^2~28^2,io,"fixes for textured rendering
 16-bit png loading
 makeTriMesh functionality
 ",1480906321
-a2deeb8b07fc1926bb0b774fbebd19e0dbea5d56 master~54,"fucked up indexing bug at 4:55am...
+a2deeb8b07fc1926bb0b774fbebd19e0dbea5d56 master~54,data structure,"fucked up indexing bug at 4:55am...
 ",1478868940
-553522b8b40e5c3ffe5a04da174e7578a79bf0de master~55,"perf fixes uses std::fundamental for grid3 streaming and a bunch of other bugs
+553522b8b40e5c3ffe5a04da174e7578a79bf0de master~55,io,"perf fixes uses std::fundamental for grid3 streaming and a bunch of other bugs
 ",1478856775
-be6c51d632776c254ff3f29963dc7397197900ee master~56,"fix in tri mesh ; comments regarding streaming
+be6c51d632776c254ff3f29963dc7397197900ee master~56,,"fix in tri mesh ; comments regarding streaming
 ",1478474031
-3f54dc9734c51210ff136b8715efe7062ef19c03 master~61^2~3,"fix baseimage binarydatastream for empty image
+3f54dc9734c51210ff136b8715efe7062ef19c03 master~61^2~3,io,"fix baseimage binarydatastream for empty image
 ",1476046246
-27972dbdf0fadc9a570dc9a1a6d1779836635382 master~64,"Added method to BaseImage<vec3uc>, fixed missing returns, removed unused code, added pragma #once to headers.
+27972dbdf0fadc9a570dc9a1a6d1779836635382 master~64,,"Added method to BaseImage<vec3uc>, fixed missing returns, removed unused code, added pragma #once to headers.
 ",1475960441
-bd23686be2896e4240ac41caf2d354c4e660270f master~61^2~4,"off file write bug fix
+bd23686be2896e4240ac41caf2d354c4e660270f master~61^2~4,io,"off file write bug fix
 ",1475793961
-3b5107f140b88d718da042ddd85d2923fefe131d master~65,"Some small fixes and additions
+3b5107f140b88d718da042ddd85d2923fefe131d master~65,,"Some small fixes and additions
 
 * Added more helpers for BaseImage class
 * Warning on std::put_time issue with GCC < 5
 * Fixed some namespace issues
 * Added helpers for Matrix3x3 class
 ",1475535086
-0debf26ef5e18e16dd1a3596c0ed179d8a36e38e master~63^2~8,"cosmetic fixes
+0debf26ef5e18e16dd1a3596c0ed179d8a36e38e master~63^2~8,,"cosmetic fixes
 ",1473222591
-5527db8dda322595e1a2461f7983023d1660ae10 master~63^2~10,"fix bug in pca, flann #trees param
+5527db8dda322595e1a2461f7983023d1660ae10 master~63^2~10,,"fix bug in pca, flann #trees param
 ",1472764548
-8384b6d667b747c2e06dac0cf067a3dd450d2f8d master~63^2~11,"minor size_t fix
+8384b6d667b747c2e06dac0cf067a3dd450d2f8d master~63^2~11,,"minor size_t fix
 ",1472633233
-75b760e82fc9575ac25968a44dd0a96e7f803f08 master~66^2,"fixed conditions
+75b760e82fc9575ac25968a44dd0a96e7f803f08 master~66^2,,"fixed conditions
 ",1472364446
-8f0e61f6ded438ba649ebb7d1a5e7740ee8020a1 master~63^2~13,"fixed naming conventions
+8f0e61f6ded438ba649ebb7d1a5e7740ee8020a1 master~63^2~13,,"fixed naming conventions
 ",1472271533
-0d43895ea7c9f5b892fa303e044b092d37a3be27 master~71,"Bug fix in binaryDataSream.
+0d43895ea7c9f5b892fa303e044b092d37a3be27 master~71,,"Bug fix in binaryDataSream.
 ",1471891325
-04b2c5ec63286d591d341abfa15aff68af61dfb0 master~70^2~6,"fixed Rendertargets SRVS for depth stencil
+04b2c5ec63286d591d341abfa15aff68af61dfb0 master~70^2~6,,"fixed Rendertargets SRVS for depth stencil
 ",1471809440
-78e4553a36585fda127f10c23ce4edc0ff1eaffb master~70^2~7^2~1,"fixed some rendertarget bugs. There is still a bug: cannot create an SRV out of a render target's depth stencil... not sure why this fails.
+78e4553a36585fda127f10c23ce4edc0ff1eaffb master~70^2~7^2~1,,"fixed some rendertarget bugs. There is still a bug: cannot create an SRV out of a render target's depth stencil... not sure why this fails.
 ",1471767958
-e101911264a3f77e83b2037d6445011a175d7d32 master~75^2,"fixed division operators for integer values (operator/= and operator/ )
+e101911264a3f77e83b2037d6445011a175d7d32 master~75^2,,"fixed division operators for integer values (operator/= and operator/ )
 now it statically distinguishes between float/double and the rest to maintain inv_value optimization.
 ",1471416894
-b90fc85a7f6e3f73e7e4fa719ade6bcf819ff929 master~78,"geometry shader tested and some small bug fixes
+b90fc85a7f6e3f73e7e4fa719ade6bcf819ff929 master~78,,"geometry shader tested and some small bug fixes
 ",1471282843
-b828757b68ff4b53ebaabf42235f1838f97e4e41 master~96,"VS2015 fixes, switch to D3DCompile from D3DX
+b828757b68ff4b53ebaabf42235f1838f97e4e41 master~96,,"VS2015 fixes, switch to D3DCompile from D3DX
 ",1466455199
-b03c3d4967f388730abf1858e611d30f32a636d6 master~99,"fixed upsample part in distance field3
+b03c3d4967f388730abf1858e611d30f32a636d6 master~99,,"fixed upsample part in distance field3
 ",1466058056
-b49b8627a043325436d14727bed07b9191cc431b master~103,"fix typo
+b49b8627a043325436d14727bed07b9191cc431b master~103,,"fix typo
 ",1465595501
-1a874d65e434b51561081b0a1667ad8a35808884 master~112,"point cloud fixes
+1a874d65e434b51561081b0a1667ad8a35808884 master~112,,"point cloud fixes
 ",1464585752
-a5cb7273e49eb7486dd7b4907216656a3764d75a master~118,"mac fixes
+a5cb7273e49eb7486dd7b4907216656a3764d75a master~118,,"mac fixes
 ",1463775464
-807120e8be7fad91ff459c57e34f0c3e9a90caa3 master~127,"Timer and parameterFile fixes
+807120e8be7fad91ff459c57e34f0c3e9a90caa3 master~127,,"Timer and parameterFile fixes
 ",1459125024
-65d175431a47eedde4cf0b500cccf57efddea609 master~129,"linux fix
+65d175431a47eedde4cf0b500cccf57efddea609 master~129,,"linux fix
 ",1459007646
-394e0028b186a0e68885d6f1fcef40b90288f886 master~132,"linux fixes
+394e0028b186a0e68885d6f1fcef40b90288f886 master~132,,"linux fixes
 ",1458954308
-6123fc30c781acdec0762768c2f2a72e6a02ce04 master~133,"linux fixes (clang)
+6123fc30c781acdec0762768c2f2a72e6a02ce04 master~133,,"linux fixes (clang)
 ",1458948523
-31bd2a8e19484c82af423b262f54a5cca30429cf master~134,"linux fixes
+31bd2a8e19484c82af423b262f54a5cca30429cf master~134,,"linux fixes
 ",1458948175
-59750741db0985b088795b275fa2318495e8a33c master~139,"fix copyIntoImage
+59750741db0985b088795b275fa2318495e8a33c master~139,,"fix copyIntoImage
 ",1458771426
-a66ce0acf794592357ce69cc3bd6498bed0935ff master~141,"fixed macro defines: MLIB_WARNING and MLIB_ERROR now always defined
+a66ce0acf794592357ce69cc3bd6498bed0935ff master~141,,"fixed macro defines: MLIB_WARNING and MLIB_ERROR now always defined
 fixed macro defines: MLIB_ASSERT and MLIB_ASSERT_STR now only defined if DEBUG
 BaseImage<T>.getPixelInterpolated(T x, T y) now takes x,y \in [0;1] which makes much more sense for float
 cleaned up BaseImage<T>: now all the resampling is in .resize and .getResized
 ",1458511202
-ea34f5fe80ce87b3e0f14da560843f03d42e2695 master~151,"added additional functionality to canvas
+ea34f5fe80ce87b3e0f14da560843f03d42e2695 master~151,,"added additional functionality to canvas
 fixed a shader bug in the canvas texture rendering
 ",1457303174
-26835091b2083ab520ac11f0acc8895c6230b679 master~171,"fixed a constructor bug on obb3
+26835091b2083ab520ac11f0acc8895c6230b679 master~171,,"fixed a constructor bug on obb3
 ",1456558086
-31bc1369253a814f8c0b30181abd994b9c9b7b42 master~172,"time stamp bug in sensor data
+31bc1369253a814f8c0b30181abd994b9c9b7b42 master~172,,"time stamp bug in sensor data
 ",1456538544
-30948dbb80302aaa21913f255a4b92de8c92f0f8 master~175,"more string/file util fixes
+30948dbb80302aaa21913f255a4b92de8c92f0f8 master~175,,"more string/file util fixes
 ",1455820751
-7a714c2cd90c3e9c7d336a748de87311e33db6fa master~184,"fix missing slash bug due to changed behavior in getDirectoryFromPath()
+7a714c2cd90c3e9c7d336a748de87311e33db6fa master~184,,"fix missing slash bug due to changed behavior in getDirectoryFromPath()
 ",1455430483
-3041aec6771df2dbebec321e6587d6f69b498b6e master~196,"fixed a bug in directoryFromPath
+3041aec6771df2dbebec321e6587d6f69b498b6e master~196,,"fixed a bug in directoryFromPath
 ",1455176424
-28563f1ec20f0c5bac0958c53d69fa5fc862224d master~198,"fix compilation error due to BoundingBox3::operator= not returning *this
+28563f1ec20f0c5bac0958c53d69fa5fc862224d master~198,,"fix compilation error due to BoundingBox3::operator= not returning *this
 ",1454804697
-563d6fc35d51501735ea0840c0aea4ac1f3fecb8 master~204,"fix compilation error due to renaming of readPrimitiveVector/writePrimitiveVector in TriMesh BinaryDataStream
+563d6fc35d51501735ea0840c0aea4ac1f3fecb8 master~204,,"fix compilation error due to renaming of readPrimitiveVector/writePrimitiveVector in TriMesh BinaryDataStream
 ",1453509848
-ca2055c448c96b2f9b83b85e889d1316a8b54412 master~206,"fix flipped normals in Shapes::sphere
+ca2055c448c96b2f9b83b85e889d1316a8b54412 master~206,,"fix flipped normals in Shapes::sphere
 ",1453032750
-cd6dfd2bbd35e993e178d3236918f05eefdd3ebe master~207,"fix compilation due to out of date member names in TriMesh flatLoopSubdivision()
+cd6dfd2bbd35e993e178d3236918f05eefdd3ebe master~207,,"fix compilation due to out of date member names in TriMesh flatLoopSubdivision()
 ",1453002177
-6679df70ce598921e11f1ee21f9741f6fb9d266f master~211,"fix breakage: comment out missing core-util/uniformAccelerator.h header include
+6679df70ce598921e11f1ee21f9741f6fb9d266f master~211,,"fix breakage: comment out missing core-util/uniformAccelerator.h header include
 ",1452285085
-65b80895fb5bde3471536d2badff22b0b22b0354 master~219,"Fix bbox renaming issue
+65b80895fb5bde3471536d2badff22b0b22b0354 master~219,,"Fix bbox renaming issue
 ",1450128398
-26a84ac17ee36356aeb8c4edb4fbeedb1789883d master~229,"Fixed warnings and errors for clang on OS X
+26a84ac17ee36356aeb8c4edb4fbeedb1789883d master~229,,"Fixed warnings and errors for clang on OS X
 ",1446907591
-6e6c86b51e7a43d61662fc2ae95621efee01ab80 master~234,"added multiple render target support and minor fixes
+6e6c86b51e7a43d61662fc2ae95621efee01ab80 master~234,,"added multiple render target support and minor fixes
 ",1444783783
-27fd774442d02be59efb4ea5a666c194f349028b master~269,"small bug in tri mesh
+27fd774442d02be59efb4ea5a666c194f349028b master~269,,"small bug in tri mesh
 ",1439070671
-ca187656170c562493eb1765a26de73c1ee4bd1f master~276,"fixed a bug in graphics to vision matrix
+ca187656170c562493eb1765a26de73c1ee4bd1f master~276,,"fixed a bug in graphics to vision matrix
 ",1438406600
-e84122d3c1f0a43ecf96c8f175a7288274fd5250 master~435,"fixed moves in grid3
+e84122d3c1f0a43ecf96c8f175a7288274fd5250 master~435,,"fixed moves in grid3
 ",1423521499
-34d2b02150b5ab0aed0b870e61f760bbd1f433ec master~447,"Fix small bug in operator== and make move semantics more conformant
+34d2b02150b5ab0aed0b870e61f760bbd1f433ec master~447,,"Fix small bug in operator== and make move semantics more conformant
 ",1421397569
-06db86e5974fdf882a4fc4c5ac6871f89eea8c8b master~536,"Fix D3D11RenderTarget viewport resizing bug
+06db86e5974fdf882a4fc4c5ac6871f89eea8c8b master~536,,"Fix D3D11RenderTarget viewport resizing bug
 ",1415915560
-4b561ffbadb4b20b315c4427bba904d7ac6d76ce master~561,"interface fix
+4b561ffbadb4b20b315c4427bba904d7ac6d76ce master~561,,"interface fix
 ",1414554358
-94ebc0a2659284968156bc8e61734ff0b0033f23 master~565,"fixed indexing bug
+94ebc0a2659284968156bc8e61734ff0b0033f23 master~565,,"fixed indexing bug
 ",1414533848
-7060c2ddd137d17ebad968b6b59ea9c3104b4ed8 master~566,"Fix indexing bug, and rename rows, cols, slices to numX-Y-Z
+7060c2ddd137d17ebad968b6b59ea9c3104b4ed8 master~566,,"Fix indexing bug, and rename rows, cols, slices to numX-Y-Z
 ",1414533269
-0132a6575b839276feda2aa5796f684b4894d293 master~570,"fixed a bunch of bugs
+0132a6575b839276feda2aa5796f684b4894d293 master~570,,"fixed a bunch of bugs
 ",1414469472
-779d7c38ee10fd9ba744f1dc35771aa9784db9f0 master~575,"numchannels / bytes per pixel bug fix
+779d7c38ee10fd9ba744f1dc35771aa9784db9f0 master~575,,"numchannels / bytes per pixel bug fix
 ",1413185881
-02ee506b9df18ed84e58cd80b032e720d55bf99d master~580,"fixed this fucking intersection code that doesn't work
+02ee506b9df18ed84e58cd80b032e720d55bf99d master~580,,"fixed this fucking intersection code that doesn't work
 ",1412987100
-618ad22e17efeeb3c96907879532e321326a1da1 master~581,"Fix compilation issues.  Fix call to makeTriMesh and collision was renamed to intersects.
+618ad22e17efeeb3c96907879532e321326a1da1 master~581,,"Fix compilation issues.  Fix call to makeTriMesh and collision was renamed to intersects.
 ",1412957368
-a07d693e837b95e2551b6aca8b273c50a49b2abd master~592,"- Ensure that TriMesh's m_bHasNormals|Colors|TexCoords are initialized correctly by all TriMesh constructors
+a07d693e837b95e2551b6aca8b273c50a49b2abd master~592,,"- Ensure that TriMesh's m_bHasNormals|Colors|TexCoords are initialized correctly by all TriMesh constructors
 - Resolve OpenMesh loading and conversion to MeshData issues
 ",1411265838
-b9266dab30dc228fa35ee10427daae1074cee5a8 master~600,"Fix infinite recursion bug due in triMeshAccelerator::intersect
+b9266dab30dc228fa35ee10427daae1074cee5a8 master~600,,"Fix infinite recursion bug due in triMeshAccelerator::intersect
 ",1409611534
-efc22412ce99c78a782afb41ba0f7861a7b55fee master~612,"removeduplicatefaces bug fix
+efc22412ce99c78a782afb41ba0f7861a7b55fee master~612,,"removeduplicatefaces bug fix
 ",1408225419
-aa6319799cf547e1bcd83551b1d60a6d27e00610 master~659,"some fixes ;)
+aa6319799cf547e1bcd83551b1d60a6d27e00610 master~659,,"some fixes ;)
 ",1403834875
-86cfa5ab7ca295fdbed7438f608ed9c2f4021f7a master~741,"one more fix.
+86cfa5ab7ca295fdbed7438f608ed9c2f4021f7a master~741,,"one more fix.
 ",1401398994
-02dabf66706b75c109d8958b296fa6c4d14a57d3 master~742,"Another index bug fix
+02dabf66706b75c109d8958b296fa6c4d14a57d3 master~742,,"Another index bug fix
 ",1401396690
-05e87898895471ab7b743304964d9caf9bb8b2c6 master~743,"Fix computevertexNormals index bug
+05e87898895471ab7b743304964d9caf9bb8b2c6 master~743,,"Fix computevertexNormals index bug
 ",1401396595
-42fe115a411af2c0f62f89055db0e7e4e78de333 master~809,"fixed large file sizes
+42fe115a411af2c0f62f89055db0e7e4e78de333 master~809,,"fixed large file sizes
 ",1398826646
-5572d9b573e79317390c8d2300eab7b0eab78558 master~826,"fixed early out for BVH
+5572d9b573e79317390c8d2300eab7b0eab78558 master~826,,"fixed early out for BVH
 ",1398234558
-e6b3c304fce87d142fd24c0bd9b3cc77608d99ce master~877,"Namespacing, ifdef guards and fixup for application-base and application-d3d11
+e6b3c304fce87d142fd24c0bd9b3cc77608d99ce master~877,,"Namespacing, ifdef guards and fixup for application-base and application-d3d11
 ",1394503683
-80006b8ab455c3681f38107f3ce205ce1f392f1f master~905,"- Add substrBeforeLast(), dropExtension() and rtrim() to StringUtil
+80006b8ab455c3681f38107f3ce205ce1f392f1f master~905,,"- Add substrBeforeLast(), dropExtension() and rtrim() to StringUtil
 - Add Utility::saveLinesToFile()
 - Style fixup for touched files
 ",1394252233
-0c1c48c32ad05c28ef5ddec1f1d87877fb38fb12 master~913,"- Fix StringUtil::split bug due to std::to_string(char)
+0c1c48c32ad05c28ef5ddec1f1d87877fb38fb12 master~913,,"- Fix StringUtil::split bug due to std::to_string(char)
 - Modify signature of utility::lerp so it accepts scalar and interpolants of different type
 ",1394157932
-4464363584e6664734d4cd6d8d7a6e93ee3c5465 master~934,"Fix colorUtils.h type checking error
+4464363584e6664734d4cd6d8d7a6e93ee3c5465 master~934,,"Fix colorUtils.h type checking error
 ",1394067733
-9ab1797ee40e5d66f658c365a228018adc185809 master~947,"Introduce _IDL0 preprocessor macro in common.h for controlling whether iterator debugging should be disabled
+9ab1797ee40e5d66f658c365a228018adc185809 master~947,,"Introduce _IDL0 preprocessor macro in common.h for controlling whether iterator debugging should be disabled
 ",1393836028
-67499e75800e9a9c772b4fd6c327d5326db94a2c master~948,"Fix stringUtil.h replace bug due to to_string(char) conversion
+67499e75800e9a9c772b4fd6c327d5326db94a2c master~948,,"Fix stringUtil.h replace bug due to to_string(char) conversion
 ",1393784357
-ab0eb3feb067cd84ad6716fb5e7e1f3ccc5ad928 master~968,"Add guards to common.h debug related ifdefs
+ab0eb3feb067cd84ad6716fb5e7e1f3ccc5ad928 master~968,,"Add guards to common.h debug related ifdefs
 ",1393543539
-6074514873edf9e5932a17265269400d923dd711 master~971,"Fix point cloud template vertex indexing bug
+6074514873edf9e5932a17265269400d923dd711 master~971,,"Fix point cloud template vertex indexing bug
 ",1393540725
-0906bb4435d840856a080b9f8ea5186214fb50d0 master~986,"Re-disable iterator debugging since now we have appropriately compiled OpenMesh
+0906bb4435d840856a080b9f8ea5186214fb50d0 master~986,,"Re-disable iterator debugging since now we have appropriately compiled OpenMesh
 ",1393525353
-6bd8f9f2f185aa32a101af6fa6be675488702e23 master~987,"Fix OpenMesh color and normal loading bug
+6bd8f9f2f185aa32a101af6fa6be675488702e23 master~987,,"Fix OpenMesh color and normal loading bug
 ",1393487768
