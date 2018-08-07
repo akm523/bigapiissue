@@ -240,9 +240,9 @@ e6b3c304fce87d142fd24c0bd9b3cc77608d99ce master~877,,"Namespacing, ifdef guards 
 ",1393784357
 ab0eb3feb067cd84ad6716fb5e7e1f3ccc5ad928 master~968,,"Add guards to common.h debug related ifdefs
 ",1393543539
-6074514873edf9e5932a17265269400d923dd711 master~971,,"Fix point cloud template vertex indexing bug
+6074514873edf9e5932a17265269400d923dd711 master~971,data structure,"Fix point cloud template vertex indexing bug
 ",1393540725
 0906bb4435d840856a080b9f8ea5186214fb50d0 master~986,,"Re-disable iterator debugging since now we have appropriately compiled OpenMesh
 ",1393525353
-6bd8f9f2f185aa32a101af6fa6be675488702e23 master~987,,"Fix OpenMesh color and normal loading bug
+6bd8f9f2f185aa32a101af6fa6be675488702e23 master~987,io,"Fix OpenMesh color and normal loading bug
 ",1393487768
