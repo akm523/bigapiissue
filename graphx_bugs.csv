@@ -199,8 +199,8 @@ indirectly through the SparkListenerJobEnd, where we sometimes pass in a single
 stage that failed.  This worked before job cancellation, because jobs would only fail
 due to a single stage failure.  However, with job cancellation, multiple running stages
 can fail when a job gets cancelled.  Right now, this is not handled correctly, which
-results in stages that get stuck in the “Running Stages” window in the UI even
-though they’re dead.
+results in stages that get stuck in the ???Running Stages??? window in the UI even
+though they???re dead.
 
 This PR changes the SparkListenerStageCompleted event to a SparkListenerStageEnded
 event, and uses this event to tell SparkListeners when stages fail in addition to when
@@ -209,12 +209,12 @@ reasons.  First, it changes the SparkListener interface.  We could alternately a
 SparkListenerStageFailed, and keep the existing SparkListenerStageCompleted.  However,
 this is less consistent with the listener events for tasks / jobs ending, and will result in some
 code duplication for listeners (because failed and completed stages are handled in similar
-ways).  Note that I haven’t finished updating the JSON code to correctly handle the new event
-because I’m waiting for feedback on whether this is a good or bad idea (hence the “WIP”).
+ways).  Note that I haven???t finished updating the JSON code to correctly handle the new event
+because I???m waiting for feedback on whether this is a good or bad idea (hence the ???WIP???).
 
 It is also not backwards compatible because it changes the publicly visible JobWaiter.jobFailed()
 method to no longer include a stage that caused the failure.  I think this change should definitely
-stay, because with cancellation (as described above), a failure isn’t necessarily caused by a
+stay, because with cancellation (as described above), a failure isn???t necessarily caused by a
 single stage.
 
 Author: Kay Ousterhout <kayousterhout@gmail.com>
@@ -247,13 +247,13 @@ were cancelled.  See the ""failure of stage used by two jobs"" test
 for an example of this.  This just meant that extra work was done, and is
 not a correctness problem.
 
-This commit adds 3 tests.  “run shuffle with map stage failure” is
+This commit adds 3 tests.  ???run shuffle with map stage failure??? is
 a new test to more thoroughly test this functionality, and passes on
-both the old and new versions of the code.  “trivial job
-cancellation” fails on the old code because all state wasn’t cleaned
-up correctly when jobs were cancelled (we didn’t remove the job from
-resultStageToJob).  “failure of stage used by two jobs” fails on the
-old code because taskScheduler.cancelTasks wasn’t called for one of
+both the old and new versions of the code.  ???trivial job
+cancellation??? fails on the old code because all state wasn???t cleaned
+up correctly when jobs were cancelled (we didn???t remove the job from
+resultStageToJob).  ???failure of stage used by two jobs??? fails on the
+old code because taskScheduler.cancelTasks wasn???t called for one of
 the stages (see test comments).
 
 This should be checked in before #246, which makes it easier to
@@ -292,7 +292,7 @@ c43b8ae [Tathagata Das] Added graceful shutdown to Spark Streaming.
 This PR allows Spark to automatically cleanup metadata and data related to persisted RDDs, shuffles and broadcast variables when the corresponding RDDs, shuffles and broadcast variables fall out of scope from the driver program. This is still a work in progress as broadcast cleanup has not been implemented.
 
 **Implementation Details**
-A new class `ContextCleaner` is responsible cleaning all the state. It is instantiated as part of a `SparkContext`. RDD and ShuffleDependency classes have overridden `finalize()` function that gets called whenever their instances go out of scope. The `finalize()` function enqueues the object’s identifier (i.e. RDD ID, shuffle ID, etc.) with the `ContextCleaner`, which is a very short and cheap operation and should not significantly affect the garbage collection mechanism. The `ContextCleaner`, on a different thread, performs the cleanup, whose details are given below.
+A new class `ContextCleaner` is responsible cleaning all the state. It is instantiated as part of a `SparkContext`. RDD and ShuffleDependency classes have overridden `finalize()` function that gets called whenever their instances go out of scope. The `finalize()` function enqueues the object???s identifier (i.e. RDD ID, shuffle ID, etc.) with the `ContextCleaner`, which is a very short and cheap operation and should not significantly affect the garbage collection mechanism. The `ContextCleaner`, on a different thread, performs the cleanup, whose details are given below.
 
 *RDD cleanup:*
 `ContextCleaner` calls `RDD.unpersist()` is used to cleanup persisted RDDs. Regarding metadata, the DAGScheduler automatically cleans up all metadata related to a RDD after all jobs have completed. Only the `SparkContext.persistentRDDs` keeps strong references to persisted RDDs. The `TimeStampedHashMap` used for that has been replaced by `TimeStampedWeakValueHashMap` that keeps only weak references to the RDDs, allowing them to be garbage collected.
@@ -1126,7 +1126,7 @@ Closes #142 from marmbrus/kryoErrors and squashes the following commits:
 
 9c72d1f [Michael Armbrust] Make the test more future proof.
 78f5a42 [Michael Armbrust] Don't swallow all kryo errors, only those that indicate we are out of data.
-",1396155689,,,,,
+",1396155689,io,,,,
 af3746ce0d724dc624658a2187bde188ab26d084 master~88,"Implement the RLike & Like in catalyst
 
 This PR includes:
@@ -1159,7 +1159,7 @@ e7315c6 [Sandy Ryza] Fix failing tests
 299ddca [Sandy Ryza] Fix scalastyle
 a94c627 [Sandy Ryza] Add newline at end of SparkSubmit
 04bc4e2 [Sandy Ryza] SPARK-1126. spark-submit script
-",1396129296,,,,,
+",1396129296,job,,,,
 75d46be5d61fb92a6db2efb9e3a690716ef521d3 master~91,"fix path for jar, make sed actually work on OSX
 
 Author: Nick Lanham <nick@afternight.org>
@@ -1224,7 +1224,7 @@ Closes #15 from ueshin/wip/wrongcontextclassloader and squashes the following co
 d79e8c0 [Takuya UESHIN] Change a parent class loader of ExecutorURLClassLoader.
 c6c09b6 [Takuya UESHIN] Add a test to collect objects of class defined in repl.
 43e0feb [Takuya UESHIN] Prevent ContextClassLoader of Actor from becoming ClassLoader of Executor.
-",1395983835,,,,,
+",1395983835,job,,,,
 6f986f0b87bd03f4df2bf6c917e61241e9b14ac2 master~95,"[SPARK-1268] Adding XOR and AND-NOT operations to spark.util.collection.BitSet
 
 Symmetric difference (xor) in particular is useful for computing some distance metrics (e.g. Hamming). Unit tests added.
@@ -1269,7 +1269,7 @@ bcac1ac [Xiangrui Meng] add two tests to ensure {Lasso, Ridge}.setIntercept will
 a104072 [Xiangrui Meng] remove protected to be compatible with 0.9
 0e57aa4 [Xiangrui Meng] update Lasso and RidgeRegression to parse the weights correctly from GLM mark createModel protected mark predictPoint protected
 d7f629f [Xiangrui Meng] fix a bug in GLM when intercept is not used
-",1395887420,,,,,
+",1395887420,model,,,,
 1fa48d9422d543827011eec0cdf12d060b78a7c7 master~100,"SPARK-1325. The maven build error for Spark Tools
 
 This is just a slight variation on https://github.com/apache/spark/pull/234 and alternative suggestion for SPARK-1325. `scala-actors` is not necessary. `SparkBuild.scala` should be updated to reflect the direct dependency on `scala-reflect` and `scala-compiler`. And the `repl` build, which has the same dependencies, should also be consistent between Maven / SBT.
@@ -1294,7 +1294,7 @@ ac54b29 [NirmalReddy] import misplaced
 8c5ff3e [NirmalReddy] Changed syntax of unit returning methods
 02d0778 [NirmalReddy] fixed explicit types in all the other packages
 1c17773 [NirmalReddy] fixed explicit types in core package
-",1395883495,,,,,
+",1395883495,data type,,,,
 32cbdfd2887f7a792f360ac3224f8c38cc97d21f master~104,"[SQL] Un-ignore a test that is now passing.
 
 Add golden answer for aforementioned test.
@@ -1319,7 +1319,7 @@ Closes #225 from liancheng/packageDefinition and squashes the following commits:
 
 75c47b3 [Cheng Lian] Fixed file line length
 4f87968 [Cheng Lian] Unified package definition format in Spark SQL
-",1395873378,,,,,
+",1395873378,usability,,,,
 8237df8060039af59eb387f5ea5d6611e8f3e526 master~109,"Avoid Option while generating call site
 
 This is an update on https://github.com/apache/spark/pull/180, which changes the solution from blacklisting ""Option.scala"" to avoiding the Option code path while generating the call path.
@@ -1366,7 +1366,7 @@ af88939 [CodingCat] update the comments and permission of SparkHadoopWriter
 b7bdfa5 [Nan Zhu] style fix
 a3153a8 [Nan Zhu] style fix
 c3258d2 [CodingCat] set hadoop task properties while using InputFormat
-",1395723303,,,,,
+",1395723303,job,,,,
 dc126f2121d0cd1dc0caa50ae0c4cb9137d42562 master~116,"SPARK-1094 Support MiMa for reporting binary compatibility accross versions.
 
 This adds some changes on top of the initial work by @scrapcodes in #20:
@@ -1410,7 +1410,7 @@ Closes #202 from marmbrus/upperCaseFieldNames and squashes the following commits
 15e5265 [Michael Armbrust] Support for resolving mixed case fields from a reflected schema using HiveQL.
 5aa5035 [Michael Armbrust] Remove API that exposes internal catalyst data structures.
 9d99cb6 [Michael Armbrust] Attributes should be compared using exprId, not TreeNode.id.
-",1395714262,,,,,
+",1395714262,data structure,,,,
 80c29689ae3b589254a571da3ddb5f9c866ae534 master~120,"[SPARK-1212] Adding sparse data support and update KMeans
 
 Continue our discussions from https://github.com/apache/incubator-spark/pull/575
@@ -1459,7 +1459,7 @@ f355411 [Xiangrui Meng] add BreezeVectorWithSquaredNorm case class
 ab74f67 [Xiangrui Meng] add fastSquaredDistance for KMeans
 4e7d5ca [Xiangrui Meng] minor style update
 07ffaf2 [Xiangrui Meng] add dense/sparse vector data models and conversions to/from breeze vectors use breeze to implement KMeans in order to support both dense and sparse data
-",1395621242,,,,,
+",1395621242,performance,,,,
 8265dc7739caccc59bc2456b2df055ca96337fe4 master~121,"Fixed coding style issues in Spark SQL
 
 This PR addresses various coding style issues in Spark SQL, including but not limited to those mentioned by @mateiz in PR #146.
@@ -1505,7 +1505,7 @@ f18ddc6 [Cheng Lian] Added ColumnTypes and test suite
 2d09066 [Cheng Lian] Added KryoSerializer
 34f3c19 [Cheng Lian] Added TypeTag field to all NativeTypes
 acc5c48 [Cheng Lian] Added Hive test files to .gitignore
-",1395601735,,,,,
+",1395601735,data structure,,,,
 abf6714e27cf07a13819b35a4ca50ff9bb28b65c master~123,"SPARK-1254. Supplemental fix for HTTPS on Maven Central
 
 It seems that HTTPS does not necessarily work on Maven Central, as it does not today at least. Back to HTTP. Both builds works from a clean repo.
@@ -1552,7 +1552,7 @@ Author: Michael Armbrust <michael@databricks.com>
 Closes #199 from marmbrus/hiveTestFiles and squashes the following commits:
 
 b9b9b17 [Michael Armbrust] Add hive test files to repository.  Remove download script.
-",1395439545,,,,,
+",1395439545,io,,,,
 e09139d9ca529a8f983a8b3e2a8158c3f3caa523 remotes/origin/vldb~14,"Fix maven jenkins: Add explicit init for required tables in SQLQuerySuite
 
 Sorry! I added this test at the last minute and failed to run it in maven as well.
@@ -1566,7 +1566,7 @@ Author: Michael Armbrust <michael@databricks.com>
 Closes #191 from marmbrus/fixMaven and squashes the following commits:
 
 3366e37 [Michael Armbrust] Fix maven jenkins: Add explicit init for required tables in SQLQuerySuite
-",1395379871,,,,,
+",1395379871,data,,,,
 9aadcffabd226557174f3ff566927f873c71672e remotes/origin/vldb~15,"SPARK-1251 Support for optimizing and executing structured queries
 
 This pull request adds support to Spark for working with structured data using a simple SQL dialect, HiveQL and a Scala Query DSL.
@@ -1575,7 +1575,7 @@ This pull request adds support to Spark for working with structured data using a
 
 The code is broken into three primary components:
  - Catalyst (sql/catalyst) - An implementation-agnostic framework for manipulating trees of relational operators and expressions.
- - Execution (sql/core) - A query planner / execution engine for translating Catalyst’s logical query plans into Spark RDDs.  This component also includes a new public interface, SqlContext, that allows users to execute SQL or structured scala queries against existing RDDs and Parquet files.
+ - Execution (sql/core) - A query planner / execution engine for translating Catalyst???s logical query plans into Spark RDDs.  This component also includes a new public interface, SqlContext, that allows users to execute SQL or structured scala queries against existing RDDs and Parquet files.
  - Hive Metastore Support (sql/hive) - An extension of SqlContext called HiveContext that allows users to write queries using a subset of HiveQL and access data from a Hive Metastore using Hive SerDes.  There are also wrappers that allows users to run queries that include Hive UDFs, UDAFs, and UDTFs.
 
 A more complete design of this new component can be found in [the associated JIRA](https://spark-project.atlassian.net/browse/SPARK-1251).
@@ -2033,7 +2033,7 @@ cc06b6c [Michael Armbrust] Merge remote-tracking branch 'databricks/master' into
 c5842d2 [Michael Armbrust] don't throw an error when a select clause outputs multiple copies of the same attribute.
 0e975ea [Michael Armbrust] parse bucket sampling as percentage sampling
 a92919d [Michael Armbrust] add alter view as to native commands
-f58d5a5 [Michael Armbrust] suppo",,,,,,
+f58d5a5 [Michael Armbrust] suppo",,performance,,,,
 t for parsing SELECT DISTINCT,,,,,,,
 f0faa26 [Michael Armbrust] add sample and distinct operators.,,,,,,,
 ef7b943 [Michael Armbrust] add metastore support for float,,,,,,,
@@ -2668,7 +2668,7 @@ e3ae35f [Andrew Or] Merge github.com:apache/incubator-spark,,,,,,,
 090544a [Andrew Or] Privatize methods,,,,,,,
 13920c9 [Andrew Or] Update docs,,,,,,,
 bd5a1d7 [Andrew Or] Typo: phyiscal -> physical,,,,,,,
-287ef44 [Andrew Or] Avoid reading the entire batch into memory; also simplify streaming logic,,,,,,,
+287ef44 [Andrew Or] Avoid reading the entire batch into memory, also simplify streaming logic,,,,,,
 3df7005 [Andrew Or] Merge branch 'master' of github.com:andrewor14/incubator-spark,,,,,,,
 a531d2e [Andrew Or] Relax assumptions on compressors and serializers when batching,,,,,,,
 164489d [Andrew Or] Relax assumptions on compressors and serializers when batching,,,,,,,
@@ -2763,7 +2763,7 @@ https://spark-project.atlassian.net/browse/SPARK-1240,,,,,,,
 ,,,,,,,
 It seems that the current implementation does not handle the empty RDD case when run takeSample,,,,,,,
 ,,,,,,,
-In this patch, before calling sample() inside takeSample API, I add a checker for this case and returns an empty Array when it's a empty RDD; also in sample(), I add a checker for the invalid fraction value,,,,
+In this patch, before calling sample() inside takeSample API, I add a checker for this case and returns an empty Array when it's a empty RDD, also in sample(), I add a checker for the invalid fraction value,,,
 ,,,,,,,
 In the test case, I also add several lines for this case,,,,,,
 ,,,,,,,
@@ -2793,7 +2793,7 @@ Author: Sean Owen <sowen@cloudera.com>,,,,,,,
 ,,,,,,,
 Closes #145 from srowen/SPARK-1254 and squashes the following commits:,,,,,,,
 ,,,,,,,
-42f9bfc [Sean Owen] Use HTTPS for repos; consolidate repos in parent in order to put optional Cloudera repo last; harmonize SBT build repos with Maven; remove snapshot repos from SBT build which weren't in Maven,,,,,,,
+42f9bfc [Sean Owen] Use HTTPS for repos, consolidate repos in parent in order to put optional Cloudera repo last, harmonize SBT build repos with Maven, remove snapshot repos from SBT build which weren't in Maven,,,,
 ",1394927074
 181b130a0c2a0752009fdf5602e5d6d87f5b1212 remotes/origin/vldb~39,[bugfix] wrong client arg", should use executor-cores,,,,,,
 ,,,,,,,
@@ -3171,7 +3171,7 @@ if the partition number of two writing operation changed, then the output direct
 My fix includes:,,,,,,,
 ,,,,,,,
 add some new APIs with a flag for users to define whether he/she wants to overwrite the directory:,,,,,,,
-if the flag is set to true, then the output directory is deleted first and then written into the new data to prevent the output directory contains results from multiple rounds of running;,,,,,,
+if the flag is set to true, then the output directory is deleted first and then written into the new data to prevent the output directory contains results from multiple rounds of running,,,,,,
 ,,,,,,,
 if the flag is set to false, Spark will throw an exception if the output directory already exists,,,,,,
 ,,,,,,,
@@ -3396,7 +3396,7 @@ Here are the key changes:,,,,,,,
 ,,,,,,,
 And minor/incidental changes:,,,,,,,
 ,,,,,,,
-- Update to SLF4J 1.7.5, which happily matches Hadoop 2’s version and is a recommended update over 1.7.2,,,,,,
+- Update to SLF4J 1.7.5, which happily matches Hadoop 2???s version and is a recommended update over 1.7.2,,,,,,
 #NAME?,,,,,,,
 #NAME?,,,,,,,
 ,,,,,,,
@@ -3453,7 +3453,7 @@ c11f03b [Andrew Or] Fix Int.MaxValue hash collision bug in ExternalAppendOnlyMap
 ",1393041939
 c8a4c9b1f6005815f5a4a331970624d1706b6b13 remotes/origin/vldb~140,MLLIB-25: Implicit ALS runs out of memory for moderately large numbers of features",,,,,,,
 ,,,,,,,
-There's a step in implicit ALS where the matrix `Yt * Y` is computed. It's computed as the sum of matrices; an f x f matrix is created for each of n user/item rows in a partition. In `ALS.scala:214`:,,,,,,,
+There's a step in implicit ALS where the matrix `Yt * Y` is computed. It's computed as the sum of matrices, an f x f matrix is created for each of n user/item rows in a partition. In `ALS.scala:214`:,,,,,,
 ,,,,,,,
 ```,,,,,,,
         factors.flatMapValues{ case factorArray =>,,,,,,,
@@ -3469,7 +3469,7 @@ There's a step in implicit ALS where the matrix `Yt * Y` is computed. It's compu
 Completely correct, but there's a subtle but quite large memory problem here. map() is going to create all of these matrices in memory at once, when they don't need to ever all exist at the same time.,,,,,
 For example, if a partition has n = 100000 rows, and f = 200, then this intermediate product requires 32GB of heap. The computation will never work unless you can cough up workers with (more than) that much heap.,,,,
 ,,,,,,,
-Fortunately there's a trivial change that fixes it; just add `.view` in there.,,,,,,,
+Fortunately there's a trivial change that fixes it, just add `.view` in there.,,,,,,
 ,,,,,,,
 Author: Sean Owen <sowen@cloudera.com>,,,,,,,
 ,,,,,,,
@@ -3517,14 +3517,14 @@ I tweaked minor things en route:,,,,,,,
 "* `ALS.scala` javadoc writes """"R = Xt*Y"""" when the paper and rest of code defines it as """"R = X*Yt""""",,,,,,,
 * RMSE in the ALS tests uses a confidence-weighted mean, but the denominator is not actually sum of weights,,,,,,
 ,,,,,,,
-Excuse my Scala style; I'm sure it needs tweaks.,,,,,,,
+Excuse my Scala style, I'm sure it needs tweaks.,,,,,,
 ,,,,,,,
 Author: Sean Owen <sowen@cloudera.com>,,,,,,,
 ,,,,,,,
 Closes #500 from srowen/ALSNegativeImplicitInput and squashes the following commits:,,,,,,,
 ,,,,,,,
 cf902a9 [Sean Owen] Support negative implicit input in ALS,,,,,,,
-953be1c [Sean Owen] Make weighted RMSE in ALS test actually weighted; adjust comment about R = X*Yt,,,,,,,
+953be1c [Sean Owen] Make weighted RMSE in ALS test actually weighted, adjust comment about R = X*Yt,,,,,,
 ",1392882293
 f9b7d64a4e7dd03be672728335cb72df4be5dbf6 remotes/origin/vldb~145,MLLIB-24:  url of """"Collaborative Filtering for Implicit Feedback Datasets"""" in ALS is invalid now",,,,,,,
 ,,,,,,,
@@ -3630,7 +3630,7 @@ SPARK-1075 Fix doc in the Spark Streaming custom receiver closing bracket in the
 The closing parentheses in the constructor in the first code block example is reversed:,,,,,,,
 diff --git a/docs/streaming-custom-receivers.md b/docs/streaming-custom-receivers.md,,,,,,,
 index 4e27d65..3fb540c 100644,,,,,,,
-— a/docs/streaming-custom-receivers.md,,,,,,,
+??? a/docs/streaming-custom-receivers.md,,,,,,,
 #NAME?,,,,,,,
 @@ -14,7 +14,7 @@ This starts with implementing NetworkReceiver(api/streaming/index.html#org.apa,,,,,
 The following is a simple socket text-stream receiver.,,,,,,,
@@ -3687,7 +3687,7 @@ SPARK-1058, Fix Style Errors and Add Scala Style to Spark Build.,,,,,,
 Author: Patrick Wendell <pwendell@gmail.com>,,,,,,,
 Author: Prashant Sharma <scrapcodes@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 1a8bd1c059b842cb95cc246aaea74a79fec684f4,,,,,,,
 Author: Prashant Sharma <scrapcodes@gmail.com>,,,,,,,
@@ -3709,7 +3709,7 @@ To fix this - we add a check when initializing log4j.,,,,,,,
 ,,,,,,,
 Author: Patrick Wendell <pwendell@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit ffdce513877f64b6eed6d36138c3e0003d392889,,,,,,,
 Author: Patrick Wendell <pwendell@gmail.com>,,,,,,,
@@ -3723,7 +3723,7 @@ SPARK-1062 Add rdd.intersection(otherRdd) method,,,,,,,
 ,,,,,,,
 Author: Andrew Ash <andrew@andrewash.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 5d9982b171b9572649e9828f37ef0b43f0242912,,,,,,,
 Author: Andrew Ash <andrew@andrewash.com>,,,,,,,
@@ -3768,7 +3768,7 @@ and clogged DAGScheduler logs.,,,,,,,
 ,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit e603784b3a562980e6f1863845097effe2129d3b,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
@@ -3807,7 +3807,7 @@ yet finished.,,,,,,,
 ,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit c8d547d0f7a17f5a193bef05f5872b9f475675c5,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
@@ -3853,7 +3853,7 @@ Python api additions,,,,,,,
 ,,,,,,,
 Author: Prashant Sharma <prashant.s@imaginea.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 8b51591f1a7a79a62c13ee66ff8d83040f7eccd8,,,,,,,
 Author: Prashant Sharma <prashant.s@imaginea.com>,,,,,,,
@@ -3897,7 +3897,7 @@ Fix off-by-one error with task progress info log.,,,,,,,
 ,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 29798fc685c4e7e3eb3bf91c75df7fa8ec94a235,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
@@ -3917,7 +3917,7 @@ This fix simply checks to see if the driver closed while its waiting for the ini
 ,,,,,,,
 Author: Thomas Graves <tgraves@apache.org>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 03f40a62584b6bdd094ba91670cd4aa6afe7cd81,,,,,,,
 Author: Thomas Graves <tgraves@apache.org>,,,,,,,
@@ -3934,7 +3934,7 @@ deprecated function.,,,,,,,
 ,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit da9d2e13ee4102bc58888df0559c65cb26232a82,,,,,,,
 Author: Kay Ousterhout <kayousterhout@gmail.com>,,,,,,,
@@ -3953,12 +3953,12 @@ LogQuery Spark example would produce unwanted result when run on Windows platfor
 ,,,,,,,
 This fix makes use of Scala's standard library string functions to properly strip all trailing line end characters, letting Scala handle the platform specific stuff.,,,,,,
 ,,,,,,,
-Author: Stevo Slavić <sslavic@gmail.com>,,,,,,,
+Author: Stevo Slavi?? <sslavic@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 1e43ba0ea773cc005cf0aef78b6c1755f8e88b27,,,,,,,
-Author: Stevo Slavić <sslavic@gmail.com>,,,,,,,
+Author: Stevo Slavi?? <sslavic@gmail.com>,,,,,,,
 Date:   Wed Feb 5 14:48:29 2014 +0100,,,,,,,
 ,,,,,,,
     Fix line end character stripping for Windows,,,,,,,
@@ -3983,7 +3983,7 @@ https://github.com/apache/incubator-spark/pull/513,,,,,,,
 ,,,,,,,
 Author: Xiangrui Meng <meng@databricks.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit e8ce957e5f0a600f2dec057924f4a2ca6adba373,,,,,,,
 Author: Xiangrui Meng <meng@databricks.com>,,,,,,,
@@ -4106,7 +4106,7 @@ I'm opening this pr now to start a chat with you guys while I do some more testi
 ,,,,,,,
 Author: Erik Selin <erik.selin@jadedpixel.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 973012f8a2dcf1ac1e68a69a2086a1b9a50f401b,,,,,,,
 Author: Erik Selin <erik.selin@jadedpixel.com>,,,,,,,
@@ -4157,7 +4157,7 @@ Todos:,,,,,,,
 ,,,,,,,
 Author: Tathagata Das <tathagata.das1565@gmail.com>,,,,,,,
 ,,,,,,,
-== Merge branch commits ==,,,,,,,
+Err:509,,,,,,,
 ,,,,,,,
 commit 18ff10556570b39d672beeb0a32075215cfcc944,,,,,,,
 Author: Tathagata Das <tathagata.das1565@gmail.com>,,,,,,,
@@ -8232,10 +8232,10 @@ f90f794cde479f4de425e9be0158a136a57666a2 remotes/origin/benchmarks~72^2~6^2,"Min
 ",1358140849,,,,,
 44b3e41f2ede20c30bc540439d705e9ff8075ee1 remotes/origin/benchmarks~144,"Merge pull request #367 from ericzhang-cn/master
 
-fix spelling mistake in LocalLR example",1358062637,,,,,
+fix??spelling mistake in LocalLR example",1358062637,,,,,
 ba06e9c97cc3f8723ffdc3895182c529d3bb2fb3 remotes/origin/benchmarks~144^2,"Update examples/src/main/scala/spark/examples/LocalLR.scala
 
-fix spelling mistake",1358062391,,,,,
+fix??spelling mistake",1358062391,,,,,
 3ef82496f43cb2240f4a36b4778a4870ad4f8b17 remotes/origin/benchmarks~146,"Merge pull request #363 from heuermh/quick-start-fix
 
 add repositories section to quick-start SimpleJob pom.xml",1358036110,,,,,
@@ -8278,7 +8278,7 @@ This version of the example crashes after the first iteration with
 ""OverflowError: math range error"" because Python's math.exp()
 behaves differently than Scala's; see SPARK-646.
 ",1356832828,,,,,
-26186e2d259f3aa2db9c8594097fd342107ce147 remotes/origin/benchmarks~143^2~13,Use batching in pyspark parallelize(); fix cartesian(),1356824097,,,,,
+26186e2d259f3aa2db9c8594097fd342107ce147 remotes/origin/benchmarks~143^2~13,Use batching in pyspark parallelize(), fix cartesian(),1356824097,,,,
 3f74f729a190924b7634e08a381232af36aeb328 remotes/origin/benchmarks~162,"Merge pull request #345 from JoshRosen/fix/add-file
 
 Fix deletion of files in current working directory by clearFiles()",1356822093,,,,,
@@ -8570,7 +8570,7 @@ returning deserialized, in-memory RDDs.
 ",1348206141,,,,,
 8feb5caacd87d72dc15a45ec3c5aea3592de80cb remotes/origin/benchmarks~366,"Fixed an issue with ordering of classloader setup that was causing Java deserializer to break
 ",1348204399,,,,,
-c94e9cc54aebddc20cc4ab13ca106781c7298642 remotes/origin/benchmarks~367^2,Add Java Programming Guide; fix broken doc links.,1347853606,,,,,
+c94e9cc54aebddc20cc4ab13ca106781c7298642 remotes/origin/benchmarks~367^2,Add Java Programming Guide, fix broken doc links.,1347853606,,,,
 9b4cd1648b6c2467a63109ba817d7e7a0c46ffb9 remotes/origin/benchmarks~379,"Fix bugs with Connection's shutdown callback failing to get its address
 ",1347486854,,,,,
 4d3471dd077e9e9c9038707eb5ba3fb8539c05e0 remotes/origin/benchmarks~382^2~4,"Fix serialization bugs and added local cluster tests
