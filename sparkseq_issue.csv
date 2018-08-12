@@ -1,0 +1,21 @@
+https://bitbucket.org/mwiewiorka/sparkseq/issues/21/regions-count-244-vs-245	Regions count 244 vs 245
+https://bitbucket.org/mwiewiorka/sparkseq/issues/20/check-differenence-between-getcandexons	Check differenence between getCandExons and saveReuslts 284 vs 248
+https://bitbucket.org/mwiewiorka/sparkseq/issues/19/false-positive-new-regions-while-mapping	false positive new regions while mapping to exons
+https://bitbucket.org/mwiewiorka/sparkseq/issues/18/regenarate-exon-lists	Regenarate exon lists
+https://bitbucket.org/mwiewiorka/sparkseq/issues/16/remove-duplicate-entries-for-exons-with	 Remove duplicate entries for exons with the same coordinates and different id
+https://bitbucket.org/mwiewiorka/sparkseq/issues/17/small-discrepancies-in-exon-lenth-1-2	Small discrepancies in exon lenth +/-(1-2)
+https://bitbucket.org/mwiewiorka/sparkseq/issues/12/wrong-pct-exon-overlap-calculation	Wrong pct exon overlap calculation
+https://bitbucket.org/mwiewiorka/sparkseq/issues/15/region-overlap-the-same-take-the-longest	region overlap the same -take the longest exon
+https://bitbucket.org/mwiewiorka/sparkseq/issues/14/generate-a-better-annotation-file	Generate a better annotation file
+https://bitbucket.org/mwiewiorka/sparkseq/issues/9/add-filter-on-average-region-coverage	Add filter on average region coverage
+https://bitbucket.org/mwiewiorka/sparkseq/issues/7/correct-p-value-for-an-exon	Correct p-value for an exon
+https://bitbucket.org/mwiewiorka/sparkseq/issues/11/found-region-not-mapped	Found region not mapped
+https://bitbucket.org/mwiewiorka/sparkseq/issues/13/huge-junction-read-wrongly-counted	Huge junction read - wrongly counted
+https://bitbucket.org/mwiewiorka/sparkseq/issues/6/cramer-von-mises-statistics	Cramer von Mises statistics
+https://bitbucket.org/mwiewiorka/sparkseq/issues/10/exons-at-lower-p-value-not-found-when-p	 Exons at lower p-value not found when p-value increased
+https://bitbucket.org/mwiewiorka/sparkseq/issues/8/wrong-region-length-filtering	Wrong region length filtering
+https://bitbucket.org/mwiewiorka/sparkseq/issues/5/multiple-regions-mapping-problem	Multiple regions mapping problem
+https://bitbucket.org/mwiewiorka/sparkseq/issues/3/sparkseqde-some-bases-are-filtered-out	SparkSeqDE - some bases are filtered out
+https://bitbucket.org/mwiewiorka/sparkseq/issues/4/wrong-base-coverage-vector	Wrong base-coverage vector
+https://bitbucket.org/mwiewiorka/sparkseq/issues/1/wrong-foldchange-calculation	Wrong foldchange calculation
+https://bitbucket.org/mwiewiorka/sparkseq/issues/2/problem-with-region-coalescing	Problem with region coalescing

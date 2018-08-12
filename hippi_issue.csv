@@ -1,0 +1,530 @@
+https://api.github.com/repos/uvagfx/hipi/issues/49,https://api.github.com/repos/uvagfx/hipi/issues/49/comments,unable to install," Where:
+Build file '/home/hduser/hipi/tools/build.gradle' line: 10
+
+* What went wrong:
+A problem occurred evaluating project ':tools'.
+> Could not resolve all files for configuration ':tools:covar:runtime'.
+   > Could not resolve org.apache.hadoop:hadoop-common:2.7.1.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve org.apache.hadoop:hadoop-common:2.7.1.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-common/2.7.1/hadoop-common-2.7.1.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-common/2.7.1/hadoop-common-2.7.1.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve org.apache.hadoop:hadoop-mapreduce-client-core:2.7.1.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve org.apache.hadoop:hadoop-mapreduce-client-core:2.7.1.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/2.7.1/hadoop-mapreduce-client-core-2.7.1.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/2.7.1/hadoop-mapreduce-client-core-2.7.1.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve com.googlecode.json-simple:json-simple:1.1.1.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve com.googlecode.json-simple:json-simple:1.1.1.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve com.drewnoakes:metadata-extractor:2.8.1.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve com.drewnoakes:metadata-extractor:2.8.1.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/com/drewnoakes/metadata-extractor/2.8.1/metadata-extractor-2.8.1.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/com/drewnoakes/metadata-extractor/2.8.1/metadata-extractor-2.8.1.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve com.twelvemonkeys.imageio:imageio-jpeg:3.1.1.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve com.twelvemonkeys.imageio:imageio-jpeg:3.1.1.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/com/twelvemonkeys/imageio/imageio-jpeg/3.1.1/imageio-jpeg-3.1.1.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/com/twelvemonkeys/imageio/imageio-jpeg/3.1.1/imageio-jpeg-3.1.1.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve com.twelvemonkeys.imageio:imageio-pnm:3.1.1.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve com.twelvemonkeys.imageio:imageio-pnm:3.1.1.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/com/twelvemonkeys/imageio/imageio-pnm/3.1.1/imageio-pnm-3.1.1.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/com/twelvemonkeys/imageio/imageio-pnm/3.1.1/imageio-pnm-3.1.1.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve com.twelvemonkeys.imageio:imageio-tiff:3.1.1.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve com.twelvemonkeys.imageio:imageio-tiff:3.1.1.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/com/twelvemonkeys/imageio/imageio-tiff/3.1.1/imageio-tiff-3.1.1.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/com/twelvemonkeys/imageio/imageio-tiff/3.1.1/imageio-tiff-3.1.1.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve org.bytedeco:javacpp:1.0.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve org.bytedeco:javacpp:1.0.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/org/bytedeco/javacpp/1.0/javacpp-1.0.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/org/bytedeco/javacpp/1.0/javacpp-1.0.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve org.bytedeco:javacv:1.0.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve org.bytedeco:javacv:1.0.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/org/bytedeco/javacv/1.0/javacv-1.0.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/org/bytedeco/javacv/1.0/javacv-1.0.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+   > Could not resolve org.bytedeco.javacpp-presets:opencv:3.0.0-1.0.
+     Required by:
+         project :tools:covar
+         project :tools:covar > project :core
+      > Could not resolve org.bytedeco.javacpp-presets:opencv:3.0.0-1.0.
+         > Could not get resource 'https://repo.maven.apache.org/maven2/org/bytedeco/javacpp-presets/opencv/3.0.0-1.0/opencv-3.0.0-1.0.pom'.
+            > Could not GET 'https://repo.maven.apache.org/maven2/org/bytedeco/javacpp-presets/opencv/3.0.0-1.0/opencv-3.0.0-1.0.pom'.
+               > java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+"
+https://api.github.com/repos/uvagfx/hipi/issues/48,https://api.github.com/repos/uvagfx/hipi/issues/48/comments,hibDownload error,"I am having one private cloud so i stored all my images in my own private cloud. While i need to download all the images from that private cloud using hibDownload.sh command. But, it shows ""Unrecognized HTTP content type or unsupported image format"" error. So can any one suggest me to solve this problem? Is hibDownload work with only public domain?"
+https://api.github.com/repos/uvagfx/hipi/issues/47,https://api.github.com/repos/uvagfx/hipi/issues/47/comments,hibImport error,"hduser@pglab2-HCL-Desktop:/usr/local/hipi$ tools/hibImport.sh /home/pglab2/Downloads/Sampleimages sampleimages.hib
+Warning: $HADOOP_HOME is deprecated.
+
+Input image directory: /home/pglab2/Downloads/Sampleimages
+Input FS: local FS
+Output HIB: sampleimages.hib
+Overwrite HIB if it exists: false
+Exception in thread ""main"" java.lang.NoSuchMethodError: org.apache.hadoop.fs.FileSystem.getDefaultBlockSize(Lorg/apache/hadoop/fs/Path;)J
+	at org.hipi.imagebundle.HipiImageBundle.openForWrite(HipiImageBundle.java:495)
+	at org.hipi.tools.HibImport.main(HibImport.java:125)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:156)
+Can anyone tell me some suggestion to solve the problem?"
+https://api.github.com/repos/uvagfx/hipi/issues/46,https://api.github.com/repos/uvagfx/hipi/issues/46/comments,Image stitching,Is there any way to implement stitching program in HIPI using Stitcher class of OpenCV or any other way?
+https://api.github.com/repos/uvagfx/hipi/issues/45,https://api.github.com/repos/uvagfx/hipi/issues/45/comments,work with HIPI on eclipse,"Hi, i tried following guidelines in Documentation but it doesn't really works for me. specially when i try and refresh the gradle build, my project splits into different parts for all different builds and thus gives out an error. Can someone layout a better detailed method/Steps to configure HIPI to work with eclipse?  "
+https://api.github.com/repos/uvagfx/hipi/issues/44,https://api.github.com/repos/uvagfx/hipi/issues/44/comments,other image type such as tif?,"How to process some other image type such as tif,img"
+https://api.github.com/repos/uvagfx/hipi/issues/43,https://api.github.com/repos/uvagfx/hipi/issues/43/comments,How to add xml code in build.gradle,"How can I add the xml code into the build.gradle as below:
+![script1](https://user-images.githubusercontent.com/32959848/31823537-fed1f8a4-b5de-11e7-9e86-681cacd7f6e7.PNG)
+
+"
+https://api.github.com/repos/uvagfx/hipi/issues/42,https://api.github.com/repos/uvagfx/hipi/issues/42/comments,part-r-00000 is empty,"I'm trying to run the sample program that calculates average pixel values on Hadoop 2.7.3
+I'm not getting any error but just one warning:
+
+WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+
+I don't know whether this is what causing the part-r-00000 file to be empty. But somehow I'm getting the part-r-00000 file empty. There is also _SUCCESS file generated in Hadoop file system.
+"
+https://api.github.com/repos/uvagfx/hipi/issues/41,https://api.github.com/repos/uvagfx/hipi/issues/41/comments,java.lang.ClassNotFoundException: com.drew.imaging.ImageProcessingException,exception when running ./hibDump ....
+https://api.github.com/repos/uvagfx/hipi/issues/40,https://api.github.com/repos/uvagfx/hipi/issues/40/comments,the question about create a hib,"Does this library support the merging of TIF formatted picture files? I attempt to prduce the HIb of the tif file ,It does't work, if I use the library,How can I produce the hib file of tiff images.I need your help."
+https://api.github.com/repos/uvagfx/hipi/issues/39,https://api.github.com/repos/uvagfx/hipi/issues/39/comments,can not gradle,"when I used the gradle command, it always failed."
+https://api.github.com/repos/uvagfx/hipi/issues/38,https://api.github.com/repos/uvagfx/hipi/issues/38/comments,Patch 1,"I have updated the _hipi/tools/hibImport_ directory of _hipi_repository  with the missing libraries of _json-simple_.
+Many other packages require such changes.
+If the current changes are feasible then I will update the other directories as well."
+https://api.github.com/repos/uvagfx/hipi/issues/37,https://api.github.com/repos/uvagfx/hipi/issues/37/comments,no HibInputFormat class,"import org.hipi.imagebundle.mapreduce.HibInputFormat;
+There is no HibInputFormat in jar files hipi-0.1.0 and hipi-2.0
+when i was running the command  hadoop jar build/libs/sampleprogram.jar images.hib image , 
+i found the exception 'Exception in thread ""main"" java.lang.IllegalArgumentException: Can not create a Path from an empty string'
+and i have given  'hipi/imagebundle/mapreduce/ImageBundleInputFormat.class' as input format class , as it was only supported inputformatclasss in both the jar files
+but hipi was expecting  'hipi.imagebundle.HipiImageBundle.readBundleHeader(HipiImageBundle.java:364)' ,which is not in jar 
+so how can i solve this problem please help .
+
+"
+https://api.github.com/repos/uvagfx/hipi/issues/36,https://api.github.com/repos/uvagfx/hipi/issues/36/comments,"Exception in thread ""main"" java.lang.IllegalArgumentException: Can not create a Path from an empty string","[cloudera@quickstart facecount]$ hadoop jar build/libs/facecount.jar face.hib faced
+17/03/20 03:11:26 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+17/03/20 03:11:32 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+17/03/20 03:11:38 INFO input.FileInputFormat: Total input paths to process : 1
+17/03/20 03:11:39 INFO mapreduce.JobSubmitter: Cleaning up the staging area /tmp/hadoop-yarn/staging/cloudera/.staging/job_1489661649099_0038
+Exception in thread ""main"" java.lang.IllegalArgumentException: Can not create a Path from an empty string
+	at org.apache.hadoop.fs.Path.checkPathArg(Path.java:127)
+	at org.apache.hadoop.fs.Path.<init>(Path.java:135)
+	at org.apache.hadoop.fs.Path.<init>(Path.java:94)
+	at hipi.imagebundle.HipiImageBundle.readBundleHeader(HipiImageBundle.java:364)
+	at hipi.imagebundle.HipiImageBundle.openForRead(HipiImageBundle.java:421)
+	at hipi.imagebundle.AbstractImageBundle.open(AbstractImageBundle.java:80)
+	at hipi.imagebundle.AbstractImageBundle.open(AbstractImageBundle.java:57)
+	at hipi.imagebundle.mapreduce.ImageBundleInputFormat.computeSplits(ImageBundleInputFormat.java:93)
+	at hipi.imagebundle.mapreduce.ImageBundleInputFormat.getSplits(ImageBundleInputFormat.java:176)
+	at org.apache.hadoop.mapreduce.JobSubmitter.writeNewSplits(JobSubmitter.java:305)
+	at org.apache.hadoop.mapreduce.JobSubmitter.writeSplits(JobSubmitter.java:322)
+	at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:200)
+	at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1307)
+	at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1304)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1693)
+	at org.apache.hadoop.mapreduce.Job.submit(Job.java:1304)
+	at org.apache.hadoop.mapreduce.Job.waitForCompletion(Job.java:1325)
+	at org.hipi.examples.FaceCount.run(FaceCount.java:206)
+	at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:70)
+	at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:84)
+	at org.hipi.examples.FaceCount.main(FaceCount.java:217)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+"
+https://api.github.com/repos/uvagfx/hipi/issues/35,https://api.github.com/repos/uvagfx/hipi/issues/35/comments,Support more image formats and grayscale image,"It seems that hipi only support jpg and png. Also, hipi only support color image, not grayscale image."
+https://api.github.com/repos/uvagfx/hipi/issues/34,https://api.github.com/repos/uvagfx/hipi/issues/34/comments,NO-SOURCE,":core:processResources NO-SOURCE
+
+:tools:hibImport:processResources NO-SOURCE
+
+Its not showing up to date. Can anyone suggest a solution  please
+"
+https://api.github.com/repos/uvagfx/hipi/issues/33,https://api.github.com/repos/uvagfx/hipi/issues/33/comments,Incomplete hibImport,"Exception in thread ""main"" java.lang.NullPointerException
+	at org.hipi.imagebundle.HipiImageBundle.addImage(HipiImageBundle.java:634)
+	at org.hipi.tools.HibImport.main(HibImport.java:136)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:221)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+
+thrown while importing with hibImport a se tof nearly 4000 images. Trying with Hadoop 2.7 on a two nodes cluster. Only about 800 of the images where imported into an hib."
+https://api.github.com/repos/uvagfx/hipi/issues/32,https://api.github.com/repos/uvagfx/hipi/issues/32/comments,Failed to determine image class used in mapper (second argument in map method).  when i use ChainMapper,
+https://api.github.com/repos/uvagfx/hipi/issues/31,https://api.github.com/repos/uvagfx/hipi/issues/31/comments,Hipi on Spark,"Dear HIPI developers,
+
+do you plan on integrating apache spark instead of the old mapreduce?? if so when?
+Otherwise could you give me some hints on how to do it?
+My use case is that i need to classify millions of images and with mapreduce it will not be efficient as i need it to be.
+@sweeneychris @liuliu @voigtlandier @zverham @hafnium
+"
+https://api.github.com/repos/uvagfx/hipi/issues/30,https://api.github.com/repos/uvagfx/hipi/issues/30/comments,hibImport with too many pictures,"(total number of 25000, throw error at 10256),
+Exception in thread ""main"" java.lang.NullPointerException
+    at org.hipi.imagebundle.HipiImageBundle.addImage(HipiImageBundle.java:634)
+    at org.hipi.tools.HibImport.main(HibImport.java:136)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke(Method.java:483)
+    at org.apache.hadoop.util.RunJar.run(RunJar.java:221)
+    at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+"
+https://api.github.com/repos/uvagfx/hipi/issues/29,https://api.github.com/repos/uvagfx/hipi/issues/29/comments,libs missing,"hey there, thanks for share this project.
+I cloned and found a problem, the folder ""libs"" is empty, and the lib ""hipi-2.1.0.jar"" is MUST.
+Cound you ...
+"
+https://api.github.com/repos/uvagfx/hipi/issues/27,https://api.github.com/repos/uvagfx/hipi/issues/27/comments,My change,fetch problem 
+https://api.github.com/repos/uvagfx/hipi/issues/26,https://api.github.com/repos/uvagfx/hipi/issues/26/comments,hibImport issues,"I build the hipImport with gradle but when i use the hibImport tool to create a HIB from a collection of images ,nothing happens ??!!!
+"
+https://api.github.com/repos/uvagfx/hipi/issues/25,https://api.github.com/repos/uvagfx/hipi/issues/25/comments,"Error encountered in compiling program with ant:  ""hipi.image.ImageHeader does not exist""","I'm newer of the Hipi platform.
+
+1) I'm using Hipi 2.1, Hadoop 2.6.0 and OpenCV 2.4.11.
+
+2) I have followed the instruction in http://hipi.cs.virginia.edu/gettingstarted.html to install HIPI (choose option 1 of ""Clone the latest HIPI distribution from GitHub and **build from source**. (Recommended)"".
+
+3) Then, I download the project in https://github.com/GopiKrishnan-V/hipi-hadoop . Moreover, the build.xml file has been configured per the path of software in my server as follow:
+# 
+
+hduser@ip-172-31-25-72:/opt/hipi/hipi-hadoop$ cat build.xml
+<project basedir=""."" default=""all"">
+  <target name=""setup"">
+    <property name=""hadoop.home"" value=""**/opt/hadoop-2.6.0**"" />
+    <property name=""hadoop.version"" value=""**2.6.0**"" />
+    <property name=""hadoop.classpath"" value=""${hadoop.home}/hadoop-core-${hadoop.version}.jar"" />
+  </target>
+
+  <path id=""project-classpath"">
+        <fileset dir=""**/opt/hadoop-2.6.0**"" includes=""*.jar"" />
+        <fileset dir=""**/usr/lib/jvm/java-8-oracle/lib**"" includes=""opencv-249.jar"" />
+  </path>
+
+  <target name=""test_settings"">
+    <fail unless=""hadoop.home"" message=""The property hadoop.home was not specified. You must specify the home directory for Hadoop in the build.xml file."" />
+    <fail unless=""hadoop.version"" message=""The property hadoop.version was not specified. You must specify version of Hadoop you are using in the build.xml file."" />
+  </target>
+
+  <!-- compute covariance from images -->
+  <target name=""covariance"" depends=""setup, test_settings"">
+    <mkdir dir=""bin"" />
+    <!-- Compile -->
+    <javac nowarn=""on"" includeantruntime=""no"" srcdir=""./hipi/examples/covariance"" destdir=""./bin"" classpath=""${hadoop.classpath}:../src/hipi.jar"" />
+    <!-- Create the jar -->
+    <jar destfile=""./covariance.jar"" basedir=""./bin"">
+          <zipfileset src=""../src/hipi.jar"" />
+      <manifest>
+            <attribute name=""Main-Class"" value=""hipi.examples.covariance.Covariance"" />
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- download images from the Internet -->
+  <target name=""downloader"" depends=""setup, test_settings"">
+    <mkdir dir=""bin"" />
+    <!-- Compile -->
+    <echo>hadoop.classpath=${hadoop.classpath}</echo>
+    <javac nowarn=""on"" includeantruntime=""no"" srcdir=""./hipi/examples/downloader"" destdir=""./bin"" classpath=""${hadoop.classpath}:../src/hipi.jar"" />
+    <!-- Create the jar -->
+    <jar destfile=""./downloader.jar"" basedir=""./bin"">
+          <zipfileset src=""../src/hipi.jar"" />
+      <manifest>
+            <attribute name=""Main-Class"" value=""hipi.examples.downloader.Downloader"" />
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- create hib file from jpeg files -->
+  <target name=""dumphib"" depends=""setup, test_settings"">
+    <mkdir dir=""bin"" />
+    <!-- Compile -->
+    <javac nowarn=""on"" includeantruntime=""no"" srcdir=""./hipi/examples/dumphib"" destdir=""./bin"" classpathref=""project-classpath"" />
+    <!-- Create the jar -->
+    <jar destfile=""./dumphib.jar"" basedir=""./bin"">
+          <zipfileset src=""../src/hipi.jar"" />
+          <zipfileset src=""../src/opencv-249.jar"" />
+      <manifest>
+            <attribute name=""Main-Class"" value=""hipi.examples.dumphib.DumpHib"" />
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- create hib file from jpeg files -->
+  <target name=""hib2jpg"" depends=""setup, test_settings"">
+    <mkdir dir=""bin"" />
+    <!-- Compile -->
+    <javac nowarn=""on"" includeantruntime=""no"" srcdir=""./hipi/examples/jpegfromhib"" destdir=""./bin"" classpath=""${hadoop.classpath}:../src/hipi.jar"" />
+    <!-- Create the jar -->
+    <jar destfile=""./hib2jpg.jar"" basedir=""./bin"">
+          <zipfileset src=""../src/hipi.jar"" />
+
+```
+  <manifest>
+        <attribute name=""Main-Class"" value=""hipi.examples.jpegfromhib.JpegFromHib"" />
+  </manifest>
+</jar>
+```
+
+  </target>
+
+  <target name=""all"" depends=""covariance, downloader, dumphib, hib2jpg"">
+  </target>
+
+  <!-- Clean -->
+  <target name=""clean"">
+    <delete dir=""bin"" />
+    <delete>
+      <fileset dir=""."" includes=""./*.jar"" />
+    </delete>
+  </target>
+# </project>
+#4) Then, I run the **ant downloader** to complie the downloader program. However, it is failed with the following messages, when the ant is trying to locate HIPI packages, e.g. hipi.image.ImageHeader. 
+
+hduser@ip-172-31-25-72:/opt/hipi/hipi-hadoop$ **ant downloader**
+Buildfile: /opt/hipi/hipi-hadoop/build.xml
+
+setup:
+
+test_settings:
+
+downloader:
+    [mkdir] Created dir: /opt/hipi/hipi-hadoop/bin
+     [echo] hadoop.classpath=/opt/hadoop-2.6.0/hadoop-core-2.6.0.jar
+    [javac] Compiling 3 source files to /opt/hipi/hipi-hadoop/bin
+    [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:3: er                    ror: package **hipi.image.ImageHeader** does not exist
+    [javac] import hipi.image.ImageHeader.ImageType;
+    [javac]                              ^
+    [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:4: er                    ror: package hipi.imagebundle does not exist
+    [javac] import hipi.imagebundle.HipiImageBundle;
+    [javac]                        ^
+    [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:12: e                    rror: package org.apache.hadoop.conf does not exist
+    [javac] import org.apache.hadoop.conf.Configuration;
+    [javac]                              ^
+    [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:13: e                    rror: package org.apache.hadoop.conf does not exist
+    [javac] import org.apache.hadoop.conf.Configured;
+    [javac]                              ^
+    [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:14: e                    rror: package org.apache.hadoop.fs does not exist
+    [javac] import org.apache.hadoop.fs.FileSystem;
+    [javac]                            ^
+    [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:15: e                    rror: package org.apache.hadoop.fs does not exist
+    [javac] import org.apache.hadoop.fs.Path;
+    [javac]                            ^
+    [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:16: e                    rror: package org.apache.hadoop.io does not exist
+    [javac] import org.apache.hadoop.io.BooleanWritable;
+    [javac]                            ^
+#     [javac] /opt/hipi/hipi-hadoop/hipi/examples/downloader/Downloader.java:17: e                    rror: package org.apache.hadoop.io does not exist
+
+I suspect there is something wrong with my ""build HIPI library"" process. Pls. enable the path name and file name of such HIPI library, if the build HIPI process is completed successfully.
+
+Thanks for your assistance in advance.
+"
+https://api.github.com/repos/uvagfx/hipi/issues/24,https://api.github.com/repos/uvagfx/hipi/issues/24/comments,helloWorld compilation error: package org.hipi.image does not exist,"I'm using Hipi 2.1, Hadoop 2.6.0 and OpenCV 2.4.11. The simple helloWorld (i.e. just echo a message) could be built with gradle and executed successfully. However, the complex helloWorld (i.e. include map reduce function and import HIPI library in the top of the helloWorld program) is unable to build with gradle. The error messages state that org.hipi.image and org.hipi.imagebundle do not exist.
+
+Pls. enlight how to diagnosis and fix this issue.
+# 
+
+hduser@ip-172-31-25-72:/opt/hipi/examples/helloWorld$ gradle jar
+:examples:helloWorld:compileJava
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:3: error: package org.hipi.image does not exist
+import org.hipi.image.FloatImage;
+                     ^
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:4: error: package org.hipi.image does not exist
+import org.hipi.image.HipiImageHeader;
+                     ^
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:5: error: package org.hipi.imagebundle.mapreduce does not exist
+import org.hipi.imagebundle.mapreduce.HibInputFormat;
+                                     ^
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:25: error: cannot find symbol
+  public static class HelloWorldMapper extends Mapper<HipiImageHeader, FloatImage, IntWritable, FloatImage> {
+                                                      ^
+  symbol:   class HipiImageHeader
+  location: class HelloWorld
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:25: error: cannot find symbol
+  public static class HelloWorldMapper extends Mapper<HipiImageHeader, FloatImage, IntWritable, FloatImage> {
+                                                                       ^
+  symbol:   class FloatImage
+  location: class HelloWorld
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:25: error: cannot find symbol
+  public static class HelloWorldMapper extends Mapper<HipiImageHeader, FloatImage, IntWritable, FloatImage> {
+                                                                                                ^
+  symbol:   class FloatImage
+  location: class HelloWorld
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:27: error: cannot find symbol
+    public void map(HipiImageHeader key, FloatImage value, Context context)
+                    ^
+  symbol:   class HipiImageHeader
+  location: class HelloWorldMapper
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:27: error: cannot find symbol
+    public void map(HipiImageHeader key, FloatImage value, Context context)
+                                         ^
+  symbol:   class FloatImage
+  location: class HelloWorldMapper
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:68: error: cannot find symbol
+  public static class HelloWorldReducer extends Reducer<IntWritable, FloatImage, IntWritable, Text> {
+                                                                     ^
+  symbol:   class FloatImage
+  location: class HelloWorld
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:70: error: cannot find symbol
+    public void reduce(IntWritable key, Iterable<FloatImage> values, Context context)
+                                                 ^
+  symbol:   class FloatImage
+  location: class HelloWorldReducer
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:53: error: cannot find symbol
+        FloatImage avg = new FloatImage(1, 1, 3, avgData);
+        ^
+  symbol:   class FloatImage
+  location: class HelloWorldMapper
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:53: error: cannot find symbol
+        FloatImage avg = new FloatImage(1, 1, 3, avgData);
+                             ^
+  symbol:   class FloatImage
+  location: class HelloWorldMapper
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:74: error: cannot find symbol
+      FloatImage avg = new FloatImage(1, 1, 3);
+      ^
+  symbol:   class FloatImage
+  location: class HelloWorldReducer
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:74: error: cannot find symbol
+      FloatImage avg = new FloatImage(1, 1, 3);
+                           ^
+  symbol:   class FloatImage
+  location: class HelloWorldReducer
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:78: error: cannot find symbol
+      for (FloatImage val : values) {
+           ^
+  symbol:   class FloatImage
+  location: class HelloWorldReducer
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:108: error: cannot find symbol
+    job.setInputFormatClass(HibInputFormat.class);
+                            ^
+  symbol:   class HibInputFormat
+  location: class HelloWorld
+/opt/hipi/examples/helloWorld/src/main/java/org/hipi/examples/HelloWorld.java:115: error: cannot find symbol
+    job.setMapOutputValueClass(FloatImage.class);
+                               ^
+  symbol:   class FloatImage
+  location: class HelloWorld
+17 errors
+:examples:helloWorld:compileJava FAILED
+
+FAILURE: Build failed with an exception.
+- What went wrong:
+  Execution failed for task ':examples:helloWorld:compileJava'.
+  
+  > Compilation failed; see the compiler error output for details.
+- Try:
+  Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Total time: 10.034 secs
+hduser@ip-172-31-25-72:/opt/hipi/examples/helloWorld$
+"
+https://api.github.com/repos/uvagfx/hipi/issues/23,https://api.github.com/repos/uvagfx/hipi/issues/23/comments,pixel depth is lost while/after importing 16-bit PNGs to HIB,"I am troubleshooting a variant of OpenCV pipeline I have set up with HIPI. It does all the same things, but results do not match. I haven't figured out an easy way to examine pixel data in a bundle (just eyeballing the codec, it appears the bytes should be stored intact), but on the user end, the FloatImage my mapper receives as input has only 256 levels between 0 and 1. The LSB fell through the cracks somewhere.
+
+Attached is one of the images I import into the bundle. It specifies an sRGB colorspace, but I don't care and hope it does not matter. I just want linear 16-bit values out of it. 
+
+![tile-100x100 pad 10 cx 286 50 cy 286 50 x 300 y 100](https://cloud.githubusercontent.com/assets/465640/16184543/ff23ddf6-3671-11e6-900e-3ba29b82a5fd.png)
+"
+https://api.github.com/repos/uvagfx/hipi/issues/22,https://api.github.com/repos/uvagfx/hipi/issues/22/comments,Fix an issue with a class-path in the helloWorld example,"This commit solves an issue described here: https://groups.google.com/forum/#!topic/hipi-users/ILxCxJfEld4
+"
+https://api.github.com/repos/uvagfx/hipi/issues/21,https://api.github.com/repos/uvagfx/hipi/issues/21/comments,How to write image(Mat) to .hib file?,"Hi guys,
+
+I have one question about Hipi.
+
+In my program I want to write my image to .hib file. My code is below. In map method:
+
+```
+   public void map(HipiImageHeader key, FloatImage value, Context context)
+            throws IOException, InterruptedException {
+
+            Mat cvImage = this.convertFloatImageToOpenCVMat(value);
+            Mat imageWithFaceDetections = this.countFaces(cvImage);
+
+            BufferedImage bufferedImage = new BufferedImage(imageWithFaceDetections.width(), imageWithFaceDetections.height(), BufferedImage.TYPE_BYTE_GRAY);
+
+            Configuration conf = new Configuration();
+            HipiImageBundle hib = new HipiImageBundle(new Path(outHib), conf);
+            hib.openForWrite(true);
+
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, ""jpeg"", os);
+            InputStream is = new ByteArrayInputStream(os.toByteArray(), 0, os.size());
+            hib.addImage(is, HipiImageHeader.HipiImageFormat.JPEG, key.getAllMetaData()); 
+            hib.close();
+            ......
+    }
+```
+
+As a result: I get black image without anything. Any ideas?
+"
+https://api.github.com/repos/uvagfx/hipi/issues/19,https://api.github.com/repos/uvagfx/hipi/issues/19/comments,gradle error on ':core',"I  install Hipi from the instruction. When I run gradle , I got the error as follows. By the way, my ubuntu version is 14.04, Java version is 1.8.0_66, Hadoop version is 2.6.0, gradle version is 1.8.6
+
+FAILURE: Build failed with an exception.
+- Where:
+  Build file '/home/s/hipi/core/build.gradle' line: 8
+- What went wrong:
+  A problem occurred evaluating project ':core'.
+  
+  > Could not find method distributions() for arguments [build_8nfcqrm8d036uencqjsvkfucd$_run_closure2@7f74297a] on project ':core'.
+- Try:
+  Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
+
+BUILD FAILED
+
+Total time: 21.731 secs
+
+How can I solve this problem? Thanks. 
+"
+https://api.github.com/repos/uvagfx/hipi/issues/18,https://api.github.com/repos/uvagfx/hipi/issues/18/comments,error in class  org.hipi.imagebundle.mapreduce.HibInputFormat,"![error1](https://cloud.githubusercontent.com/assets/15078171/11938726/c71ddeb0-a842-11e5-9b89-c77301a52fc1.png)
+![error2](https://cloud.githubusercontent.com/assets/15078171/11938724/c67f49b2-a842-11e5-84e2-513cc6efc21a.png)
+![error3](https://cloud.githubusercontent.com/assets/15078171/11938725/c681e0f0-a842-11e5-99c7-fe1f56b4b190.png)
+
+showing error as: The type org.apache.commons.logging.Log cannot be resolved. It is indirectly referenced from required .class files
+
+for: InputSplit split
+@Override
+    public RecordReader<HipiImageHeader, HipiImage> createRecordReader(
+            InputSplit split, TaskAttemptContext context) throws IOException,
+            InterruptedException {
+        return new HibRecordReader();
+    }
+"

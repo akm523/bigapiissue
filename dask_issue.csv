@@ -1,0 +1,2109 @@
+https://api.github.com/repos/dask/dask/issues/3868,https://api.github.com/repos/dask/dask/issues/3868/comments,Error: No module name 'Custom Class' while passing a Client object in the custom class's constructor in dask,"I have been trying to write custom classes for `Preprocessing` followed by `Feature selection` and `Machine Learning` algorithms as well.
+
+I cracked this `(preprocessing only)` using `@delayed`. But when I read from the [tutorials][1] that the same can be achieved using `Client`. It caused two problems.
+
+> Running as a script. Not as a Jupyter notebook
+
+*First Problem:*
+
+    # Haven't run any scheduler or worker manually
+    client = Client() # Nothing passed as an argument
+    # Local Cluster is not working;
+    Error:... 
+           if __name__=='__main__': 
+                freeze_support()
+          ...
+
+I tried the same in Jupyter Notebook, without running any scheduler or workers in different terminals. **It worked!!**
+
+Now, I triggered 3 terminals with 1 scheduler and 2 workers and changed it to `Client('IP')` in the script. **Error resolved, any reason for this behavior.**
+
+*Second Problem:*
+
+The error mentioned in the title of the question. Passed the `client = Client('IP')` as the argument to the constructor and used `self.client.submit` things to the cluster. But failed with the error message
+
+> Error: No module name 'diya_info'
+
+Here's the code:
+
+main.py
+
+    import dask.dataframe as dd
+    from diya_info import Diya_Info
+    import time
+    # from dask import delayed
+    from dask.distributed import Client
+
+    df = dd.read_csv(
+        '/Users/asifali/workspace/playground/flask/yellow_tripdata_2015- 01.csv')
+
+    # df = delayed(df.fillna(0.3))
+    # df = df.compute()
+
+    client = Client('192.168.0.129:8786')
+
+    X = df.drop('payment_type', axis=1).copy()
+    y = df['payment_type']
+
+
+    Instance = Diya_Info(X, y, client)
+    s = time.ctime(int(time.time()))
+    print(s)
+
+
+    Instance = Instance.fit(X, y)
+
+
+    e = time.ctime(int(time.time()))
+    print(e)
+    # print((e-s) % 60, ' secs')
+
+diya_info.py
+
+    from sklearn.base import TransformerMixin, BaseEstimator
+    from dask.multiprocessing import get
+    from dask import delayed, compute
+    
+    
+    class Diya_Info(BaseEstimator, TransformerMixin):
+        def __init__(self, X, y, client):
+            assert X is not None, 'X can\'t be None'
+            assert type(X).__name__ == 'DataFrame', 'X not of type DataFrame'
+            assert y is not None, 'y can\'t be None'
+            assert type(y).__name__ == 'Series', 'y not of type Series'
+    
+            self.client = client
+    
+        def fit(self, X, y):
+            self.X = X
+            self.y = y
+            # X_status = self.has_null(self.X)
+            # y_status = self.has_null(self.y)
+            # X_len = self.get_len(self.X)
+            # y_len = self.get_len(self.y)
+            X_status = self.client.submit(self.has_null, self.X)
+            y_status = self.client.submit(self.has_null, self.y)
+            X_len = self.client.submit(self.get_len, self.X)
+            y_len = self.client.submit(self.get_len, self.y)
+            # X_null, y_null, X_length, y_length
+            X_null, y_null, X_length, y_length = self.client.gather(
+            [X_status, y_status, X_len, y_len])
+    
+            assert X_null == False, 'X contains some columns with null/NaN values'
+            assert y_null == False, 'y contains some columns with null/NaN values'
+            assert X_length == y_length, 'Shape mismatch, X and y are of different length'
+            return self
+    
+        def transform(self, X):
+            return X
+    
+        @staticmethod
+        # @delayed
+        def has_null(df):
+            return df.isnull().values.any()
+    
+        @staticmethod
+        # @delayed
+        def get_len(df):
+            return len(df)
+
+Here's the full stacktrace:
+
+    Sat Aug 11 13:29:08 2018
+    distributed.utils - ERROR - No module named 'diya_info'
+    Traceback (most recent call last):
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/utils.py"", line 238, in f
+        result[0] = yield make_coro()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1055, in run
+        value = future.result()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/concurrent.py"", line 238, in result
+        raise_exc_info(self._exc_info)
+      File ""<string>"", line 4, in raise_exc_info
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1063, in run
+        yielded = self.gen.throw(*exc_info)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 1315, in _gather
+        traceback)
+      File ""/anaconda3/lib/python3.6/site-packages/six.py"", line 692, in reraise
+        raise value.with_traceback(tb)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/protocol/pickle.py"", line 59, in loads
+        return pickle.loads(x)
+    ModuleNotFoundError: No module named 'diya_info'
+    Traceback (most recent call last):
+      File ""notebook/main.py"", line 24, in <module>
+        Instance = Instance.fit(X, y)
+      File ""/Users/asifali/workspace/pythonProjects/ML-engine-DataX/pre-processing/notebook/diya_info.py"", line 28, in fit
+        X_status, y_status, X_len, y_len)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 2170, in compute
+        result = self.gather(futures)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 1437, in gather
+        asynchronous=asynchronous)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 592, in sync
+        return sync(self.loop, func, *args, **kwargs)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/utils.py"", line 254, in sync
+        six.reraise(*error[0])
+      File ""/anaconda3/lib/python3.6/site-packages/six.py"", line 693, in reraise
+        raise value
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/utils.py"", line 238, in f
+        result[0] = yield make_coro()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1055, in run
+        value = future.result()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/concurrent.py"", line 238, in result
+        raise_exc_info(self._exc_info)
+      File ""<string>"", line 4, in raise_exc_info
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1063, in run
+        yielded = self.gen.throw(*exc_info)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 1315, in _gather
+        traceback)
+      File ""/anaconda3/lib/python3.6/site-packages/six.py"", line 692, in reraise
+        raise value.with_traceback(tb)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/protocol/pickle.py"", line 59, in loads
+        return pickle.loads(x)
+    ModuleNotFoundError: No module named 'diya_info'
+
+If I uncomment the `@delayed` and few more comments it works. But how to make it work by passing in the `client` as an argument.
+Idea is to use the same client for all the libs I'm trying to write.
+
+**UPDATE 1:**
+I fixed the `second problem` by removing the `@staticmethod` decorators and placing the functions in the `fit closure`. **But what's wrong with the `@staticmethod`, these decorators are meant for non-self related stuff, right?**
+
+Here's the `diya_info.py`:
+
+    ...
+    def fit(self, X, y):
+       self.X = X
+       self.y = y
+
+       # function removed from @staticmethod
+       def has_null(df): return df.isnull().values.any()
+       # function removed from @staticmethod
+       def get_len(df): return len(df)
+
+       X_status = self.client.submit(has_null, self.X)
+       y_status = self.client.submit(has_null, self.y)
+    ...
+
+Is there a way to do it with `@staticmethod`. I don't feel good with the way I have solved this issue. Still no clue about `Problem 1`
+
+  [1]: https://github.com/dask/dask-tutorial/blob/master/06_distributed_advanced.ipynb
+"
+https://api.github.com/repos/dask/dask/issues/3867,https://api.github.com/repos/dask/dask/issues/3867/comments,Deterministic DataFrame.set_index,"`DataFrame.set_index` is not deterministic in the general case because  if no `divisions` are passed, they are computed by approximate quantiles. Although `partition_quantiles` accepts a `random_state` parameter, this is not exposed in `DataFrame.set_index`.
+"
+https://api.github.com/repos/dask/dask/issues/3864,https://api.github.com/repos/dask/dask/issues/3864/comments,Support for array chunking 'strategies',"I have an approach to this working for myself but I am raising it as I have a suspicion I am not the only one who might find this useful:
+
+I am currently using dask to write data parallel versions of several custom algorithms, which is making heavy use of `map_blocks` over custom numba functions usually dropping and adding axes along the way.  Something that has come up quite a few times through this is the need to rechunk with a specific strategy, usually one of ""ensure chunks don't break up a specific axis"" or ""ensure chunks are contiguous when unravelled"".
+
+I currently have (slightly hackish) solutions that work for me, but I wonder if there is scope for dask supporting certain chunking strategies more formally, perhaps extending the current 'auto' keyword to allowing hinting of the desirable chunking strategy?  This might have knock on benefits for the discussion about rechunking going on in #3587.
+
+I would be open to helping develop this if there was appetite for it."
+https://api.github.com/repos/dask/dask/issues/3854,https://api.github.com/repos/dask/dask/issues/3854/comments,Periodic project meetings,"Should we have a monthly or quarterly Dask meeting?
+
+Currently there is a weekly thirty-minute meeting on Thursday, which tends to cover current work and pressing issues like ""is there anything blocking the next release?"" and ""what else do we need to handle for the tutorial at the upcoming conference?"".  This tends to have an attendance of around 4-6 people who actively work on the project day-to-day.
+
+We might consider having a longer but less frequent meeting monthly or quarterly.  My hope is that this meeting would draw a larger group of stakeholders in the project and discuss larger issues like ""should we drop Python 2.7?"" and ""how can we best support external project X?""
+
+Some open questions:
+
+1.  Would stakeholders who don't come to the weekly meeting come to the monthly/quarterly meeting?
+2.  What is the most productive way to structure such a meeting?  What has worked well for other projects?
+"
+https://api.github.com/repos/dask/dask/issues/3853,https://api.github.com/repos/dask/dask/issues/3853/comments,Move configuration to separate package,"I have packages that could benefit from some/all of the configuration functionality provided by dask (thread-safe, environment variable overrides, yaml loading, etc). I had considered copying what I needed, but when I looked at it again `dask` had changed the preferred way of interfacing with the configuration settings. It also looked like a lot of the internals had changed. It has been a month or so since I've looked at the current implementation and it looks like it supports even more now.
+
+Would the dask project/community be open to migrating the dask configuration functionality to a separate package that is agnostic of the package using it?"
+https://api.github.com/repos/dask/dask/issues/3852,https://api.github.com/repos/dask/dask/issues/3852/comments,Fix 3848,"- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+
+Fixes #3848, at least for the presented case, with the fix suggested by @jcrist. 
+I added a test to array/masked to test for this as well. I checked that this test fails for the old situation and passes for the new one, but I do not have the overview whether it is in the right location or even right format. Feedback is very much appreciated."
+https://api.github.com/repos/dask/dask/issues/3848,https://api.github.com/repos/dask/dask/issues/3848/comments,Dask.array deepcopy does not preserve masking since 0.18.2,"If 'a' is a dask array wrapped around a numpy masked array (with ""from _array(..., asarray=False)"",
+then the result of ""copy.deepcopy(a).compute()"" is now (wrongly) **not** a masked array,
+
+Though the original ""a.compute()"", and even ""copy.copy(a)"" are correct.
+
+Example code to show :
+```
+import dask.array as da
+import numpy.ma as ma
+import copy
+t = ma.masked_array([1, 2], mask=[0, 1])
+a = da.from_array(t, chunks=t.shape, asarray=False)
+print(copy.deepcopy(a).compute())
+```
+
+For example, in dask 0.18.1
+```
+>>> import dask
+>>> import dask.array as da
+>>> import numpy.ma as ma
+>>> import copy
+>>> t = ma.masked_array([1, 2], mask=[0, 1])
+>>> a = da.from_array(t, chunks=t.shape, asarray=False)
+>>> print(dask.__version__)
+0.18.1
+>>> print(copy.copy(a).compute())
+[1 --]
+>>> print(copy.deepcopy(a).compute())
+[1 --]
+>>> 
+```
+
+But in 0.18.2 ...
+```
+>>> import dask
+>>> import dask.array as da
+>>> import numpy.ma as ma
+>>> import copy
+>>> 
+>>> t = ma.masked_array([1, 2], mask=[0, 1])
+>>> a = da.from_array(t, chunks=t.shape, asarray=False)
+>>> 
+>>> print(dask.__version__)
+0.18.2
+>>> print(copy.copy(a).compute())
+[1 --]
+>>> print(copy.deepcopy(a).compute())
+[1 2]
+>>> 
+```"
+https://api.github.com/repos/dask/dask/issues/3847,https://api.github.com/repos/dask/dask/issues/3847/comments,Unified filters/predicates interface for Parquet,"Currently we support filters on row-group level based on an _AND_ of predicates. I would like to implement this in the next 4-6 weeks also for `pyarrow`. I have a pure Python implementation working but for my use case I required more than simply  _AND_. Therefore I would propose to change the current interface to accept predicates in disjunctive normal form. With this representation, we are able to represent all possible predicates.
+
+This change would mean that we would also support `list of list of tuples` in 
+https://github.com/dask/dask/blob/e823ecf51032ea7e4d57687a91d788cfb28e36ac/dask/dataframe/io/parquet.py#L915-L919
+
+@martindurant @wesm @mrocklin Would that sound like an acceptable extension of the interface?"
+https://api.github.com/repos/dask/dask/issues/3846,https://api.github.com/repos/dask/dask/issues/3846/comments,Weighted mean of masked dask array does not apply mask to weights,"```python
+import dask.array as da
+import numpy as np
+
+my_arr = np.array(range(10))
+my_mask = [True, True, True, False, False, False, False, False, False, False]
+my_weights = np.array([100, 100, 2, 2, 1, 1, 1, 1, 1, 1], dtype='float64')
+my_masked_arr = np.ma.array(my_arr, mask=my_mask)
+
+print(""numpy weighted masked avg (unmasked weights): "", ma.average(my_masked_arr, weights=my_weights))
+
+my_masked_dask_arr = da.ma.masked_array(data=my_arr, mask=my_mask)
+print(""dask weights masked avg (unmasked weights): "", da.average(my_masked_dask_arr, weights=my_weights).compute())
+
+my_masked_weights = ma.masked_array(my_weights, my_mask)
+print(""dask weights masked avg (weights): "", da.average(my_masked_dask_arr, weights=my_masked_weights).compute())
+```
+
+gives this output
+```
+numpy weighted masked avg (unmasked weights):  5.625
+dask weights masked avg (unmasked weights):  0.214285714286
+dask weights masked avg (weights):  5.625
+```
+
+Upon further investigation it seems that the weights are normalised by dask, but that normalisation doesn't take into account the array mask.
+
+i.e. this line
+https://github.com/dask/dask/blob/e823ecf51032ea7e4d57687a91d788cfb28e36ac/dask/array/routines.py#L1293
+
+I'm not sure how to fix this - I don't think one has access to the mask without realising all the data, so the weight normalisation can't happen lazily(?) Maybe the way to solve this is to specify that the weights array must be masked by the user before being passed - this would make the API different to numpy."
+https://api.github.com/repos/dask/dask/issues/3845,https://api.github.com/repos/dask/dask/issues/3845/comments,rechunking multidimensional xarray with dask distributed: impact of operations order,"I posted the following issue on stackoverflow but got no replies:
+https://stackoverflow.com/q/51631454/9124633
+Please let me know if the issue is not clearly formulated."
+https://api.github.com/repos/dask/dask/issues/3843,https://api.github.com/repos/dask/dask/issues/3843/comments,Support axis/axes/keepdims in apply_gufunc(),"As of NumPy 1.15, NumPy's generalized ufuncs now support axis/axes/keepdims arguments:
+https://docs.scipy.org/doc/numpy/release.html#generalized-ufuncs-now-accept-axes-axis-and-keepdims-arguments
+
+It would be nice to support these in `dask.array.apply_gufunc()`, too. This would be useful for implementing functions like `median` (https://github.com/dask/dask/pull/3819)."
+https://api.github.com/repos/dask/dask/issues/3842,https://api.github.com/repos/dask/dask/issues/3842/comments,Saving to parquet with partition_on results in loss of divisions when reading it back to dataframe.,"
+# TLDR
+When I save a Dask dataframe to parquet using partition on a certain collumn and then I read those parquet files into a dataframe the divisions are lost. This doesn't happen with every dataframe, for example if the collumn I'm using for the partitioning (let's call it 'Categoricals') is ordered then this problem won't happen. Below I'll leave an example where the problem happens and one where it doesn't.
+
+# Imports
+
+
+```python
+import numpy as np
+import pandas as pd
+import dask.dataframe as dd
+from fastparquet import ParquetFile
+```
+
+    /usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: numpy.dtype size changed, may indicate binary incompatibility. Expected 96, got 88
+      return f(*args, **kwds)
+    /usr/lib/python3.5/importlib/_bootstrap.py:222: RuntimeWarning: numpy.dtype size changed, may indicate binary incompatibility. Expected 96, got 88
+      return f(*args, **kwds)
+
+
+# Example where divisions are known
+
+Here I created a dummy dataframe where the column by which we partition ('Categoricals') is ordered, as can be seen the divisions are known after loading the parquet file.
+
+
+```python
+def generate_df(size):
+    df = pd.Series(np.arange(0, size), name='unique').to_frame()
+
+    df['dates'] = pd.date_range('2015-01-01', periods=size, freq='1min', name='dates')
+    df['ints'] = np.linspace(0, 100, size, endpoint=False, dtype=int)
+    df['floats'] = df['ints'].astype(float)
+    df['constants'] = 42
+    df['uniques'] = df['unique'].astype(str)
+
+    # nanints is ints with first 10% entries set to nan
+    df['nanints'] = df['ints']
+    df.loc[df.index < int(size / 10), 'nanints'] = np.nan
+
+    # generate categorical column with 4 distinct values
+    categoricals = []
+    for value in ['a', 'b', 'c', 'd']:
+        categoricals += [value] * int(size / 4)
+    df['categoricals'] = categoricals
+    df['nancategoricals'] = df['categoricals'].replace('d', np.nan)
+
+    return df
+```
+
+
+```python
+df = generate_df(16)
+```
+
+
+```python
+df = df.set_index('dates')
+df = dd.from_pandas(df, npartitions=3)
+```
+
+
+```python
+df.head(16, npartitions=-1)
+```
+
+
+</style>
+<table border=""1"" class=""dataframe"">
+  <thead>
+    <tr style=""text-align: right;"">
+      <th></th>
+      <th>unique</th>
+      <th>ints</th>
+      <th>floats</th>
+      <th>constants</th>
+      <th>uniques</th>
+      <th>nanints</th>
+      <th>categoricals</th>
+      <th>nancategoricals</th>
+    </tr>
+    <tr>
+      <th>dates</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2015-01-01 00:00:00</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:01:00</th>
+      <td>1</td>
+      <td>6</td>
+      <td>6.0</td>
+      <td>42</td>
+      <td>1</td>
+      <td>6.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:02:00</th>
+      <td>2</td>
+      <td>12</td>
+      <td>12.0</td>
+      <td>42</td>
+      <td>2</td>
+      <td>12.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:03:00</th>
+      <td>3</td>
+      <td>18</td>
+      <td>18.0</td>
+      <td>42</td>
+      <td>3</td>
+      <td>18.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:04:00</th>
+      <td>4</td>
+      <td>25</td>
+      <td>25.0</td>
+      <td>42</td>
+      <td>4</td>
+      <td>25.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:05:00</th>
+      <td>5</td>
+      <td>31</td>
+      <td>31.0</td>
+      <td>42</td>
+      <td>5</td>
+      <td>31.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:06:00</th>
+      <td>6</td>
+      <td>37</td>
+      <td>37.0</td>
+      <td>42</td>
+      <td>6</td>
+      <td>37.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:07:00</th>
+      <td>7</td>
+      <td>43</td>
+      <td>43.0</td>
+      <td>42</td>
+      <td>7</td>
+      <td>43.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:08:00</th>
+      <td>8</td>
+      <td>50</td>
+      <td>50.0</td>
+      <td>42</td>
+      <td>8</td>
+      <td>50.0</td>
+      <td>c</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:09:00</th>
+      <td>9</td>
+      <td>56</td>
+      <td>56.0</td>
+      <td>42</td>
+      <td>9</td>
+      <td>56.0</td>
+      <td>c</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:10:00</th>
+      <td>10</td>
+      <td>62</td>
+      <td>62.0</td>
+      <td>42</td>
+      <td>10</td>
+      <td>62.0</td>
+      <td>c</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:11:00</th>
+      <td>11</td>
+      <td>68</td>
+      <td>68.0</td>
+      <td>42</td>
+      <td>11</td>
+      <td>68.0</td>
+      <td>c</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:12:00</th>
+      <td>12</td>
+      <td>75</td>
+      <td>75.0</td>
+      <td>42</td>
+      <td>12</td>
+      <td>75.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:13:00</th>
+      <td>13</td>
+      <td>81</td>
+      <td>81.0</td>
+      <td>42</td>
+      <td>13</td>
+      <td>81.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:14:00</th>
+      <td>14</td>
+      <td>87</td>
+      <td>87.0</td>
+      <td>42</td>
+      <td>14</td>
+      <td>87.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:15:00</th>
+      <td>15</td>
+      <td>93</td>
+      <td>93.0</td>
+      <td>42</td>
+      <td>15</td>
+      <td>93.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df.divisions 
+```
+
+
+
+
+    (Timestamp('2015-01-01 00:00:00'),
+     Timestamp('2015-01-01 00:06:00'),
+     Timestamp('2015-01-01 00:12:00'),
+     Timestamp('2015-01-01 00:15:00'))
+
+
+
+
+```python
+df.to_parquet('./data_new', engine='fastparquet', partition_on=['categoricals'])
+
+```
+
+    /home/felgueira/.local/lib/python3.5/site-packages/fastparquet/writer.py:407: FutureWarning: Method .valid will be removed in a future version. Use .dropna instead.
+      out = data.valid()  # better, data[data.notnull()], from above ?
+
+
+
+```python
+pq_f = ParquetFile('./data_new')
+
+```
+
+
+```python
+df = dd.read_parquet(pq_f)
+
+```
+
+
+```python
+df.divisions
+
+```
+
+
+
+
+    (Timestamp('2015-01-01 00:00:00'),
+     Timestamp('2015-01-01 00:04:00'),
+     Timestamp('2015-01-01 00:06:00'),
+     Timestamp('2015-01-01 00:08:00'),
+     Timestamp('2015-01-01 00:12:00'),
+     Timestamp('2015-01-01 00:15:00'))
+
+
+
+# Example where divisions are not known
+
+Here I created a dummy dataframe where the column by which we partition ('Categoricals') is not ordered because of an ""outlier"", as can be seen the divisions are not known after loading the parquet file.
+
+
+```python
+def generate_df(size):
+    df = pd.Series(np.arange(0, size), name='unique').to_frame()
+
+    df['dates'] = pd.date_range('2015-01-01', periods=size, freq='1min', name='dates')
+    df['ints'] = np.linspace(0, 100, size, endpoint=False, dtype=int)
+    df['floats'] = df['ints'].astype(float)
+    df['constants'] = 42
+    df['uniques'] = df['unique'].astype(str)
+
+    # nanints is ints with first 10% entries set to nan
+    df['nanints'] = df['ints']
+    df.loc[df.index < int(size / 10), 'nanints'] = np.nan
+
+    # generate categorical column with 4 distinct values
+    categoricals = []
+    for value in ['a', 'b', 'c', 'd']:
+        categoricals += [value] * int(size / 4)
+    categoricals[10] = 'b'
+    df['categoricals'] = categoricals
+    df['nancategoricals'] = df['categoricals'].replace('d', np.nan)
+
+    return df
+```
+
+
+```python
+df = generate_df(16)
+```
+
+
+```python
+df = df.set_index('dates')
+df = dd.from_pandas(df, npartitions=3)
+```
+
+
+```python
+df.head(16, npartitions=-1)
+```
+
+
+
+
+<table border=""1"" class=""dataframe"">
+  <thead>
+    <tr style=""text-align: right;"">
+      <th></th>
+      <th>unique</th>
+      <th>ints</th>
+      <th>floats</th>
+      <th>constants</th>
+      <th>uniques</th>
+      <th>nanints</th>
+      <th>categoricals</th>
+      <th>nancategoricals</th>
+    </tr>
+    <tr>
+      <th>dates</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2015-01-01 00:00:00</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:01:00</th>
+      <td>1</td>
+      <td>6</td>
+      <td>6.0</td>
+      <td>42</td>
+      <td>1</td>
+      <td>6.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:02:00</th>
+      <td>2</td>
+      <td>12</td>
+      <td>12.0</td>
+      <td>42</td>
+      <td>2</td>
+      <td>12.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:03:00</th>
+      <td>3</td>
+      <td>18</td>
+      <td>18.0</td>
+      <td>42</td>
+      <td>3</td>
+      <td>18.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:04:00</th>
+      <td>4</td>
+      <td>25</td>
+      <td>25.0</td>
+      <td>42</td>
+      <td>4</td>
+      <td>25.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:05:00</th>
+      <td>5</td>
+      <td>31</td>
+      <td>31.0</td>
+      <td>42</td>
+      <td>5</td>
+      <td>31.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:06:00</th>
+      <td>6</td>
+      <td>37</td>
+      <td>37.0</td>
+      <td>42</td>
+      <td>6</td>
+      <td>37.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:07:00</th>
+      <td>7</td>
+      <td>43</td>
+      <td>43.0</td>
+      <td>42</td>
+      <td>7</td>
+      <td>43.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:08:00</th>
+      <td>8</td>
+      <td>50</td>
+      <td>50.0</td>
+      <td>42</td>
+      <td>8</td>
+      <td>50.0</td>
+      <td>c</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:09:00</th>
+      <td>9</td>
+      <td>56</td>
+      <td>56.0</td>
+      <td>42</td>
+      <td>9</td>
+      <td>56.0</td>
+      <td>c</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:10:00</th>
+      <td>10</td>
+      <td>62</td>
+      <td>62.0</td>
+      <td>42</td>
+      <td>10</td>
+      <td>62.0</td>
+      <td>b</td>
+      <td>b</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:11:00</th>
+      <td>11</td>
+      <td>68</td>
+      <td>68.0</td>
+      <td>42</td>
+      <td>11</td>
+      <td>68.0</td>
+      <td>c</td>
+      <td>c</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:12:00</th>
+      <td>12</td>
+      <td>75</td>
+      <td>75.0</td>
+      <td>42</td>
+      <td>12</td>
+      <td>75.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:13:00</th>
+      <td>13</td>
+      <td>81</td>
+      <td>81.0</td>
+      <td>42</td>
+      <td>13</td>
+      <td>81.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:14:00</th>
+      <td>14</td>
+      <td>87</td>
+      <td>87.0</td>
+      <td>42</td>
+      <td>14</td>
+      <td>87.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:15:00</th>
+      <td>15</td>
+      <td>93</td>
+      <td>93.0</td>
+      <td>42</td>
+      <td>15</td>
+      <td>93.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df.divisions 
+```
+
+
+
+
+    (Timestamp('2015-01-01 00:00:00'),
+     Timestamp('2015-01-01 00:06:00'),
+     Timestamp('2015-01-01 00:12:00'),
+     Timestamp('2015-01-01 00:15:00'))
+
+
+
+
+```python
+df.to_parquet('./data_new', engine='fastparquet', partition_on=['categoricals'])
+
+```
+
+    /home/felgueira/.local/lib/python3.5/site-packages/fastparquet/writer.py:407: FutureWarning: Method .valid will be removed in a future version. Use .dropna instead.
+      out = data.valid()  # better, data[data.notnull()], from above ?
+
+
+
+```python
+pq_f = ParquetFile('./data_new')
+
+```
+
+
+```python
+df = dd.read_parquet(pq_f)
+
+```
+
+
+```python
+df.divisions
+
+```
+
+
+
+
+    (None, None, None, None, None, None)
+
+"
+https://api.github.com/repos/dask/dask/issues/3832,https://api.github.com/repos/dask/dask/issues/3832/comments,Reentrant versions of dask.utils.SerializableLock and distributed.Lock,"I'm pretty sure to get distributed writes working properly in xarray (https://github.com/pydata/xarray/pull/2261) we will need reentrant versions of `dask.utils.SerializableLock` and `distributed.Lock`, i.e., which can be acquired multiple times by the same thread like [`threading.RLock`](https://docs.python.org/3.7/library/threading.html#rlock-objects). These could potentially be useful for other projects using dask as well.
+
+Contemplating how to write these is hurting my head a little bit. In principle, we could just make a forked version of `SerializableLock` that uses `RLock` internally, but for `distributed.Lock` it's less clear.
+
+Ideally, we could do this with composition, e.g., by writing `ReentrantLock(distributed.Lock(...))` to make a reentrant distributed lock. Does anyone have any idea what that would look like?"
+https://api.github.com/repos/dask/dask/issues/3831,https://api.github.com/repos/dask/dask/issues/3831/comments,Computation graphs overcomplicated when reading/writing  partitioned parquet files?,"
+# TLDR
+
+I'm having an issue where I don't understand why some Dask Computation graphs are more complicated than I would expect for some simple computations.
+
+Below follows full code for reproducibility.
+
+The problem itself shows in the section `The Problem`.
+
+Something that I think is also related to the problem (Incoherent divisions) is shown in the end of the section `The 4 parquet partitions individually`/` This may be part of the problem:`.
+
+Questions start with `Question (n):` along the text when `n` is the question number. I copy them here:
+
+- **Question 1:** When checking the divisions, notice how the last division is wrong. It coincides with the end of the FULL dataframe `df`, although `df_a`'s index only goes until `2015-01-02 17:39:00`. I suspect this incoherency may be the cause of what I'm going to show next. Is this last division expected to be as it shows below?
+- **Question 2:** Shouldn't Dask be able to generate a simpler computation graph?
+- **Question 3:** Similarly to above, shouldn't Dask be able to generate a simpler computation graph?
+- **Question 4:** Given that the dataframe is being read from a parquet file that is partitioned on `categoricals`, shouldn't the `.loc` be smart to realize 'a' can only be in 4 of the 16 Row Groups?
+
+
+# Imports
+
+
+```python
+import numpy as np
+import pandas as pd
+import dask.dataframe as dd
+```
+
+
+```python
+from fastparquet import ParquetFile
+```
+
+# Generate dummy data and save to a partitioned parquet file
+
+
+```python
+def generate_df(size):
+    df = pd.Series(np.arange(0, size), name='unique').to_frame()
+
+    df['dates'] = pd.date_range('2015-01-01', periods=size, freq='1min', name='dates')
+    df['ints'] = np.linspace(0, 100, size, endpoint=False, dtype=int)
+    df['floatbools'] = np.append(np.zeros(int(size / 2)), np.ones(int(size / 2)))
+    df['floats'] = df['ints'].astype(float)
+    df['constants'] = 42
+    df['uniques'] = df['unique'].astype(str)
+
+    # casting floatbool with float dtype to boolbool with bool dtype
+    df['boolbools'] = df['floatbools'].astype(bool)
+
+    # nanints is ints with first 10% entries set to nan
+    df['nanints'] = df['ints']
+    df.loc[df.index < int(size / 10), 'nanints'] = np.nan
+
+    # generate categorical column with 4 distinct values
+    categoricals = []
+    for value in ['a', 'b', 'c', 'd']:
+        categoricals += [value] * int(size / 4)
+    df['categoricals'] = categoricals
+    df['nancategoricals'] = df['categoricals'].replace('d', np.nan)
+
+    return df
+```
+
+
+```python
+df = generate_df(10000)
+```
+
+
+```python
+df.head()
+```
+
+
+
+
+<div>
+<table border=""1"" class=""dataframe"">
+  <thead>
+    <tr style=""text-align: right;"">
+      <th></th>
+      <th>unique</th>
+      <th>dates</th>
+      <th>ints</th>
+      <th>floatbools</th>
+      <th>floats</th>
+      <th>constants</th>
+      <th>uniques</th>
+      <th>boolbools</th>
+      <th>nanints</th>
+      <th>categoricals</th>
+      <th>nancategoricals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>2015-01-01 00:00:00</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>0</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>2015-01-01 00:01:00</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>1</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>2015-01-01 00:02:00</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>2</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>2015-01-01 00:03:00</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>3</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>2015-01-01 00:04:00</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>4</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df.tail()
+```
+
+
+
+
+<div>
+<table border=""1"" class=""dataframe"">
+  <thead>
+    <tr style=""text-align: right;"">
+      <th></th>
+      <th>unique</th>
+      <th>dates</th>
+      <th>ints</th>
+      <th>floatbools</th>
+      <th>floats</th>
+      <th>constants</th>
+      <th>uniques</th>
+      <th>boolbools</th>
+      <th>nanints</th>
+      <th>categoricals</th>
+      <th>nancategoricals</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9995</th>
+      <td>9995</td>
+      <td>2015-01-07 22:35:00</td>
+      <td>99</td>
+      <td>1.0</td>
+      <td>99.0</td>
+      <td>42</td>
+      <td>9995</td>
+      <td>True</td>
+      <td>99.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9996</th>
+      <td>9996</td>
+      <td>2015-01-07 22:36:00</td>
+      <td>99</td>
+      <td>1.0</td>
+      <td>99.0</td>
+      <td>42</td>
+      <td>9996</td>
+      <td>True</td>
+      <td>99.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9997</th>
+      <td>9997</td>
+      <td>2015-01-07 22:37:00</td>
+      <td>99</td>
+      <td>1.0</td>
+      <td>99.0</td>
+      <td>42</td>
+      <td>9997</td>
+      <td>True</td>
+      <td>99.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9998</th>
+      <td>9998</td>
+      <td>2015-01-07 22:38:00</td>
+      <td>99</td>
+      <td>1.0</td>
+      <td>99.0</td>
+      <td>42</td>
+      <td>9998</td>
+      <td>True</td>
+      <td>99.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9999</th>
+      <td>9999</td>
+      <td>2015-01-07 22:39:00</td>
+      <td>99</td>
+      <td>1.0</td>
+      <td>99.0</td>
+      <td>42</td>
+      <td>9999</td>
+      <td>True</td>
+      <td>99.0</td>
+      <td>d</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df = df.set_index('dates')
+df = dd.from_pandas(df, npartitions=16)
+```
+
+
+```python
+# The divisions
+df.divisions
+```
+
+
+
+
+    (Timestamp('2015-01-01 00:00:00'),
+     Timestamp('2015-01-01 10:25:00'),
+     Timestamp('2015-01-01 20:50:00'),
+     Timestamp('2015-01-02 07:15:00'),
+     Timestamp('2015-01-02 17:40:00'),
+     Timestamp('2015-01-03 04:05:00'),
+     Timestamp('2015-01-03 14:30:00'),
+     Timestamp('2015-01-04 00:55:00'),
+     Timestamp('2015-01-04 11:20:00'),
+     Timestamp('2015-01-04 21:45:00'),
+     Timestamp('2015-01-05 08:10:00'),
+     Timestamp('2015-01-05 18:35:00'),
+     Timestamp('2015-01-06 05:00:00'),
+     Timestamp('2015-01-06 15:25:00'),
+     Timestamp('2015-01-07 01:50:00'),
+     Timestamp('2015-01-07 12:15:00'),
+     Timestamp('2015-01-07 22:39:00'))
+
+
+
+
+```python
+# 16 partitions as expected
+print('partitions: ' + str(df.npartitions))
+```
+
+    partitions: 16
+
+
+
+```python
+df.to_parquet('./data_new', compression='snappy', engine='fastparquet', partition_on=['categoricals'])
+```
+
+# Read data
+
+
+```python
+pq_f = ParquetFile('./data_new')
+```
+
+## The full dataframe
+
+
+```python
+df = dd.read_parquet(pq_f)
+```
+
+
+```python
+df.divisions
+```
+
+
+
+
+    (Timestamp('2015-01-01 00:00:00'),
+     Timestamp('2015-01-01 10:25:00'),
+     Timestamp('2015-01-01 20:50:00'),
+     Timestamp('2015-01-02 07:15:00'),
+     Timestamp('2015-01-02 17:40:00'),
+     Timestamp('2015-01-03 04:05:00'),
+     Timestamp('2015-01-03 14:30:00'),
+     Timestamp('2015-01-04 00:55:00'),
+     Timestamp('2015-01-04 11:20:00'),
+     Timestamp('2015-01-04 21:45:00'),
+     Timestamp('2015-01-05 08:10:00'),
+     Timestamp('2015-01-05 18:35:00'),
+     Timestamp('2015-01-06 05:00:00'),
+     Timestamp('2015-01-06 15:25:00'),
+     Timestamp('2015-01-07 01:50:00'),
+     Timestamp('2015-01-07 12:15:00'),
+     Timestamp('2015-01-07 22:39:00'))
+
+
+
+
+```python
+df.npartitions
+```
+
+
+
+
+    16
+
+
+
+
+```python
+len(df)
+```
+
+
+
+
+    10000
+
+
+
+## The 4 parquet partitions individually
+
+Let's now get all the 4 parts of the full df by reading each of them into a different variable:
+
+
+```python
+df_a = dd.read_parquet(pq_f, filters=[('categoricals', '==', 'a')])
+df_b = dd.read_parquet(pq_f, filters=[('categoricals', '==', 'b')])
+df_c = dd.read_parquet(pq_f, filters=[('categoricals', '==', 'c')])
+df_d = dd.read_parquet(pq_f, filters=[('categoricals', '==', 'd')])
+```
+
+
+```python
+df_a.tail()
+```
+
+
+
+
+<div>
+<table border=""1"" class=""dataframe"">
+  <thead>
+    <tr style=""text-align: right;"">
+      <th></th>
+      <th>unique</th>
+      <th>ints</th>
+      <th>floatbools</th>
+      <th>floats</th>
+      <th>constants</th>
+      <th>uniques</th>
+      <th>boolbools</th>
+      <th>nanints</th>
+      <th>nancategoricals</th>
+      <th>categoricals</th>
+    </tr>
+    <tr>
+      <th>dates</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2015-01-02 17:35:00</th>
+      <td>2495</td>
+      <td>24</td>
+      <td>0.0</td>
+      <td>24.0</td>
+      <td>42</td>
+      <td>2495</td>
+      <td>False</td>
+      <td>24.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-02 17:36:00</th>
+      <td>2496</td>
+      <td>24</td>
+      <td>0.0</td>
+      <td>24.0</td>
+      <td>42</td>
+      <td>2496</td>
+      <td>False</td>
+      <td>24.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-02 17:37:00</th>
+      <td>2497</td>
+      <td>24</td>
+      <td>0.0</td>
+      <td>24.0</td>
+      <td>42</td>
+      <td>2497</td>
+      <td>False</td>
+      <td>24.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-02 17:38:00</th>
+      <td>2498</td>
+      <td>24</td>
+      <td>0.0</td>
+      <td>24.0</td>
+      <td>42</td>
+      <td>2498</td>
+      <td>False</td>
+      <td>24.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-02 17:39:00</th>
+      <td>2499</td>
+      <td>24</td>
+      <td>0.0</td>
+      <td>24.0</td>
+      <td>42</td>
+      <td>2499</td>
+      <td>False</td>
+      <td>24.0</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+Here we can see `df_a` corresponds to only 4 Parquet Row groups (or 4 Dask partitions) as expected:
+
+
+```python
+df_a.visualize()
+```
+
+
+
+
+![output_26_0](https://user-images.githubusercontent.com/25300892/43454725-d573d282-94b5-11e8-9e37-1cc0f82d9e0e.png)
+
+
+
+
+### This may be part of the problem:
+
+**Question 1:** When checking the divisions, notice how the last division is wrong. It coincides with the end of the FULL dataframe `df`, although `df_a`'s index only goes until `2015-01-02 17:39:00`. I suspect this incoherency may be the cause of what I'm going to show next. Is this last division expected to be as it shows below?
+
+
+```python
+df_a.divisions
+```
+
+
+
+
+    (Timestamp('2015-01-01 00:00:00'),
+     Timestamp('2015-01-01 10:25:00'),
+     Timestamp('2015-01-01 20:50:00'),
+     Timestamp('2015-01-02 07:15:00'),
+     Timestamp('2015-01-07 22:39:00'))
+
+
+
+
+```python
+len(df_a)
+```
+
+
+
+
+    2500
+
+
+
+## Quick test checking dask is smart when `loc` ing the index:
+
+
+```python
+df.loc['2015-01-01 00:00:00':'2015-01-01 10:24:00'].visualize()
+```
+
+
+
+![output_32_0](https://user-images.githubusercontent.com/25300892/43454763-ecb9e31e-94b5-11e8-8dcb-5b0456a0ce2d.png)
+
+
+
+
+Cool! Dask is smart when doing the loc because it is the index and its know the partitions
+
+# The problem(s)
+
+## Case 1
+
+Imagine that, from the full dataframe `df`, I want to create a new column with new values but only for the rows where column `categoricals=='a'`:
+
+
+```python
+dicts={}
+
+dicts['new_col'] = df_a['ints'] - 1
+
+df_new = df.assign(**dicts)
+```
+
+I would expect the computation graph of the above code to be fairly simple. Basically, it needs to:
+- Read the 4 Parquet Row Groups that correspond `df_a`
+- Take the columns `ints` and subtract 1
+- Merge with `df`. No repartitioning should be required because both `df` and `df_a` have aligned partitions (except for the bogus last `df_a` partition I highlighted above) 
+
+Unfortunately, if we visualize the computation graph below we can see that, indeed, the 4 `df_a` Parquet Row Groups are being read. But, we can see a log of branches coming from the last `df_a` Row Group and going to different other row groups. Also, we can a lot of  `repartition-merge` block which I think are unnecessary:
+
+
+```python
+df_new.visualize()
+```
+
+
+
+
+![output_39_0](https://user-images.githubusercontent.com/25300892/43454780-f4c042c4-94b5-11e8-877f-0887541c9a8f.png)
+
+
+
+
+**Question 2:** Shouldn't Dask be able to generate a simpler computation graph?
+
+## Case 2
+
+Also tried using `merge` but the result seems to be the same:
+
+
+```python
+df_temp = df_a['ints'] - 1
+```
+
+It does accept to merge things to the original and larger dataframe but it has a lot of repartitions!
+
+
+```python
+df_n = df.merge(df_temp.to_frame(), how='left', left_index=True, right_index=True)
+```
+
+
+```python
+df_n.visualize()
+```
+
+
+
+
+![output_46_0](https://user-images.githubusercontent.com/25300892/43454799-fba04cf6-94b5-11e8-8ee1-9e9706252718.png)
+
+
+
+
+**Question 3:** Similarly to above, shouldn't Dask be able to generate a simpler computation graph?
+
+# Case 4
+
+
+```python
+df = dd.read_parquet(pq_f)
+```
+
+
+```python
+df.head()
+```
+
+
+
+
+<div>
+<table border=""1"" class=""dataframe"">
+  <thead>
+    <tr style=""text-align: right;"">
+      <th></th>
+      <th>unique</th>
+      <th>ints</th>
+      <th>floatbools</th>
+      <th>floats</th>
+      <th>constants</th>
+      <th>uniques</th>
+      <th>boolbools</th>
+      <th>nanints</th>
+      <th>nancategoricals</th>
+      <th>categoricals</th>
+    </tr>
+    <tr>
+      <th>dates</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2015-01-01 00:00:00</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>0</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:01:00</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>1</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:02:00</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>2</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:03:00</th>
+      <td>3</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>3</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+    <tr>
+      <th>2015-01-01 00:04:00</th>
+      <td>4</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>42</td>
+      <td>4</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>a</td>
+      <td>a</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+```python
+df.loc[df['categoricals'] == 'a'].visualize()
+```
+
+
+
+
+![output_51_0](https://user-images.githubusercontent.com/25300892/43454807-02a8f480-94b6-11e8-9938-dd90081a4be3.png)
+
+
+
+
+**Question 4:** Given that the dataframe is being read from a parquet file that is partitioned on `categoricals`, shouldn't the `.loc` be smart to realize 'a' can only be in 4 of the 16 Row Groups?
+"
+https://api.github.com/repos/dask/dask/issues/3824,https://api.github.com/repos/dask/dask/issues/3824/comments,Chaining slicing one dask array with another dask array,"I don't seem to be able to chain multiple slices of one dask array with another (without realising the intermediate result):
+
+```python
+d = da.from_array(np.arange(16), chunks=-1)
+f = d[e > 15]
+f
+dask.array<getitem, shape=(nan,), dtype=int64, chunksize=(nan,)>
+g = da.from_array(np.arange(6), chunks=-1)
+f[g > 4]
+```
+
+```python-traceback
+ValueError                                Traceback (most recent call last)
+<ipython-input-12-4212770cc0ff> in <module>()
+----> 1 f[g > 4]
+
+~/miniconda3/envs/scitools_dev/lib/python3.6/site-packages/dask/array/core.py in __getitem__(self, index)
+   1375             self, index2 = slice_with_int_dask_array(self, index2)
+   1376         if any(isinstance(i, Array) and i.dtype == bool for i in index2):
+-> 1377             self, index2 = slice_with_bool_dask_array(self, index2)
+   1378 
+   1379         if all(isinstance(i, slice) and i == slice(None) for i in index2):
+
+~/miniconda3/envs/scitools_dev/lib/python3.6/site-packages/dask/array/slicing.py in slice_with_bool_dask_array(x, index)
+    989 
+    990     if len(index) == 1 and index[0].ndim == x.ndim:
+--> 991         y = elemwise(getitem, x, *index, dtype=x.dtype)
+    992         name = 'getitem-' + tokenize(x, index)
+    993         dsk = {(name, i): k for i, k in enumerate(core.flatten(y.__dask_keys__()))}
+
+~/miniconda3/envs/scitools_dev/lib/python3.6/site-packages/dask/array/core.py in elemwise(op, *args, **kwargs)
+   3430     shapes = [getattr(arg, 'shape', ()) for arg in args]
+   3431     shapes = [s if isinstance(s, Iterable) else () for s in shapes]
+-> 3432     out_ndim = len(broadcast_shapes(*shapes))   # Raises ValueError if dimensions mismatch
+   3433     expr_inds = tuple(range(out_ndim))[::-1]
+   3434 
+
+~/miniconda3/envs/scitools_dev/lib/python3.6/site-packages/dask/array/core.py in broadcast_shapes(*shapes)
+   3402         if any(i not in [-1, 0, 1, dim] and not np.isnan(i) for i in sizes):
+   3403             raise ValueError(""operands could not be broadcast together with ""
+-> 3404                              ""shapes {0}"".format(' '.join(map(str, shapes))))
+   3405         out.append(dim)
+   3406     return tuple(reversed(out))
+
+ValueError: operands could not be broadcast together with shapes (nan,) (6,)
+```
+
+It looks like the chunks of the intermediate result aren't being calculated (correctly?), which is preventing following operations.
+
+Is there a way to achieve this indexing in dask?
+
+As per the suggestion in #3096, I tried reproducing the indexing using `map_blocks` but that also didn't work:
+
+```python
+fmb = da.map_blocks(lambda d, e: d[e > 15], chunks=(3,))
+```
+```python-traceback
+ValueError                                Traceback (most recent call last)
+<ipython-input-30-7b39e2419a05> in <module>()
+----> 1 fmb = da.map_blocks(lambda d, e: d[e > 15], chunks=(3,))
+
+~/miniconda3/envs/scitools_dev/lib/python3.6/site-packages/dask/array/core.py in map_blocks(func, *args, **kwargs)
+    709     numblocks = {a.name: a.numblocks for a in arrs}
+    710     arginds = list(concat(argpairs))
+--> 711     out_ind = tuple(range(max(a.ndim for a in arrs)))[::-1]
+    712 
+    713     if has_keyword(func, 'block_id'):
+
+ValueError: max() arg is an empty sequence
+```
+
+I'm using dask v0.18.2.
+
+Note: my underlying use-case is chaining multiple lazy array operations on large Iris cubes."
+https://api.github.com/repos/dask/dask/issues/3821,https://api.github.com/repos/dask/dask/issues/3821/comments,Put do/don't into boxes for delayed best practice docs,"Fixes #3773 *if* you think this actually looks nicer.
+
+![screen shot 2018-07-26 at 18 07 22](https://user-images.githubusercontent.com/6042212/43291264-cf9c2e0a-90fe-11e8-99e3-0e27b6467a2a.png)
+"
+https://api.github.com/repos/dask/dask/issues/3819,https://api.github.com/repos/dask/dask/issues/3819/comments,MAINT: implement median,"This PR implements `da.median` and `dask.array.Array.median`. It is a simple wrapper around `da.percentile`.
+
+This would close #46
+
+- [x] Tests added and pass
+- [x] Passes `flake8 dask`
+
+
+TODO
+
+- [ ] implement `dask.dataframe._Frame.median`
+- [ ] (possibly) close #3099"
+https://api.github.com/repos/dask/dask/issues/3818,https://api.github.com/repos/dask/dask/issues/3818/comments,DataFrame.__setitem__ fails for index,"```python
+In [10]: import pandas as pd
+
+In [11]: import dask.dataframe as dd
+
+In [12]: df = pd.DataFrame({""A"": [1, 2], ""B"": [3, 4]})
+
+In [13]: ddf = dd.from_pandas(df, 2)
+
+In [14]: df[df.columns] = 1
+
+In [15]: ddf[ddf.columns] = 1
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-15-736f0f46dec1> in <module>()
+----> 1 ddf[ddf.columns] = 1
+
+~/sandbox/dask/dask/dataframe/core.py in __setitem__(self, key, value)
+   2430                                 for k, c in zip(key, value.columns)})
+   2431         else:
+-> 2432             df = self.assign(**{key: value})
+   2433
+   2434         self.dask = df.dask
+
+~/Envs/dask-dev/lib/python3.6/site-packages/pandas/core/indexes/base.py in __hash__(self)
+   2060
+   2061     def __hash__(self):
+-> 2062         raise TypeError(""unhashable type: %r"" % type(self).__name__)
+   2063
+   2064     def __setitem__(self, key, value):
+
+TypeError: unhashable type: 'Index'
+```
+
+pandas index objects aren't hashable, putting them in a dictionary fails. We should probably special Index objects in `DataFrame.__setitem__` and convert them to lists."
+https://api.github.com/repos/dask/dask/issues/3817,https://api.github.com/repos/dask/dask/issues/3817/comments,Add DataFrame.nunique,"http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.nunique.html
+
+essentially a `pd.concat([self[col].n_unique() for col self.columns], axis=1)`
+
+Could do a `DataFrame.nunique_approx` as well."
+https://api.github.com/repos/dask/dask/issues/3815,https://api.github.com/repos/dask/dask/issues/3815/comments,[new feature] crash test dummy scheduler for unit tests,"I've been spending quite a lot of time recently debugging the dask distributed scheduler being unexpectedly invoked in the middle of defining the dask.array graph, both by xarray and by my own application code. If the distributed client and scheduler are on opposite ends of a high-latency network, this can easily compound into hours of overhead in some cases. Another, worse situation that I'm fighting against is when the dask graph definition is performed inside a process pool - a dire necessity for particularly large graphs. In this case, an accidental invocation of the threaded scheduler from inside the subprocess will cause a random and complete deadlock of the Python interpreter, and an inexperienced developer will never figure out what's going on.
+
+To debug this, so far I have been starting a distributed scheduler without workers and watched for my code getting stuck when it accidentally tries submitting stuff to it. This approach however is impractical when writing unit tests.
+I'd like to propose writing a new scheduler, ``crash`` (I'm open to suggestions for a better name), that raises Exception as soon as anybody tries computing anything with it.
+
+Mock up:
+```
+import dask
+from dask.array.utils import assert_eq
+
+dask.config.set(scheduler='crash')
+
+
+def test1():
+    # graph definition. scheduler='crash' verifies parts of the graph are not
+    # silently computed under the hood
+    a = dask.array.arange(4, chunks=2)
+    # internally invokes compute(scheduler='sync')
+    assert_eq(a, dask.array.from_array([0, 1,2, 3], chunks]=2)
+```"
+https://api.github.com/repos/dask/dask/issues/3814,https://api.github.com/repos/dask/dask/issues/3814/comments,[trivial] [doc] Scheduler doc improvements,"http://dask.pydata.org/en/latest/scheduler-overview.html needs some improvements after the recent change from get= to scheduler=.
+
+1. What is the comprehensive list of choices for scheduler=? Namely, if I want to use threaded scheduler, is it ""threads"", ""threaded"", or...?
+2. ``Additionally, each scheduler may take a few extra keywords specific to that scheduler. `` need to add a link to the actual API definitions that define such keywords.
+3. get -> scheduler: 
+```
+Using the get keyword in the compute method:
+
+>>> x.sum().compute(scheduler='processes')
+```
+
+https://distributed.readthedocs.io/en/latest/client.html#dask is also improvable:
+1. It says how I can stop a client from registering itself as the default dask scheduler, but it does not say anything about how I can actually use it explicitly after I do that. ``scheduler='distributed', pool=client)``? ``scheduler=client``? something else?
+2. Does the ``num_workers`` parameter have any effect?"
+https://api.github.com/repos/dask/dask/issues/3811,https://api.github.com/repos/dask/dask/issues/3811/comments,Some tests assume endianness,"On [ppc64](https://koji.fedoraproject.org/koji/taskinfo?taskID=28589824) and [s390x](https://koji.fedoraproject.org/koji/taskinfo?taskID=28589826), two big-endian arches, two tests seem to fail due to some assumptions in tests and/or implementation:
+
+```
+_______________________ test_concatenate_types[dtypes1] ________________________
+dtypes = (('<f4', '<f8'), '<f8')
+    @pytest.mark.parametrize('dtypes', [(('>f8', '>f8'), '>f8'),
+                                        (('<f4', '<f8'), '<f8')])
+    def test_concatenate_types(dtypes):
+        dts_in, dt_out = dtypes
+        arrs = [np.zeros(4, dtype=dt) for dt in dts_in]
+        darrs = [from_array(arr, chunks=(2,)) for arr in arrs]
+    
+        x = concatenate(darrs, axis=0)
+>       assert x.dtype == dt_out
+E       AssertionError: assert dtype('float64') == '<f8'
+E        +  where dtype('float64') = dask.array<concatenate, shape=(8,), dtype=float64, chunksize=(2,)>.dtype
+dask/array/tests/test_array_core.py:372: AssertionError
+
+__________________________ test_concat_datetimeindex ___________________________
+    def test_concat_datetimeindex():
+        # https://github.com/dask/dask/issues/2932
+        b2 = pd.DataFrame({'x': ['a']},
+                          index=pd.DatetimeIndex(['2015-03-24 00:00:16'],
+                                                 dtype='datetime64[ns]'))
+        b3 = pd.DataFrame({'x': ['c']},
+                          index=pd.DatetimeIndex(['2015-03-29 00:00:44'],
+                                                 dtype='datetime64[ns]'))
+    
+        b2['x'] = b2.x.astype('category').cat.set_categories(['a', 'c'])
+        b3['x'] = b3.x.astype('category').cat.set_categories(['a', 'c'])
+    
+        db2 = dd.from_pandas(b2, 1)
+        db3 = dd.from_pandas(b3, 1)
+    
+        result = concat([b2.iloc[:0], b3.iloc[:0]])
+>       assert result.index.dtype == '<M8[ns]'
+E       AssertionError: assert dtype('>M8[ns]') == '<M8[ns]'
+E        +  where dtype('>M8[ns]') = DatetimeIndex([], dtype='datetime64[ns]', freq=None).dtype
+E        +    where DatetimeIndex([], dtype='datetime64[ns]', freq=None) = Empty DataFrame\nColumns: [x]\nIndex: [].index
+dask/dataframe/tests/test_multi.py:1090: AssertionError
+```
+At least the latter looks like a test issue, but the former might be a problem in the implementation."
+https://api.github.com/repos/dask/dask/issues/3808,https://api.github.com/repos/dask/dask/issues/3808/comments,Support slicing with out-of-order numpy arrays,"This stages a random slice into a numpy array into a two-staged slice
+in such a way that reduces overhead.  We will now get, at worst, n-squared
+behavior.
+
+However, as currently implemented this also opens us up to all sorts of
+corner cases.  We'll probably have to either do a bunch of work or else
+reduce the scope of when this gets applied.
+
+- [ ] Tests added / passed
+- [ ] Passes `flake8 dask`
+
+cc @jakirkham "
+https://api.github.com/repos/dask/dask/issues/3807,https://api.github.com/repos/dask/dask/issues/3807/comments,Linear tasks not fusing in dask.dataframe,"Some tasks within dask.dataframe don't seem to fuse well, even though I've turned on fusion and have a linear chain of tasks.  I've worked things down to the following example:
+
+```python
+import pandas as pd
+import dask.dataframe as dd
+import dask
+
+df = pd.DataFrame({'x': []})
+ddf = dd.from_pandas(df, npartitions=1)
+
+ddf = ddf.map_partitions(lambda x: x)
+ddf['x'] = ddf['x'].astype('int8')
+ddf = ddf.map_partitions(lambda x: x)
+ddf['x'] = ddf['x'].astype('int8')
+
+dask.config.set(fuse_ave_width=5)
+ddf = dask.optimize(ddf)[0]
+ddf.visualize('dask.png')
+```
+
+![dask](https://user-images.githubusercontent.com/306380/43091090-3cd13180-8e77-11e8-94db-47cfe0f315b0.png)
+
+Many operations will fuse, but something about these kinds of tasks don't let them.  I'm finding it difficult to find out why.  cc @eriknw in case he has a moment to look this over."
+https://api.github.com/repos/dask/dask/issues/3803,https://api.github.com/repos/dask/dask/issues/3803/comments,Parquet files generated using ds.to_parquet having issues,"Hi Team,
+
+I am using dask ds.to_parquet for converting to parquet files. Parquet files created using fastparquet works fine with everywhere except in Hive. All columns are read as Null in Hive. Upon trying different options, created new virtual environment, without Fast parquet, so now dask uses pyarrow for parquet conversion and files generated now works fine in Hive. Could you please confirm issue in Hive for reading parquet files generated using fast parquet. 
+
+Working combination for Hive (Without fastparquet) : 
+Python version : 3.5.1
+Pyarrow version : 0.9
+Code
+ds = dd.read_csv('s3://XXX-XXXXX/', header=None,names=Headercols, dtype=DataTypesDict, encoding='utf-8',delimiter='\001',compression='gzip',blocksize=80)
+ds.to_parquet('s3://XXX-XXXXX/ABC/',write_index=True)
+
+
+Fast Parquet version - Not working : 
+Python version : 3.6.5
+Fast Parquet version : 0.1.5
+Code
+ds = dd.read_csv('s3://XXX-XXXXX/', header=None,names=Headercols, dtype=DataTypesDict, encoding='utf-8',delimiter='\001',compression='gzip',blocksize=80)
+ds.to_parquet('s3://XXX-XXXXX/ABC/', has_nulls=True,write_index=True)
+
+
+Please letme know the issue with fast parquet version with Hive. Or is there any fix applied for this in latest updates. 
+
+"
+https://api.github.com/repos/dask/dask/issues/3802,https://api.github.com/repos/dask/dask/issues/3802/comments,"Change configuration names for optimizations, arrays, etc..","There are a variety of options available in the opimizations and collections that were previously handled by `dask.set_options`, but are now under `dask.config.set` like `fuse_ave_width` and `array_plugins`.  Do we want to change these names and place them into a configuraiton namespace like `optimization.fuse.width` and `array.plugins` ?  "
+https://api.github.com/repos/dask/dask/issues/3801,https://api.github.com/repos/dask/dask/issues/3801/comments,Fuse dataframe collections by default,"Currently we don't fuse dask.dataframe computations by default
+
+```python
+In [1]: import dask
+
+In [2]: df = dask.datasets.timeseries()
+
+In [3]: len(df.dask)
+Out[3]: 30
+
+In [4]: len((df.x + 1 + 2 + 3).dask)
+Out[4]: 150
+
+In [5]: len(dask.optimize((df.x + 1 + 2 + 3))[0].dask)
+Out[5]: 150
+
+In [6]: dask.config.set(fuse_ave_width=1)
+Out[6]: <dask.config.set at 0x7f42e84f0b00>
+
+In [7]: len(dask.optimize((df.x + 1 + 2 + 3))[0].dask)
+Out[7]: 60
+```
+
+Should we?  If I recall correctly this was done for two reasons:
+
+1.  Fusing can be about as expensive as the overhead of running
+2.  By fusing you sometimes lose out on shared structure between subsequent computations
+
+However, as I've seen more ways in which dask.dataframe gets used in the wild I've found that *very* long linear-ish chains are pretty common.  The overhead of the distributed scheduler is a bit higher, and having very long linear chains affects other things, like diagnostics, the memory on the distributed scheduler process, etc.."
+https://api.github.com/repos/dask/dask/issues/3794,https://api.github.com/repos/dask/dask/issues/3794/comments,test_info from test_dataframe failing on Python 2.7,"Seeing the following failure from `test_info` in `test_dataframe` on Python 2.7. Not sure what is causing it. Suggestions welcome.
+
+```python
+_________________________________________________________________________ test_info _________________________________________________________________________
+
+    def test_info():
+        from io import StringIO
+        from dask.compatibility import unicode
+        pandas_format._put_lines = put_lines
+    
+        test_frames = [
+            pd.DataFrame({'x': [1, 2, 3, 4], 'y': [1, 0, 1, 0]}, index=pd.Int64Index(range(4))),  # No RangeIndex in dask
+            pd.DataFrame()
+        ]
+    
+        for df in test_frames:
+            ddf = dd.from_pandas(df, npartitions=4)
+>           _assert_info(df, ddf)
+
+dask/dataframe/tests/test_dataframe.py:2403: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+dask/dataframe/tests/test_dataframe.py:2382: in _assert_info
+    df.info(buf=buf_pd, memory_usage=memory_usage)
+../.conda/envs/dask_py27/lib/python2.7/site-packages/pandas/core/frame.py:2183: in info
+    fmt.buffer_put_lines(buf, lines)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+buf = <_io.StringIO object at 0x7f6835209050>, lines = [""<class 'pandas.core.frame.DataFrame'>"", 'Index: 0 entries', 'Empty DataFrame']
+
+    def buffer_put_lines(buf, lines):
+        """"""
+        Appends lines to a buffer.
+    
+        Parameters
+        ----------
+        buf
+            The buffer to write to
+        lines
+            The lines to append.
+        """"""
+        if any(isinstance(x, compat.text_type) for x in lines):
+            lines = [compat.text_type(x) for x in lines]
+>       buf.write('\n'.join(lines))
+E       TypeError: unicode argument expected, got 'str'
+
+../.conda/envs/dask_py27/lib/python2.7/site-packages/pandas/io/formats/format.py:1606: TypeError
+===================================================================== warnings summary ======================================================================
+dask/dataframe/tests/test_dataframe.py::test_mixed_dask_array_operations
+  /groups/dudman/home/kirkhamj/.conda/envs/dask_py27/lib/python2.7/site-packages/numpy/core/_methods.py:26: RuntimeWarning: invalid value encountered in reduce
+    return umr_maximum(a, axis, None, out, keepdims)
+
+-- Docs: http://doc.pytest.org/en/latest/warnings.html
+========================================= 1 failed, 431 passed, 115 skipped, 1 xfailed, 1 warnings in 44.64 seconds =========================================
+```"
+https://api.github.com/repos/dask/dask/issues/3788,https://api.github.com/repos/dask/dask/issues/3788/comments,DataFrame reset_index() not working with DataFrames created with from_delayed or read_csv methods,"When creating dataframes from normal pandas dfs, there is no problem with resetting the index:
+
+```python
+a = dd.from_pandas(pd.DataFrame({'a': [1, 2, 3], 'b': [1, 2, 3]}), chunksize=1000)
+b = dd.from_pandas(pd.DataFrame({'a': [1, 2, 3], 'b': [1, 2, 3]}), chunksize=1000)
+c = dd.concat([a, b], interleave_partitions=True)
+c = c.reset_index(drop=True)
+c.compute()
+```
+
+But the following code produces the same index as the original one
+```
+foo = lambda a, m: pd.DataFrame(np.array([[a**m, a**(2*m), a**(3*m)]] * 3), columns=['m', '2m', '3m'])
+
+tasks = [dask.delayed(foo)(2, m) for m in range(3)]
+
+ddf = dd.from_delayed(tasks)
+ddf = ddf.reset_index()  # drop=True does not work as well, here False for clarity of the example result
+ddf.compute()
+```
+yields:
+
+| | index | m | 2m | 3m |
+-- |  --- | --- | --- | --- |
+0 | 0 | 1 | 1 | 1
+1 | 1 | 1 | 1 | 1
+2 | 2 | 1 | 1 | 1
+0 | 0 | 2 | 4 | 8
+1 | 1 | 2 | 4 | 8
+2 | 2 | 2 | 4 | 8
+0 | 0 | 4 | 16 | 64
+1 | 1 | 4 | 16 | 64
+2 | 2 | 4 | 16 | 64
+"
+https://api.github.com/repos/dask/dask/issues/3787,https://api.github.com/repos/dask/dask/issues/3787/comments,Python 3.6 CI tests taking ~40mins,Looks like our CI test matrix element for Python 3.6 is taking ~40mins per run. Note the Travis CI limit is shy of ~50min. Probably worth looking how we can speed up and/or slim down our test suite.
