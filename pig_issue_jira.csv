@@ -1,0 +1,2331 @@
+Summary,Issue key,Issue id,Issue Type,Status,Project key,Project name,Project type,Project lead,Project description,Project url,Priority,Resolution,Assignee,Reporter,Creator,Created,Updated,Last Viewed,Resolved,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Affects Version/s,Fix Version/s,Component/s,Component/s,Due Date,Votes,Labels,Labels,Labels,Labels,Description,Environment,Watchers,Watchers,Watchers,Watchers,Watchers,Watchers,Original Estimate,Remaining Estimate,Time Spent,Work Ratio,Σ Original Estimate,Σ Remaining Estimate,Σ Time Spent,Security Level,Outward issue link (Reference),Attachment,Attachment,Attachment,Custom field (Attachment count),Custom field (Blog - New Blog Administrators),Custom field (Blog - New Blog PMC),Custom field (Blog - Write access),Custom field (Blog Administrator?),Custom field (Blogs - Admin for blog),Custom field (Blogs - Email Address),Custom field (Blogs - Existing Blog Access Level),Custom field (Blogs - Existing Blog Name),Custom field (Blogs - New Blog Write Access),Custom field (Blogs - Username),Custom field (Bugzilla - Email Notification Address),Custom field (Bugzilla - List of usernames),Custom field (Bugzilla - PMC Name),Custom field (Bugzilla - Project Name),Custom field (Bugzilla Id),Custom field (Date of First Response),Custom field (Docs Text),Custom field (Enable Automatic Patch Review),Custom field (Epic Link),Custom field (Existing GitBox Approval),Custom field (External issue ID),Custom field (External issue URL),Custom field (Flags),Custom field (Git Notification Mailing List),Custom field (Git Repository Import Path),Custom field (Git Repository Name),Custom field (Git Repository Type),Custom field (GitHub Options),Custom field (Github Integration),Custom field (Github Integrations - Other),Custom field (Global Rank),Custom field (Hadoop Flags),Custom field (INFRA - Subversion Repository Path),Custom field (Initial Confluence Contributors),Custom field (Last public comment date),Custom field (Machine Readable Info),Custom field (New-TLP-TLPName),Custom field (Patch Info),Custom field (Project),Custom field (Protected Branch),Custom field (Rank),Custom field (Rank (Obsolete)),Custom field (Release Note),Custom field (Space Description),Custom field (Space Key),Custom field (Space Name),Custom field (Tags),Custom field (Testcase included),Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment,Comment
+Lines dropped in delimited text when they begin with null/no-data,PIG-4513,12823026,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Blocker,Not A Problem,,madhan.sundararajan@tcs.com,madhan.sundararajan@tcs.com,22/Apr/15 13:44,11/May/15 09:28,15/Aug/18 23:11,11/May/15 09:28,0.12.0,,,,,,,,,,,0.15.0,parser,piggybank,,0,,,,,"When Pig (0.12) is used to process delimited text files (| delimited), lines that do not contain data in the first column are dropped.","CDH5.2.x, CDH5.3.x",daijy,gliptak,madhan.sundararajan@tcs.com,rohini,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2015-04-22 22:32:18.26,,false,,,,,,,,,,,,,9223372036854775807,,,,Mon May 11 09:28:08 UTC 2015,,,,,,0|i2dllz:,9223372036854775807,,,,,,,22/Apr/15 22:32;rohini;This sounds bad. Can you add a reproducible script with data to the jira?,"27/Apr/15 11:58;madhan.sundararajan@tcs.com;Sample Data:
+name|age|gender
+aba|25|m
+|45|f
+cdb|54|f
+|98|
+|100|m
+iwoe|23|f","27/Apr/15 12:07;madhan.sundararajan@tcs.com;input = load '/data/file1' using PigStorage('|') ;
+cleanedData = foreach input generate '($col1Type) (TRIM($0) == '\\\\N' ? NULL : TRIM($0)) as $col1, ($col2Type) (TRIM($1) == '\\\\N' ? NULL : TRIM($1)) as $col2, ($col3Type) (TRIM($2) == '\\\\N' ? NULL : TRIM($2)) as $col3';
+STORE cleanedData INTO '/output/out1' USING org.apache.pig.piggybank.storage.avro.AvroStorage();
+
+","27/Apr/15 17:18;daijy;[~madhan.sundararajan@tcs.com], tried your script, ""dump input"" gives me the right result. Do you mean AvroStorage drops data, or foreach drops data? The foreach statement you gave has syntax error, I cannot try it myself.","28/Apr/15 12:26;madhan.sundararajan@tcs.com;Please find below, the updated script.
+
+input = load '/data/file1' using PigStorage('|') ;
+cleanedData = foreach input generate ""(chararray) (TRIM($0) == '\\\\N' ? NULL : TRIM($0)) as $col1, (int) (TRIM($1) == '\\\\N' ? NULL : TRIM($1)) as $col2, (chararray) (TRIM($2) == '\\\\N' ? NULL : TRIM($2)) as $col3"";
+STORE cleanedData INTO '/output/out1' USING org.apache.pig.piggybank.storage.avro.AvroStorage();","28/Apr/15 22:40;daijy;The script still does not work for me, I made some change below:
+{code}
+a = load 'file1' using PigStorage('|');
+cleanedData = foreach a generate (chararray) (TRIM($0) == '\\\\N' ? NULL : TRIM($0)) as a, (int) (TRIM($1) == '\\\\N' ? NULL : TRIM($1)) as b, (chararray) (TRIM($2) == '\\\\N' ? NULL : TRIM($2)) as c;
+store cleanedData into 'ooo' using org.apache.pig.piggybank.storage.avro.AvroStorage();
+{code}
+Actually I still get the right result when I read back:
+{code}
+a = load 'ooo/part-m-00000.avro' using org.apache.pig.piggybank.storage.avro.AvroStorage();
+dump a;
+{code}
+(name,,gender)
+(aba,25,m)
+(,45,f)
+(cdb,54,f)
+(,98,)
+(,100,m)
+(iwoe,23,f)
+
+I am using Pig 0.12.0.","11/May/15 09:28;madhan.sundararajan@tcs.com;Closing this issue.
+Now the Pig script works as expected, with no changes!",,,,,,,
+Need to rebuild pig 0.12.0 jar from mvnrepository.com to resove error in hadoop 2.2 0 ,PIG-3729,12691560,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Blocker,Not A Problem,,nigeljvm,nigeljvm,28/Jan/14 05:12,31/Jan/14 20:26,15/Aug/18 23:11,31/Jan/14 20:26,0.12.0,,,,,,,,,,,,build,internal-udfs,,0,Hadoop,Iteator,Pig,PigServer,"Unable to get pig 0.12.0 to run single node pseudo distributed hadoop 2.2 cluster using the jar from mvnrepository.com 
+this is the error
+
+""org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1066: Unable to open iterator for alias""
+
+if I download the jar from
+http://apache.claz.org/pig/pig-0.12.0/pig-0.12.0.tar.gz  
+
+and then recompile the src with  ""ant clean jar -Dhadoopversion=23""  
+when I install the recompiled  jar in .m2 everything works
+
+If it is the case that the Apache hadoop 2.2.0 jars are backwardly compatible then could some one comment on what could be the issue?
+
+",debian single node pseudo distributed hadoop 2.2 cluster,ashlee3209,cheolsoo,daijy,jayunit100,nezihyigitbasi,nigeljvm,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2014-01-28 14:58:45.388,,false,,,,,,,,,,,,,370305,,,,Fri Jan 31 20:26:17 UTC 2014,,,,,,0|i1rtlj:,370606,,,,,,,"28/Jan/14 14:58;cheolsoo;[~nigeljvm], did you try [pig-0.12.0-h2.jar|http://search.maven.org/#artifactdetails%7Corg.apache.pig%7Cpig%7C0.12.0%7Cjar]? The -h2 jar is compiled with hadoopversion=23.","28/Jan/14 18:51;nigeljvm;thank you very much for your prompt and very helpful response, I was hoping that I could find a dependency for the pom that would work, I have searched around for a dependency like this for the pig-h2 jar, searching thru this jira I think I need something like
+  <dependency>
+            <groupId>org.apache.pig</groupId>
+            <artifactId>pig</artifactId>
+            <version>0.12.0</version>
+            <classifier>h23</classifier>
+  </dependency>
+however this does not work
+does anyone know the correct for for the maven dependency tag","28/Jan/14 18:57;cheolsoo;Here I do it-
+{code}
+<dependency>
+  <groupId>org.apache.pig</groupId>
+  <artifactId>pig</artifactId>
+  <classifier>h2</classifier>
+  <version>0.12.0</version>
+  <scope>provided</scope>
+</dependency>
+{code}",28/Jan/14 19:03;nigeljvm;thank you once again for your very prompt and helpful response,"28/Jan/14 19:59;jayunit100;Yes....... thanks [~cheolsoo] !!!
+
+ Next step :  I think there is some confusoin on this : Maybe this JIRA still has an active component, which is to clarify in the pig docs, somewhere, how pig depends on hadoop, and what the pig 0.12.0 artifact is actually designed to be used?  ","30/Jan/14 08:58;ashlee3209;Different situation for me. I tried both pig-0.12.0.jar in mvnrepository and my recomplied pig jar, but when I run my jar which use PigServer to run pigscripts, it failed with ERROR 4010: Cannot find hadoop configurations in classpath (neither hadoop-site.xml nor core-site.xml was found in the classpath). I have PIG_CLASS_PATH and HADOOP_CONF_DIR setted. 
+
+Then I tried above h2 version dependency, it comes error>java.lang.NoClassDefFoundError: org/apache/pig/PigServer.
+
+My jar is working fine with Pig 0.11.0 and Hadoop 1.2.0, but now I want to run in Pig 0.12.0 and Hadoop 2.2.0.......I need help!","30/Jan/14 16:19;nezihyigitbasi;Ashlee, seems like your classpath doesn't contain $HADOOP_HOME/conf so Pig can't find them. Can you try exporting PIG_CLASSPATH (no underscores between CLASS and PATH) with $HADOOP_HOME/conf and try again (assuming HADOOP_HOME is set properly)? ","30/Jan/14 16:28;ashlee3209;Thanks for your reply! And sorry for the mistyping PIG_CLASS_PATH, I export PIG_CLASSPATH and HADOOP_CONF_DIR (which is equal to $HADOOP_HOME/etc/hadoop in hadoop 2.2.0), I and tried to add $HADOOP_HOME/etc/hadoop (which is not /conf anymore in hadoop 2.2.0) to the classpath, but it is still not working...","30/Jan/14 16:29;ashlee3209;BTW, I tried using hadoop 1.2.1 + Pig 0.12.0 for my case, it is working......","30/Jan/14 16:34;nezihyigitbasi;Can you use -secretDebugCmd to see what gets into the classpath (pig -secretDebugCmd)?
+
+","31/Jan/14 14:48;ashlee3209;Nezih, my application works finally. The only difference that I did is to add a slash to the end of my classpath in my pom.xml. 
+It should be  ""$HADOOP_HOME/etc/hadoop/"", not  ""$HADOOP_HOME/etc/hadoop"". :(
+","31/Jan/14 19:04;jayunit100;I think this is a still an open documentation issue. 
+
+The use of this particular maven dependency hook:
+ 
+{noformat}
+<groupId>org.apache.pig</groupId>
+  <artifactId>pig</artifactId>
+  <classifier>h2</classifier>
+  <version>0.12.0</version>
+  <scope>provided</scope>
+{noformat} 
+
+Doesnt seem to be explained anywhere. 
+
+What is the right place in the Pig documentation for it?  Then someone can put it in as a wiki update or patch.  ","31/Jan/14 19:17;daijy;Yes, document are definitely desired. Reopen the ticket for that.
+
+It is a developer document, feel like a new entry in https://cwiki.apache.org/confluence/display/PIG/Developer+Documentation",31/Jan/14 20:26;daijy;I see PIG-3738 opened for documentation. Close this ticket.
+ClassCastException when using group.$0,PIG-2118,12509846,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Blocker,Not A Problem,,johnamos,johnamos,10/Jun/11 16:26,03/Oct/11 07:40,15/Aug/18 23:11,03/Oct/11 07:40,0.8.1,,,,,,,,,,,,,,,0,,,,,"Create an input file named ""key_only"" that contains a single number.
+
+key_only = LOAD 'key_only' AS (theKey: long);
+A = GROUP key_only BY theKey;
+B = FOREACH A GENERATE group.$0 AS theKey;
+dump B;
+
+
+Processing fails with the following error:
+
+Backend error message
+---------------------
+java.lang.ClassCastException: java.lang.Long cannot be cast to org.apache.pig.data.Tuple
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.POProject.getNext(POProject.java:392)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.PhysicalOperator.processInput(PhysicalOperator.java:276)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.POProject.getNext(POProject.java:138)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.POProject.getNext(POProject.java:276)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POForEach.processPlan(POForEach.java:345)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POForEach.getNext(POForEach.java:290)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigMapReduce$Reduce.runPipeline(PigMapReduce.java:434)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigMapReduce$Reduce.processOnePackageOutput(PigMapReduce.java:402)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigMapReduce$Reduce.reduce(PigMapReduce.java:382)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigMapReduce$Reduce.reduce(PigMapReduce.java:251)
+        at org.apache.hadoop.mapreduce.Reducer.run(Reducer.java:176)
+        at org.apache.hadoop.mapred.ReduceTask.runNewReducer(ReduceTask.java:571)
+        at org.apache.hadoop.mapred.ReduceTask.run(ReduceTask.java:413)
+        at org.apache.hadoop.mapred.Child$4.run(Child.java:240)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at javax.security.auth.Subject.doAs(Subject.java:396)
+        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1115)
+        at org.apache.hadoop.mapred.Child.main(Child.java:234)
+","CentOS 5.6
+
+Hadoop 0.20.2
+Subversion https://svn.apache.org/repos/asf/hadoop/common/branches/branch-0.20 -r 911707
+Compiled by chrisdo on Fri Feb 19 08:07:34 UTC 2010
+
+Apache Pig version 0.8.1 (r1094835)
+compiled Apr 18 2011, 19:26:53
+
+Also reproduced on:
+CentOS 5.5
+
+Apache Pig version 0.8.0-cdh3u0 (rexported)
+compiled Mar 25 2011, 16:16:24
+
+Hadoop 0.20.2-CDH3B4
+Subversion  -r 3aa7c91592ea1c53f3a913a581dbfcdfebe98bfe
+Compiled by root on Mon Feb 21 17:31:12 EST 2011
+From source with checksum cd3f3059d069da355d3991b499d42c3b
+
+",thejas,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2011-06-10 18:21:29.043,,false,,,,,,,,,,,,,43542,,,,Mon Oct 03 07:40:46 UTC 2011,,,,,,0|i0h13z:,97442,,,,,,,10/Jun/11 16:33;johnamos;Same stack trace as PIG-2087,"10/Jun/11 16:38;johnamos;Work-around:
+Insert the following at POProject.java:392
+
+                if (!(ret instanceof Tuple))  {
+                   ret = tupleFactory.newTuple(ret);
+                }
+","10/Jun/11 18:21;daijy;Hi, John, the group key is ""theKey"", which is a long. group.$0 will throw a parser exception. Can you double check if this is the script you are running?","10/Jun/11 18:57;johnamos;Hi Daniel, I copied and pasted the script into grunt in two different environments (see ""Environment"" section above for details) and they both fail with the same error.","10/Jun/11 19:07;daijy;Why you refer to group.$0? Seems ""group"" should be the column ""theKey"" you want to refer.",10/Jun/11 19:19;johnamos;I use group.$0 because I built a Pig Latin generator and it was easier to implement the generator that way.  If this syntax is invalid shouldn't it fail during parse time instead of throwing a ClassCastException at run time?,"10/Jun/11 19:26;thejas;bq. If this syntax is invalid shouldn't it fail during parse time instead of throwing a ClassCastException at run time?
+Yes, it should give a parse error. The bug been fixed for 0.9 ( PIG-1281). 
+In 0.9 -
+{code}
+grunt> key_only = LOAD 'key_only' AS (theKey: long);
+grunt> A = GROUP key_only BY theKey;
+grunt> B = FOREACH A GENERATE group.$0 AS theKey;
+2011-06-10 12:19:47,849 [main] ERROR org.apache.pig.tools.grunt.Grunt - ERROR 1129:
+<line 7, column 28> Referring to column(s) within a column of type long is not allowed
+Details at logfile: /Users/tejas/pig_sedes_long/trunk/pig_1307671501595.log
+{code}","10/Jun/11 20:05;dvryaboy;John -- if it's easier for your generator to always assume that group is a tuple, you can GROUP key_only by (theKey);  (note the parenthesis).","03/Oct/11 07:40;dvryaboy;This is partially not a problem (user was auto-generating incorrect syntax), and partially a ux issue fixed in a separate ticket (user should've been told at compile time that he was using incorrect syntax). Closing.",,,,,
+Fix TestRegisteredJarVisibility(after PIG-4083),PIG-4103,12731932,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Critical,Not A Problem,fang fang chen,fang fang chen,fang fang chen,05/Aug/14 05:51,30/Jan/15 00:56,15/Aug/18 23:11,30/Jan/15 00:56,0.13.0,,,,,,,,,,,0.13.0,,,,0,,,,,"The root cause is that hive-exec-0.13.1.jar included jackson classes. 
+String jacksonJar = JarManager.findContainingJar(org.codehaus.jackson.JsonParser.class);
+String jacksonJar returns ""hive-exec-0.13.1.jar"" but not jackson-*-1.8.8.jar",,daijy,fang fang chen,,,,,,,,,,,,,,05/Aug/14 05:55;fang fang chen;PIG-4103.patch;https://issues.apache.org/jira/secure/attachment/12659826/PIG-4103.patch,,,1.0,,,,,,,,,,,,,,,,2014-08-06 05:11:12.319,,false,,,,,,,,,,,,,409961,,,,Fri Jan 30 00:56:42 UTC 2015,,,,,,0|i1yj93:,409955,,,,,,,"06/Aug/14 02:30;fang fang chen;With this fix, all ut passed now for branch-0.13 with sun jdk.","06/Aug/14 05:11;daijy;The testcase aim to test the case register override the default jar. We shall not restrict the scope of the test. It seems better to rollback PIG-4083, and exclude hive-exec.jar (easiest is rename the jar before test) when testing TestAccumuloPigCluster.",26/Jan/15 02:41;fang fang chen;This issue does not existed in pig trunk any more as Pig trunk has upgraded hive to 0.14.0. Please help close this jira as some status like Not a problem.,30/Jan/15 00:56;daijy;Closed as requested. Thanks fang fang!,,,,,,,,,,
+Error while loading data,PIG-3709,12690639,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Critical,Not A Problem,,hdbarot,hdbarot,23/Jan/14 06:29,15/Jul/14 23:22,15/Aug/18 23:11,15/Jul/14 21:32,0.12.0,,,,,,,,,,,,data,grunt,,0,,,,,"Hello,
+
+I got error while apply this.
+
+grunt> data = load 'atoz.csv' using PigStorage(',');
+
+grunt> dump data;
+
+ERROR org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl - Error while trying to run jobs.
+java.lang.IncompatibleClassChangeError: Found interface org.apache.hadoop.mapreduce.JobContext, but class was expected.
+
+I am using ubuntu 12.02 32bit.
+I installed hadoop2.2.0 and pig 0.12 successfully.
+Haddop is runnig on my system.
+
+But, when i try to load a file
+
+so it gives error.
+Please address me where i am wrong.
+
+---------------------------------------------------------------------------------------
+
+grunt> aatoz = load 'atoz.csv' using PigStorage(',');
+grunt> dump aatoz;                                   
+2014-01-23 10:41:44,950 [main] INFO  org.apache.pig.tools.pigstats.ScriptState - Pig features used in the script: UNKNOWN
+2014-01-23 10:41:44,968 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MRCompiler - File concatenation threshold: 100 optimistic? false
+2014-01-23 10:41:44,969 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MultiQueryOptimizer - MR plan size before optimization: 1
+2014-01-23 10:41:44,969 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MultiQueryOptimizer - MR plan size after optimization: 1
+2014-01-23 10:41:44,971 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2014-01-23 10:41:44,972 [main] INFO  org.apache.pig.tools.pigstats.ScriptState - Pig script settings are added to the job
+2014-01-23 10:41:44,972 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - mapred.job.reduce.markreset.buffer.percent is not set, set to default 0.3
+2014-01-23 10:41:44,984 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting up single store job
+2014-01-23 10:41:44,998 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 1 map-reduce job(s) waiting for submission.
+2014-01-23 10:41:45,000 [Thread-9] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2014-01-23 10:41:45,001 [Thread-9] ERROR org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl - Error while trying to run jobs.
+java.lang.IncompatibleClassChangeError: Found interface org.apache.hadoop.mapreduce.JobContext, but class was expected
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputFormat.setupUdfEnvAndStores(PigOutputFormat.java:225)
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputFormat.checkOutputSpecs(PigOutputFormat.java:186)
+at org.apache.hadoop.mapreduce.JobSubmitter.checkSpecs(JobSubmitter.java:456)
+at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:342)
+at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1268)
+at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1265)
+at java.security.AccessController.doPrivileged(Native Method)
+at javax.security.auth.Subject.doAs(Subject.java:415)
+at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1491)
+at org.apache.hadoop.mapreduce.Job.submit(Job.java:1265)
+at org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob.submit(ControlledJob.java:335)
+at org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl.run(JobControl.java:240)
+at java.lang.Thread.run(Thread.java:724)
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher$1.run(MapReduceLauncher.java:260)
+2014-01-23 10:41:45,498 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 0% complete
+2014-01-23 10:41:45,502 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - job null has failed! Stop running all dependent jobs
+2014-01-23 10:41:45,503 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 100% complete
+2014-01-23 10:41:45,507 [main] ERROR org.apache.pig.tools.pigstats.SimplePigStats - ERROR 2997: Unable to recreate exception from backend error: Unexpected System Error Occured: java.lang.IncompatibleClassChangeError: Found interface org.apache.hadoop.mapreduce.JobContext, but class was expected
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputFormat.setupUdfEnvAndStores(PigOutputFormat.java:225)
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputFormat.checkOutputSpecs(PigOutputFormat.java:186)
+at org.apache.hadoop.mapreduce.JobSubmitter.checkSpecs(JobSubmitter.java:456)
+at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:342)
+at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1268)
+at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1265)
+at java.security.AccessController.doPrivileged(Native Method)
+at javax.security.auth.Subject.doAs(Subject.java:415)
+at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1491)
+at org.apache.hadoop.mapreduce.Job.submit(Job.java:1265)
+at org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob.submit(ControlledJob.java:335)
+at org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl.run(JobControl.java:240)
+at java.lang.Thread.run(Thread.java:724)
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher$1.run(MapReduceLauncher.java:260)
+
+2014-01-23 10:41:45,507 [main] ERROR org.apache.pig.tools.pigstats.PigStatsUtil - 1 map reduce job(s) failed!
+2014-01-23 10:41:45,507 [main] INFO  org.apache.pig.tools.pigstats.SimplePigStats - Detected Local mode. Stats reported below may be incomplete
+2014-01-23 10:41:45,508 [main] INFO  org.apache.pig.tools.pigstats.SimplePigStats - Script Statistics:
+
+HadoopVersion    PigVersion    UserId    StartedAt    FinishedAt    Features
+2.2.0    0.10.1    hardik    2014-01-23 10:41:44    2014-01-23 10:41:45    UNKNOWN
+
+Failed!
+
+Failed Jobs:
+JobId    Alias    Feature    Message    Outputs
+N/A    aatoz    MAP_ONLY    Message: Unexpected System Error Occured: java.lang.IncompatibleClassChangeError: Found interface org.apache.hadoop.mapreduce.JobContext, but class was expected
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputFormat.setupUdfEnvAndStores(PigOutputFormat.java:225)
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputFormat.checkOutputSpecs(PigOutputFormat.java:186)
+at org.apache.hadoop.mapreduce.JobSubmitter.checkSpecs(JobSubmitter.java:456)
+at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:342)
+at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1268)
+at org.apache.hadoop.mapreduce.Job$10.run(Job.java:1265)
+at java.security.AccessController.doPrivileged(Native Method)
+at javax.security.auth.Subject.doAs(Subject.java:415)
+at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1491)
+at org.apache.hadoop.mapreduce.Job.submit(Job.java:1265)
+at org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob.submit(ControlledJob.java:335)
+at org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl.run(JobControl.java:240)
+at java.lang.Thread.run(Thread.java:724)
+at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher$1.run(MapReduceLauncher.java:260)
+file:/tmp/temp1979716161/tmp-189979005,
+
+Input(s):
+Failed to read data from ""file:///home/hardik/pig10/bin/input/atoz.csv""
+
+Output(s):
+Failed to produce result in ""file:/tmp/temp1979716161/tmp-189979005""
+
+Job DAG:
+null
+
+
+2014-01-23 10:41:45,509 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Failed!
+2014-01-23 10:41:45,510 [main] ERROR org.apache.pig.tools.grunt.Grunt - ERROR 1066: Unable to open iterator for alias aatoz
+Details at logfile: /home/hardik/pig10/bin/pig_1390453192689.log",ubuntu v12.04 32bit.,cheolsoo,snayakm,,,,,3600,3600,,0%,3600,3600,,,,,,,0.0,,,,,,,,,,,,,,,,2014-07-15 21:01:38.367,,false,,,,,,,,,,,,,369434,Incompatible change,,,Tue Jul 15 23:22:52 UTC 2014,,,,,,0|i1roav:,369739,,,,,,,"15/Jul/14 21:01;snayakm;Multiple JIRAs were created with same content. PIG-3708, PIG-3707, PIG-3706, PIG-3705, PIG-3704, PIG-3703, PIG-3702. Close the duplicates.","15/Jul/14 21:32;cheolsoo;[~snayakm], please recompile your Pig jar with -Dhadoopversion=23 from source tarball. In Pig 0.12, the Pig jar is compiled against Hadoop 1.x.
+
+Or you can use Pig 0.13 because Pig started shipping both Hadoop1 and Hadoop2 jars.","15/Jul/14 21:52;snayakm;[~cheolsoo], Bug filed by [~hdbarot]. However, will try the fix in my test machine.","15/Jul/14 23:22;cheolsoo;[~snayakm], sorry for the confusion. :-) Thank you.",,,,,,,,,,
+data,PIG-5122,13039390,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,hamdani,hamdani,01/Feb/17 05:09,25/Jun/18 08:54,15/Aug/18 23:11,18/Jun/18 08:33,0.16.0,,,,,,,,,,,,data,,,0,,,,,,,hamdani,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,9223372036854775807,,,,2017-02-01 05:09:26.0,,,,,,0|i39gav:,9223372036854775807,,,,,,,,,,,,,,,,,,,,
+Not a valid JAR,PIG-5113,13037646,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,MaxFaber,MaxFaber,25/Jan/17 10:57,26/Jan/17 01:26,15/Aug/18 23:11,26/Jan/17 01:26,0.16.0,,,,,,,,,,,,grunt,,,0,,,,,"Hello, I installed Pig on Ubuntu Server 16.0 and I need to use it in local mode.
+Yesterday I tried to run some jobs but unfortunately they were killed cause the heap space of java wasn't enough. I updated it but now, when I try to run pig, it appear this error:
+Not a valid JAR: /usr/local/pig/pig-0.16.0-core-h2.jar /usr/local/pig/pig-0.16.0-SNAPSHOT-core-h2.jar
+
+How could I solve this? I cannot find a solution.
+
+",Ubuntu Server 16.04,daijy,MaxFaber,nkollar,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2017-01-25 11:30:38.96,,false,,,,,,,,,,,,,9223372036854775807,,,,Thu Jan 26 01:26:30 UTC 2017,,,,,,0|i396fj:,9223372036854775807,,,,,,,25/Jan/17 11:30;nkollar;How did you increase the heap space? Via exporting PIG_OPTS? Did you verify that the jar is actually a valid jar manually?,"25/Jan/17 12:40;MaxFaber;I increased using:
+export _JAVA_OPTIONS=-Xmx8192m
+
+I tried also with PIG_OPTS but nothing.
+After verify the jars with:
+jar -tvf pig-0.16.0-core-h2.jar
+
+no errors are arised.",26/Jan/17 01:26;daijy;The classic way to is export PIG_HEAPSIZE environment variable. But seem you solve the issue anyway.,,,,,,,,,,,
+Problem running pigunit sample test,PIG-5077,13028422,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Bug,,pplamen,pplamen,15/Dec/16 16:05,04/Jan/17 05:19,15/Aug/18 23:11,21/Dec/16 10:41,0.16.0,,,,,,,,,,,,,,,0,test,,,,"Hi,
+
+I'm trying to execute the sample test(testNtoN) found in your svn trunk(http://svn.apache.org/viewvc/pig/trunk/test/org/apache/pig/test/pigunit/TestPigTest.java?revision=1662348&view=markup) but I have a lot of problems. First of all I'm trying to run the test under IntelliJ 2016.3 as jUnit. I'm using maven 3 as a build tool and dependency manager. So in your documentation you've written that we only need pig, pigunit and hadoop-common. But this way throws exceptions for missing classes. Then I had to add hadoop-hdfs, hadoop-mapreduce-client-core, hadoop-mapreduce-client-jobclient in order to resolve this problem(I don't think that this must be that way). But then comes the interesing part- I receive the following error 
+
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1066: Unable to open iterator for alias queries_group. I tried to debug it and this happens while trying to build the query plan and acquire the ExecJob. I even tried to simplify the script and remove everything but the code for loading and storing the data. The result was the same. So I'm almost desperate and I hope someone can help me with this.
+
+Cheers,
+Plamen
+
+",,daijy,pplamen,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2017-01-04 05:19:19.34,,false,,,,,Important,,,,,,,,9223372036854775807,,,,Wed Jan 04 05:19:19 UTC 2017,,,,,,0|i37nc7:,9223372036854775807,,,,,,,21/Dec/16 10:41;pplamen;it was caused by incorrect dependencies,04/Jan/17 05:19;daijy;Do you mean the issue has been solved? May I close?,,,,,,,,,,,,
+"Non Hadoop23 builds are broken.  Perhaps, default value for 'hadoopversion' should be set to 23",PIG-4971,12997466,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,vlad@v-lad.org,vlad@v-lad.org,16/Aug/16 04:17,23/Aug/16 00:16,15/Aug/18 23:11,23/Aug/16 00:16,0.17.0,,,,,,,,,,,0.17.0,,,,0,,,,,"Builds fail if Ant is ran without -Dhadoopversion=23  option for any version that has this patch applied https://issues.apache.org/jira/browse/PIG-4916 
+
+Since Rohini mentioned [here|https://issues.apache.org/jira/browse/PIG-4916?focusedCommentId=15317236&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-15317236]  that older Hadoop versions will not be supported in 0.17.  Should the default Hadoop version be set to 23?",,daijy,vlad@v-lad.org,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2016-08-23 00:16:42.444,,false,,,,,,,,,,,,,9223372036854775807,,,,Tue Aug 23 00:16:42 UTC 2016,,,,,,0|i32ck7:,9223372036854775807,,,,,,,23/Aug/16 00:16;daijy;That's true. We break compatibility of Hadoop 1 with acknowledgement. I intend to drop Hadoop 1 related code in 0.17.,,,,,,,,,,,,,
+AvroStorage doesn't work for schema from external file for EMR,PIG-4813,12940155,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Bug,,jagdishk,jagdishk,18/Feb/16 13:57,29/Feb/16 10:29,15/Aug/18 23:11,29/Feb/16 10:29,,,,,,,,,,,,,,,,0,,,,,"Hi Team,
+
+I couldn't get the schema loading for AvroStorage as described in http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-etl-avro.html working. 
+
+It works fine if I provide the raw schema string with option 'schema' as described in https://cwiki.apache.org/confluence/display/PIG/AvroStorage.
+
+On HDFS I don't even need to specify the schema with store command.
+
+A quick insights regarding the versions.
+* Hadoop :
+{code}
+Hadoop 2.6.0-amzn-2
+Subversion git@aws157git.com:/pkg/Aws157BigTop -r 41f4e6be3ac5d6676a3464f77de79a33e8fdd9f3
+Compiled by ec2-user on 2015-11-16T20:56Z
+Compiled with protoc 2.5.0
+{code}
+* Pig :
+{code}
+Apache Pig version 0.14.0-amzn-0 (r: unknown)
+{code}
+* piggybank jar version:
+** piggybank-0.14.0.jar
+* avro jar version :
+** avro-1.7.7.jar
+* avro-ipc jar version :
+** avro-ipc-1.7.7.jar
+* json-simple jar version
+** json-simple-1.1.jar
+
+I tried looking for any pibbybank version of jar for EMR however no luck. I fear I am not using correct versions of jars since the feature should work as it has been documented. 
+
+Please advise if I am missing anything.
+
+Thanks,
+Jagdish
+
+ ",,daijy,jagdishk,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2016-02-18 21:45:34.913,,false,,,,,,,,,,,,,9223372036854775807,,,,Mon Feb 29 10:29:35 UTC 2016,,,,,,0|i2t04f:,9223372036854775807,,,,,,,"18/Feb/16 14:05;jagdishk;The error I am getting is 
+
+My store command in the script looks as shown below.
+{code}
+store records into 's3://my-bucket/my-output' using org.apache.pig.piggybank.storage.avro.AvroStorage('schema_file', 's3n://my-bucket/my-schema/records.avsc');{code}
+
+{code}
+org.apache.hadoop.yarn.exceptions.YarnRuntimeException: java.io.IOException: Output schema is null!
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$1.call(MRAppMaster.java:473)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$1.call(MRAppMaster.java:453)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.callWithJobClassLoader(MRAppMaster.java:1542)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.createOutputCommitter(MRAppMaster.java:453)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.serviceInit(MRAppMaster.java:371)
+	at org.apache.hadoop.service.AbstractService.init(AbstractService.java:163)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$4.run(MRAppMaster.java:1500)
+	at java.security.AccessController.doPrivileged(Native Method)
+{code}",18/Feb/16 21:45;daijy;Does org.apache.pig.builtin.AvroStorage work? Do you have the complete stack trace?,"19/Feb/16 05:36;jagdishk;Thanks Daniel for responding. Here's the complete log that I could get.
+
+{code}
+2016-02-19 05:22:02,945 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: Created MRAppMaster for application appattempt_1455858325607_0002_000001
+2016-02-19 05:22:03,559 WARN [main] org.apache.hadoop.util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2016-02-19 05:22:03,579 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: Executing with tokens:
+2016-02-19 05:22:03,579 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: Kind: YARN_AM_RM_TOKEN, Service: , Ident: (appAttemptId { application_id { id: 2 cluster_timestamp: 1455858325607 } attemptId: 1 } keyId: 1797247994)
+2016-02-19 05:22:03,787 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: Using mapred newApiCommitter.
+2016-02-19 05:22:04,842 INFO [main] org.apache.hadoop.mapreduce.v2.app.MRAppMaster: OutputCommitter set in config org.apache.hadoop.mapred.DirectFileOutputCommitter
+2016-02-19 05:22:06,949 INFO [main] com.amazon.ws.emr.hadoop.fs.EmrFileSystem: Consistency disabled, using com.amazon.ws.emr.hadoop.fs.s3n.S3NativeFileSystem as filesystem implementation
+2016-02-19 05:22:07,225 INFO [main] amazon.emr.metrics.MetricsSaver: MetricsConfigRecord disabledInCluster: false instanceEngineCycleSec: 60 clusterEngineCycleSec: 60 disableClusterEngine: false maxMemoryMb: 3072 maxInstanceCount: 500 lastModified: 1455858335246 
+2016-02-19 05:22:07,226 INFO [main] amazon.emr.metrics.MetricsSaver: Created MetricsSaver j-LFFAZA3YY2MP:i-64944bbc:MRAppMaster:13647 period:60 /mnt/var/em/raw/i-64944bbc_20160219_MRAppMaster_13647_raw.bin
+2016-02-19 05:22:07,881 INFO [main] com.amazonaws.latency: StatusCode=[200], ServiceName=[Amazon S3], AWSRequestID=[null], ServiceEndpoint=[https://my-bucket.s3.amazonaws.com], HttpClientPoolLeasedCount=0, RequestCount=1, HttpClientPoolPendingCount=0, HttpClientPoolAvailableCount=0, ClientExecuteTime=[610.782], HttpRequestTime=[545.302], HttpClientReceiveResponseTime=[43.907], RequestSigningTime=[14.752], ResponseProcessingTime=[1.363], HttpClientSendRequestTime=[1.409], 
+2016-02-19 05:22:08,093 INFO [main] com.amazon.ws.emr.hadoop.fs.s3n.S3NativeFileSystem: listStatus s3n://my-bucket/user/schema/my-schema.avsc with recursive false
+2016-02-19 05:22:08,127 INFO [main] com.amazonaws.latency: StatusCode=[200], ServiceName=[Amazon S3], AWSRequestID=[null], ServiceEndpoint=[https://my-bucket.s3.amazonaws.com], HttpClientPoolLeasedCount=0, RequestCount=1, HttpClientPoolPendingCount=0, HttpClientPoolAvailableCount=1, ClientExecuteTime=[31.71], HttpRequestTime=[30.035], HttpClientReceiveResponseTime=[26.537], RequestSigningTime=[1.127], ResponseProcessingTime=[0.009], HttpClientSendRequestTime=[1.029], 
+2016-02-19 05:22:08,421 INFO [main] com.amazonaws.latency: StatusCode=[200], ServiceName=[Amazon S3], AWSRequestID=[D89C808B9B1677E2], ServiceEndpoint=[https://my-bucket.s3-us-west-1.amazonaws.com], HttpClientPoolLeasedCount=0, RequestCount=1, HttpClientPoolPendingCount=0, HttpClientPoolAvailableCount=1, ClientExecuteTime=[292.937], HttpRequestTime=[277.019], HttpClientReceiveResponseTime=[68.209], RequestSigningTime=[1.22], ResponseProcessingTime=[13.392], HttpClientSendRequestTime=[1.032], 
+2016-02-19 05:22:08,509 INFO [main] com.amazon.ws.emr.hadoop.fs.s3n.S3NativeFileSystem: Opening 's3n://my-bucket/user/schema/my-schema.avsc' for reading
+2016-02-19 05:22:08,561 INFO [main] com.amazonaws.latency: StatusCode=[206], ServiceName=[Amazon S3], AWSRequestID=[1EE49CF8FD820E4A], ServiceEndpoint=[https://my-bucket.s3.amazonaws.com], HttpClientPoolLeasedCount=0, RequestCount=1, HttpClientPoolPendingCount=0, HttpClientPoolAvailableCount=2, ClientExecuteTime=[48.773], HttpRequestTime=[42.801], HttpClientReceiveResponseTime=[39.706], RequestSigningTime=[0.866], ResponseProcessingTime=[1.779], HttpClientSendRequestTime=[1.112], 
+2016-02-19 05:22:08,564 INFO [main] amazon.emr.metrics.MetricsSaver: Thread 1 created MetricsLockFreeSaver 1
+2016-02-19 05:22:08,841 INFO [main] com.amazon.ws.emr.hadoop.fs.EmrFileSystem: Consistency disabled, using com.amazon.ws.emr.hadoop.fs.s3n.S3NativeFileSystem as filesystem implementation
+2016-02-19 05:22:09,026 INFO [main] com.amazonaws.latency: StatusCode=[200], ServiceName=[Amazon S3], AWSRequestID=[null], ServiceEndpoint=[https://my-bucket.s3.amazonaws.com], HttpClientPoolLeasedCount=0, RequestCount=1, HttpClientPoolPendingCount=0, HttpClientPoolAvailableCount=0, ClientExecuteTime=[184.297], HttpRequestTime=[179.01], HttpClientReceiveResponseTime=[30.483], RequestSigningTime=[0.578], ResponseProcessingTime=[0.01], HttpClientSendRequestTime=[0.98], 
+2016-02-19 05:22:09,036 INFO [main] org.apache.hadoop.service.AbstractService: Service org.apache.hadoop.mapreduce.v2.app.MRAppMaster failed in state INITED; cause: org.apache.hadoop.yarn.exceptions.YarnRuntimeException: java.io.IOException: Output schema is null!
+org.apache.hadoop.yarn.exceptions.YarnRuntimeException: java.io.IOException: Output schema is null!
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$1.call(MRAppMaster.java:473)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$1.call(MRAppMaster.java:453)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.callWithJobClassLoader(MRAppMaster.java:1542)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.createOutputCommitter(MRAppMaster.java:453)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.serviceInit(MRAppMaster.java:371)
+	at org.apache.hadoop.service.AbstractService.init(AbstractService.java:163)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$4.run(MRAppMaster.java:1500)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at javax.security.auth.Subject.doAs(Subject.java:415)
+	at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1628)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.initAndStartAppMaster(MRAppMaster.java:1497)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster.main(MRAppMaster.java:1430)
+Caused by: java.io.IOException: Output schema is null!
+	at org.apache.pig.piggybank.storage.avro.AvroStorage.getOutputFormat(AvroStorage.java:692)
+	at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputCommitter.getCommitters(PigOutputCommitter.java:92)
+	at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputCommitter.<init>(PigOutputCommitter.java:70)
+	at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigOutputFormat.getOutputCommitter(PigOutputFormat.java:289)
+	at org.apache.hadoop.mapreduce.v2.app.MRAppMaster$1.call(MRAppMaster.java:471)
+	... 11 more
+{code}
+
+Need to check with the suggested API. Would update as I make progress.","29/Feb/16 08:35;jagdishk;Thanks [~daijy] !
+
+The org.apache.pig.builtin.AvroStorage worked. Need to check if this works on HDFS as well.
+
+Regards,
+Jagdish","29/Feb/16 10:29;jagdishk;Works on HDFS as well. 
+The key is to use ""*org.apache.pig.builtin.AvroStorage*"" instead of ""*org.apache.pig.piggybank.storage.avro.AvroStorage*""
+
+Resolving as not a bug.",,,,,,,,,
+PigPerformance - data in the map gets lost during parsing,PIG-3749,12693759,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,kereno,keren3000,keren3000,06/Feb/14 22:40,12/Jun/15 20:37,15/Aug/18 23:11,12/Jun/15 20:37,0.12.0,,,,,,,,,,,,,,,0,,,,,"Create a Pigmix sample dataset which looks as follow:
+keren	1	2	qt	3	4	5.0	aaaabbbb	mccccddddeeeedmffffgggghhhh
+
+Launch the following query:
+A = load 'page_views_sample.txt' using org.apache.pig.test.pigmix.udf.PigPerformanceLoader()
+    as (user, action, timespent, query_term, ip_addr, timestamp, estimated_revenue, page_info, page_links);
+store A into 'L1out_A';
+
+B = foreach A generate user, (int)action as action, (map[])page_info as page_info, flatten((bag{tuple(map[])})page_links) as page_links;
+store B into 'L1out_B';
+
+The result looks like this: 
+keren	1	[b#bbb,a#aaa]	[d#,e#eee,c#ccc]
+keren	1	[b#bbb,a#aaa]	[f#fff,g#ggg,h#hhh
+
+It is missing the 'ddd' value and a closing bracket.
+
+Thanks,
+Keren",,cheolsoo,daijy,keren3000,prkommireddi,,,,,,,,,,,,26/Mar/14 00:25;keren3000;PIG-3749.patch;https://issues.apache.org/jira/secure/attachment/12636828/PIG-3749.patch,,,1.0,,,,,,,,,,,,,,,,2014-03-26 23:54:20.77,,false,,,,,,,,,,,,,372268,,,,Tue Oct 14 18:26:03 UTC 2014,,,,,,0|i1s5mf:,372572,"Bug in PigPerformanceLoader when reading bytes, the loop which looks for a termination character in a map is missing the null value (Ascii=0) ",,,,,,"26/Mar/14 23:54;cheolsoo;I don't seem to be able to reproduce it. I used ""keren	1	2	qt	3	4	5.0	aaaabbbb	mccccddddeeeedmffffgggghhhh"" as input, and it gives me the following-
+{code}
+(keren	1	2	qt	3	4	5.0	aaaabbbb	mccccddddeeeemffffgggghhhh,,,,,,,,)
+(keren	1	2	qt	3	4	5.0	aaaabbbb	mccccddddeeeemffffgggghhhh,,,)
+{code}
+I think I am not loading the data properly. Do you mind attaching a sample dataset to the jira?
+
+Also, can you post a patch that can be easily applied with {{patch < filenamename}} in the root directory? Not a big deal for small patches, but it's helpful to reviewers.
+
+Thanks!","01/Apr/14 21:09;prkommireddi;[~kereno] moving this to 0.13, let me know if you have concerns with that. Also, can you please answer Cheolsoo's question above.",14/Apr/14 16:36;cheolsoo;Canceling patch while waiting for response.,"11/Oct/14 07:44;daijy;[~kereno], is this still an issue?","14/Oct/14 18:26;daijy;I tried something similar but not able to reproduce it.
+
+Seems your patch deals with the 0x00 in the bytearray. Is it in the middle of the bytearray or in the end? I checked DataGenerator, it does not seems we generate 0x00 in the middle. If it is in the end, shouldn't it also be bounded by b.length?
+
+Can you upload your page_views_sample with the offending record?",,,,,,,,,
+VALUESET/VALUELIST wraps an element in a tuple even if that element is a tuple,PIG-4459,12781720,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,rdsr,rdsr,13/Mar/15 05:26,13/Mar/15 17:26,15/Aug/18 23:11,13/Mar/15 17:26,0.14.0,,,,,,,,,,,,,,,0,UDF,VALUELIST,VALUESET,,"I see that in UDFS VALUELIST/VALUESET we wrap every element in a tuple no matter the type of element, which means that we may  wrap a tuple inside a tuple if the input map contains tuples as values. In our Pig loaders we specifically do not do this, when converting to DataBags we do not wrap elements in tuples which are tuple equivalents. I wondering if this is the intended behavior or is it a bug?
+",,daijy,erwaman,rdsr,,,,,,,,,,,,,13/Mar/15 05:27;rdsr;valueset_doubly_wraps_tuples_in_map.patch;https://issues.apache.org/jira/secure/attachment/12704364/valueset_doubly_wraps_tuples_in_map.patch,,,1.0,,,,,,,,,,,,,,,,2015-03-13 16:28:52.515,,false,,,,,,,,,,,,,9223372036854775807,,,,Fri Mar 13 16:28:52 UTC 2015,,,,,,0|i26q4v:,9223372036854775807,,,,,,,13/Mar/15 05:27;rdsr;Attaching simple testcase to show the current behavior,"13/Mar/15 16:28;daijy;This should be the right behavior. Otherwise, the result will be the same as when the map value is chararray. You can do a flatten to take out the tuple.",,,,,,,,,,,,
+Python script with embedded PIG fails throws ImportError: No module named org.apache.pig.scripting,PIG-4353,12760549,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,mnadig,mnadig,09/Dec/14 21:09,08/Jan/15 16:01,15/Aug/18 23:11,08/Jan/15 16:01,0.13.1,,,,,,,,,,,,,,,0,,,,,"Python script with embedded pig fails to import org.apache.pig.scripting.
+
+{code}
+$ python myjob.py 
+Traceback (most recent call last):
+  File ""myjob.py"", line 12, in <module>
+    from org.apache.pig.scripting import *
+ImportError: No module named org.apache.pig.scripting
+{code}
+
+Have tried to import the bundled jython jar explicitly with
+{code}
+import sys
+sys.path.append('/opt/mapr/pig/pig-0.13/lib/jython-standalone-2.5.3.jar')
+from org.apache.pig.scripting import *
+{code}
+Still get the same error.",,mnadig,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,9223372036854775807,,,,Thu Jan 08 16:01:04 UTC 2015,,,,,,0|i238u7:,9223372036854775807,,,,,,,"08/Jan/15 16:01;mnadig;Here's the correct way to use python-embedded-pig :
+{code}
+pig -embedded jython myjob.py
+{code}",,,,,,,,,,,,,
+Tez breaks hadoop 2 compilation because of import error,PIG-4142,12737312,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,kellyzly,kellyzly,28/Aug/14 06:01,29/Aug/14 02:24,15/Aug/18 23:11,29/Aug/14 02:24,0.14.0,,,,,,,,,,,,impl,,,0,,,,,"use tez 0.5.0 release source code(https://github.com/apache/tez/releases/tag/release-0.5.0-rc0) to build tez: 
+      mvn clean install -DskipTests 
+after i compiled successfully tez 0.5.0, using following command to build pig trunk code:
+       ant -Dhadoopversion=23 jar
+compile:
+     [echo] *** Building Main Sources ***
+     [echo] *** To compile with all warnings enabled, supply -Dall.warnings=1 on command line ***
+     [echo] *** Else, you will only be warned about deprecations ***
+    [javac] Compiling 458 source files to /home/zly/prj/oss/pig/build/classes
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] /home/zly/prj/oss/pig/src/org/apache/pig/backend/hadoop/executionengine/tez/TezEdgeDescriptor.java:25: error: cannot find symbol
+    [javac] import org.apache.tez.runtime.library.input.ShuffledMergedInput;
+    [javac]                                            ^
+    [javac]   symbol:   class ShuffledMergedInput
+    [javac]   location: package org.apache.tez.runtime.library.input
+    [javac] /home/zly/prj/oss/pig/src/org/apache/pig/backend/hadoop/executionengine/tez/TezEdgeDescriptor.java:26: error: cannot find symbol
+    [javac] import org.apache.tez.runtime.library.output.OnFileSortedOutput;
+    [javac]                                             ^
+    [javac]   symbol:   class OnFileSortedOutput
+    [javac]   location: package org.apache.tez.runtime.library.output
+    [javac] /home/zly/prj/oss/pig/src/org/apache/pig/backend/hadoop/executionengine/tez/ObjectCache.java:23: error: cannot find symbol
+    [javac] import org.apache.tez.runtime.common.objectregistry.ObjectRegistry;
+    [javac]                                                    ^
+    [javac]   symbol:   class ObjectRegistry
+    [javac]   location: package org.apache.tez.runtime.common.objectregistry
+    [javac] /home/zly/prj/oss/pig/src/org/apache/pig/backend/hadoop/executionengine/tez/ObjectCache.java:30: error: cannot find symbol
+
+  I found that there is no ShuffledMergedInput.java in tez-0.5.0 release.",,daijy,kellyzly,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2014-08-28 18:54:44.772,,false,,,,,,,,,,,,,9223372036854775807,,,,Fri Aug 29 02:21:10 UTC 2014,,,,,,0|i1zff3:,9223372036854775807,,,,,,,28/Aug/14 18:54;daijy;Didn't try rc0 but rc1 works for me.,"29/Aug/14 01:48;kellyzly;Hi [~daijy ]:
+Use https://github.com/apache/tez/archive/release-0.5.0-rc1.tar.gz to test, still fail
+reproduce bugs in following ways:
+1. remove cache of maven and ivy:  rm -rf ~/.m2/repository/org/apache/tez/; rm -rf ~/.ivy2/cache/org.apache.tez/ 
+2. download code from https://github.com/apache/tez/archive/release-0.5.0-rc1.tar.gz
+3. build tez-0.5.0-rc1 by this command: mvn clean install -DskipTests
+4. build pig by ""ant compile -Dhadoopversion=23""
+    error throw:
+	compile:
+     [echo] *** Building Main Sources ***
+     [echo] *** To compile with all warnings enabled, supply -Dall.warnings=1 on command line ***
+     [echo] *** Else, you will only be warned about deprecations ***
+    [javac] Compiling 76 source files to /home/zly/prj/oss/pig/build/classes
+    [javac] warning: [options] bootstrap class path not set in conjunction with -source 1.5
+    [javac] /home/zly/prj/oss/pig/src/org/apache/pig/backend/hadoop/executionengine/tez/TezEdgeDescriptor.java:25: error: cannot find symbol
+    [javac] import org.apache.tez.runtime.library.input.ShuffledMergedInput;
+    [javac]                                            ^
+    [javac]   symbol:   class ShuffledMergedInput
+    [javac]   location: package org.apache.tez.runtime.library.input
+    [javac] /home/zly/prj/oss/pig/src/org/apache/pig/backend/hadoop/executionengine/tez/TezEdgeDescriptor.java:26: error: cannot find symbol
+    [javac] import org.apache.tez.runtime.library.output.OnFileSortedOutput;
+    [javac]                                             ^
+    [javac]   symbol:   class OnFileSortedOutput
+    [javac]   location: package org.apache.tez.runtime.library.output
+    [javac] /home/zly/prj/oss/pig/src/org/apache/pig/backend/hadoop/executionengine/tez/ObjectCache.java:23: error: cannot find symbol
+    [javac] import org.apache.tez.runtime.common.objectregistry.ObjectRegistry;
+    [javac]                                                    ^
+
+	I check that there is no ShuffledMergedInput.java in https://github.com/apache/tez/archive/release-0.5.0-rc1.tar.gz. ","29/Aug/14 02:21;kellyzly;Hi [~daijy]:
+
+ I' m sorry, after update the latest code in the trunk and compile again. It works!. I can compile and build jar successfully. Thank you!",,,,,,,,,,,
+setUDFContextSignature() not called for Store/LoadFunc in PigUnit,PIG-3824,12702692,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,bschrameck_sila,bschrameck_sila,20/Mar/14 19:02,20/Mar/14 19:40,15/Aug/18 23:11,20/Mar/14 19:40,0.11,,,,,,,,,,,,tools,,,0,test,,,,"When writing a custom StoreFunc or LoadFunc, setUDFContextSignature is never called or it is called with a null value.  For functions that rely on a valid signature, this results in broken functionality (for instance, can not store the schema between frontend and backend if you use signature.schema as the UDFContext key).","Windows 7 64-bit, Pig 0.11.0-cdh4.4.0, jdk1.6.0_45",bschrameck_sila,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,381030,,,,Thu Mar 20 19:40:03 UTC 2014,,,,,,0|i1tndj:,381308,,,,,pigunit,,20/Mar/14 19:40;bschrameck_sila;I missed the fact that there are separate setUDFContextSignature and setStoreFuncUDFContextSignature methods.,,,,,,,,,,,,,
+PigStorage with '-schema' generates Unhandled internal error. ,PIG-3808,12700855,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,ddreyfus,ddreyfus,11/Mar/14 23:38,12/Mar/14 02:52,15/Aug/18 23:11,12/Mar/14 02:52,0.12.0,,,,,,,,,,,,data,,,0,,,,,"The following script generates the error listed below.
+
+d1 = load 'test_data.txt' USING PigStorage() AS (f1: int, f2: int, f3: int, f4: int);
+store d1 into 'test_out' using PigStorage('\t','-schema');
+
+-- 2014-03-11 19:33:36 ERROR Grunt:125 - ERROR 2998: Unhandled internal error. org/codehaus/jackson/annotate/JsonUnwrapped
+",Windows in local mode through Eclipse,ddreyfus,rohini,,,,,,,,,,,,,,11/Mar/14 23:38;ddreyfus;test_data.txt;https://issues.apache.org/jira/secure/attachment/12634052/test_data.txt,,,1.0,,,,,,,,,,,,,,,,2014-03-11 23:51:58.457,,false,,,,,,,,,,,,,379198,,,,Wed Mar 12 02:50:48 UTC 2014,,,,,,0|i1tc7j:,379490,,,,,,,11/Mar/14 23:51;rohini;Looks like you are missing the jackson jars in your eclipse classpath. Please fix you classpath and try.,"12/Mar/14 02:04;ddreyfus;Thank you for helping. I don't know which jackson jars are missing from my POM.
+I added the following:
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-xc</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-asl</artifactId>
+			<version>0.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mrbean</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-smile</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+What am I missing. The project no longer loads. There is another dependency somewhere, right?
+I thought the whole point of Maven was to resolve these dependencies for us. Oh well.","12/Mar/14 02:50;ddreyfus;Addition problem was a Maven repository corruption and missing libraries in http://mvnrepository.com/artifact/org.codehaus.jackson.
+I hope the list of dependencies above will help the next person with this problem.
+
+Thank you,
+",,,,,,,,,,,
+While issuing DUMP in pig grunt getting Error.,PIG-3459,12668497,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,manishbit81,manishbit81,13/Sep/13 15:11,13/Sep/13 18:13,15/Aug/18 23:11,13/Sep/13 18:13,,,,,,,,,,,,,,,,0,,,,,"Hi All,
+
+       I have set my export PIG_CLASSPATH=""/usr/local/hadoop/conf/""
+and running PIG on HDFS.using PIG not PIG -x local. I have uploaded some data from a file.It worked for me. Now when I am running DUMP A then its showing me an error.Which is mentioned below. Please have a look.
+
+============================================================================
+2013-09-13 20:21:46,534 [main] ERROR org.apache.pig.tools.pigstats.SimplePigStats - ERROR 2997: Unable to recreate exception from backend error: org.apache.pig.backend.executionengine.ExecException: ERROR 2118: Input path does not exist: hdfs://localhost:54310/user/hduser/Desktop/bb
+===========================================================================
+
+
+Please help me overcome from this error.
+
+
+Thanks
+MANISH","Ubuntu 10.04
+Hadoop 1.2.1
+Pig 0.11.1",manishbit81,mwagner,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2013-09-13 18:13:59.467,,false,,,,,,,,,,,,,348431,,,,Fri Sep 13 18:13:59 UTC 2013,,,,,,0|i1o2wf:,348728,,,,,,,"13/Sep/13 15:13;manishbit81;Hi,
+
+    Also getting this error at the end.
+
+2013-09-13 20:42:50,248 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Failed!
+2013-09-13 20:42:50,258 [main] ERROR org.apache.pig.tools.grunt.Grunt - ERROR 1066: Unable to open iterator for alias A
+Details at logfile: /home/hduser/pig_1379085159869.log
+
+
+Thanks
+MANISH","13/Sep/13 18:13;mwagner;Manish, You may find more help on the user list. At a glance though it looks like you're referring to a local file (given that 'Desktop' is in the name). Your file needs to be copied to hdfs. Please contact the hadoop or pig user list if you have more issues.",,,,,,,,,,,,
+Looks like MultiStore stucks,PIG-3416,12663112,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,serega_sheypak,serega_sheypak,11/Aug/13 21:37,11/Aug/13 22:39,15/Aug/18 23:11,11/Aug/13 22:39,0.11,,,,,,,,,,,,data,,,0,,,,,"Hi, I've met strange problem. Maybe it's related to data. BUt I'm not sure. I'm working with derivative in avro format so all ""bad data"" should be caught on early stages.
+My pig script worked to 2 days each hour (invoked using oozie coordinator).
+Now it stucks. It always have one reducer which shows progess = 67.55%
+I see in TT log that it does merge, sort, then starts reduce.
+
+I do use custom UDF in my pig script.
+I've added counters trying to debug the situation.My UDF works with bags.
+Counter says that UDF worked fine because ""Reduce input groups"" = ""invocation times of UDF"".
+
+I even see counters of output:
+{code}
+Map-Reduce Framework
+Combine input records	0
+Combine output records	0
+Reduce input groups	31 019
+Reduce shuffle bytes	65 071 957
+Reduce input records	96 727
+Reduce output records	0
+Spilled Records	0
+CPU time spent (ms)	48 870
+Physical memory (bytes) snapshot	643 358 720
+Virtual memory (bytes) snapshot	3 821 920 256
+Total committed heap usage (bytes)	1 057 357 824
+
+MarkEndPointsForCurrentHour
+callTimes	31 019
+totalExecutionTime	13 690
+
+MultiStoreCounters
+Output records in _0_08	26 862
+Output records in _1_09	7 383
+{code}
+Counters say that all data passed through my UDF and even some output has been written.
+But reducer (always only 1 of 54 total reducers) stucks for 1 hour an then killed by JT because of timeout. All other 53 reducers finished in 7 minutes.
+
+How can I debug MultiStore?
+",,serega_sheypak,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,343113,,,,2013-08-11 21:37:26.0,,,,,,0|i1n673:,343417,subsequent stack analyzing using jstack shown that code is stuck in one of udf classes. ,,,,,,,,,,,,,,,,,,,
+Incorrect ORDER BY after UNION ONSCHMEA. Pig handles Long atom as chararray,PIG-3402,12660338,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,serega_sheypak,serega_sheypak,29/Jul/13 09:06,30/Jul/13 06:41,15/Aug/18 23:11,30/Jul/13 06:41,,,,,,,,,,,,,,,,0,,,,,"Here is a part of script:
+{code}
+lastEndPoints24h = LOAD '$lastEndPoints24h' USING org.apache.pig.piggybank.storage.avro.AvroStorage();
+describe lastEndPoints24h;
+dump lastEndPoints24h;
+
+lastEndPoints24hProj = FOREACH lastEndPoints24h GENERATE msisdn, toLong((chararray)ts) as ts:long,
+                                                               center_lon, center_lat,
+                                                               lac, cid, lon, lat, cell_type, is_active, azimuth, hpbw, max_dist,
+                                                               tile_id, zone_col, zone_row,
+                                                               is_end_point, end_point_type;
+describe lastEndPoints24hProj;
+dump lastEndPoints24hProj;
+
+unionOfPivotsAndLastEndPoints = UNION ONSCHEMA validPivotsProj, lastEndPoints24hProj;
+describe unionOfPivotsAndLastEndPoints;
+dump unionOfPivotsAndLastEndPoints;
+
+
+groupedValidPivots = GROUP unionOfPivotsAndLastEndPoints BY msisdn;
+
+pivotsWithEndPoints = FOREACH groupedValidPivots {
+                ordered = ORDER unionOfPivotsAndLastEndPoints BY ts;
+
+{code}
+The problem is that unionOfPivotsAndLastEndPoints are not correctly sorted. Looks like PIg assumes that ts field is chararray.
+
+Here are dumps and schemas of relations:
+{code}
+lastEndPoints24h: {msisdn: long,ts: long,center_lon: double,center_lat: double,lac: int,cid: int,lon: double,lat: double,cell_type: chararray,is_active: boolean,azimuth: int,hpbw: int,max_dist: int,tile_id: int,zone_col: int,zone_row: int,is_end_point: boolean,end_point_type: chararray}
+--dump
+(79263332100,1374521131,37.553441893272755,55.880436657140294,7712,24316,37.5473,55.8792,OUTDOOR,true,75,60,1102,49646,469,410,true,JITTER_START)
+{code}
+
+{code}
+lastEndPoints24hProj: {msisdn: long,ts: long,center_lon: double,center_lat: double,lac: int,cid: int,lon: double,lat: double,cell_type: chararray,is_active: boolean,azimuth: int,hpbw: int,max_dist: int,tile_id: int,zone_col: int,zone_row: int,is_end_point: boolean,end_point_type: chararray}
+(79263332100,1374521131,37.553441893272755,55.880436657140294,7712,24316,37.5473,55.8792,OUTDOOR,true,75,60,1102,49646,469,410,true,JITTER_START)
+{code}
+
+{code}
+unionOfPivotsAndLastEndPoints: {msisdn: long,ts: long,lac: int,cid: int,lon: double,lat: double,azimuth: int,hpbw: int,max_dist: int,cell_type: chararray,branch_id: int,center_lon: double,center_lat: double,tile_id: int,zone_col: int,zone_row: int,is_active: boolean,is_end_point: boolean,end_point_type: chararray}
+--union dump:
+(79263332100,1374529463,7712,5258,37.5564,55.8845,210,60,765,OUTDOOR,5145,37.55330379777028,55.881137048806984,49646,469,410,true,,)
+(79263332100,1374550275,7712,24316,37.5473,55.8792,75,60,1102,OUTDOOR,5145,37.55614891372749,55.88052982685867,49646,471,410,true,,)
+--more lines here...
+--the last one came from projection lastEndPoints24hProj
+(79263332100,1374521131,7712,24316,37.5473,55.8792,75,60,1102,OUTDOOR,,37.553441893272755,55.880436657140294,49646,469,410,true,true,JITTER_START)
+{code}
+
+Looks like everything is OK, but it's not true!
+Here is input for UDF after ORDER BY:
+{code}
+--a part of code
+groupedValidPivots = GROUP unionOfPivotsAndLastEndPoints BY msisdn;
+
+pivotsWithEndPoints = FOREACH groupedValidPivots {
+                ordered = ORDER unionOfPivotsAndLastEndPoints BY ts;
+                GENERATE FLATTEN(udf.mark_end_points(ordered, 'ts:1, lac:2, cid:3, is_end_point:17, lon:4, lat:5, azimuth:6, hpbw:7, max_dist:8'))
+{code}
+
+ordered projection print from UDF:
+{code}
+ITERATE PIVOTS: 0 ) (79263332100L, 1374529463, 7712, 5258, 37.5564, 55.8845, 210, 60, 765, u'OUTDOOR', 5145, 37.55330379777028, 55.881137048806984, 49646, 469, 410, True, None, None)
+--more lines here...
+ITERATE PIVOTS: 22 ) (79263332100L, 1374521131L, 7712, 24316, 37.5473, 55.8792, 75, 60, 1102, u'OUTDOOR', None, 37.553441893272755, 55.880436657140294, 49646, 469, 410, True, True, u'JITTER_START')
+{code}
+
+See that 1374521131L has ""L"" and 1374529463 doesn't have (it's ts atom value)
+See that 1374529463 > 1374521131, but tuple with ts=1374521131L is at the end of list. Looks like sorting was applied to ts:hararray, not to ts:long.
+
+It's weird. :(",,serega_sheypak,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,340530,,,,Tue Jul 30 06:41:20 UTC 2013,,,,,,0|i1mqcv:,340848,,,,,,,"30/Jul/13 06:41;serega_sheypak;I've found a problem.
+'ts' atom comes from avro file and this field was defined as 'int' in avro schema.
+Later in pig script it was casted to long.
+I did put away casting to long and preserved ""native"" int type.
+Problem has gone.
+",,,,,,,,,,,,,
+UNION on schema throws ExecException: ERROR 2055 ,PIG-3401,12660307,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,serega_sheypak,serega_sheypak,28/Jul/13 23:43,29/Jul/13 07:31,15/Aug/18 23:11,29/Jul/13 07:31,0.11,,,,,,,,,,,,grunt,,,0,,,,,"Hi, I get strange exception when trying to union two relations by schema.
+It works when one of relations doesn't have any records.
+It breaks when both relations are not empty.
+Here is a part of the code:
+{code}
+lastEndPoints24h = LOAD '$lastEndPoints24h' USING org.apache.pig.piggybank.storage.avro.AvroStorage();
+describe lastEndPoints24h;
+dump lastEndPoints24h;
+lastEndPoints24hProj = FOREACH lastEndPoints24h GENERATE msisdn, ts,
+                                                               center_lon, center_lat,
+                                                               lac, cid, lon, lat, cell_type, is_active, azimuth, hpbw, max_dist,
+                                                               tile_id, zone_col, zone_row,
+                                                               is_end_point, end_point_type;
+describe lastEndPoints24hProj;
+dump lastEndPoints24hProj;
+
+unionOfPivotsAndLastEndPoints = UNION ONSCHEMA validPivotsProj, lastEndPoints24hProj;
+describe unionOfPivotsAndLastEndPoints;
+--dump unionOfPivotsAndLastEndPoints;
+
+groupedValidPivots = GROUP unionOfPivotsAndLastEndPoints BY msisdn;
+dump groupedValidPivots;
+{code}
+Something bad happens when I try to access union result in relation unionOfPivotsAndLastEndPoints.
+
+I can say for sure that relation lastEndPoints24h is correctly opened.
+Here is a proof:
+{code}
+2013-07-29 03:34:18,833 [main] INFO  org.apache.pig.tools.pigstats.SimplePigStats - Script Statistics: 
+
+HadoopVersion	PigVersion	UserId	StartedAt	FinishedAt	Features
+2.0.0-cdh4.3.0	0.11.0-cdh4.3.0	ssa	2013-07-29 03:34:13	2013-07-29 03:34:18	UNKNOWN
+
+Success!
+
+Job Stats (time in seconds):
+JobId	Alias	Feature	Outputs
+job_local634744752_0006	lastEndPoints24h	MAP_ONLY	file:/tmp/temp-1898051886/tmp-1962855781,
+
+Input(s):
+Successfully read records from: ""/home/ssa/devel/lololabs/analyt/some_analyt_case/src/test/resources/pig/route_pivot_preparator/test_2013_07_23/lastEndPoints24h.avro""
+
+Output(s):
+Successfully stored records in: ""file:/tmp/temp-1898051886/tmp-1962855781""
+
+Job DAG:
+job_local634744752_0006
+{code}
+
+And here is schema and dump for it's projection lastEndPoints24hProj:
+{code}
+(79263332100,1374521131,37.553441893272755,55.880436657140294,7712,24316,37.5473,55.8792,OUTDOOR,true,75,60,1102,49646,469,410,true,JITTER_START)
+
+lastEndPoints24hProj: {msisdn: long,ts: long,center_lon: double,center_lat: double,lac: int,cid: int,lon: double,lat: double,cell_type: chararray,is_active: boolean,azimuth: int,hpbw: int,max_dist: int,tile_id: int,zone_col: int,zone_row: int,is_end_point: boolean,end_point_type: chararray}
+{code}
+
+When this file is empty (one of test cases), script works correctly.
+When this file is not empty I do get 
+
+{code}
+2013-07-29 03:34:47,898 [main] ERROR org.apache.pig.tools.grunt.Grunt - ERROR 1066: Unable to open iterator for alias groupedValidPivots
+Details at logfile: /home/ssa/devel/lololabs/analyt/some_analyt_case/src/main/resources/pig/pig_1375054429131.log
+{code}
+
+An exception from log file
+{code}
+Pig Stack Trace
+---------------
+ERROR 1066: Unable to open iterator for alias groupedValidPivots
+
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1066: Unable to open iterator for alias groupedValidPivots
+	at org.apache.pig.PigServer.openIterator(PigServer.java:838)
+	at org.apache.pig.tools.grunt.GruntParser.processDump(GruntParser.java:696)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:320)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:194)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:170)
+	at org.apache.pig.tools.grunt.Grunt.exec(Grunt.java:84)
+	at org.apache.pig.Main.run(Main.java:604)
+	at org.apache.pig.Main.main(Main.java:157)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:208)
+Caused by: java.io.IOException: Job terminated with anomalous status FAILED
+	at org.apache.pig.PigServer.openIterator(PigServer.java:830)
+	... 12 more
+================================================================================
+
+{code}
+
+Any ""touch"" of union gives an error with test: ""unable to open iterator for alias ...""
+
+Schemas are fully defined, field names do match. What's the problem?",local,cheolsoo,serega_sheypak,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2013-07-29 02:16:37.863,,false,,,,,,,,,,,,,340499,,,,Mon Jul 29 07:31:16 UTC 2013,,,,,,0|i1mq5z:,340817,,,,,,,"29/Jul/13 02:16;cheolsoo;You union two relations. What's the schema of ""validPivotsProj""?
+{code}
+unionOfPivotsAndLastEndPoints = UNION ONSCHEMA validPivotsProj, lastEndPoints24hProj;
+{code}
+Is every field in that relation compatible with that of ""lastEndPoints24hProj""? I have seen a similar issue when I tried to union chararray with a numeric type such as int and long.","29/Jul/13 07:30;serega_sheypak;Sorry, It was 4 AM, I spent 4 hours trying to fix it and I was tired. 
+The problem was:
+Relation A had atom branch_id:null (type hasn't been explicitly defined).
+Ration B didn' have such field. I did UNION ONSCHEMA and expected that branch_id:null should be interpreted correctly. It's out of UNION scope. There is no need to do someting special with this atom and it's type. 
+
+I've explicitly defined type for this atom and now UNION ONSCHEMA works.
+I'm going to create an improvement for UNION statement. It was really hard to guess where the problem was. 
+Sorry for wasting your time.","29/Jul/13 07:31;serega_sheypak;Wrong type
+",29/Jul/13 07:31;serega_sheypak;It's not a problem.,,,,,,,,,,
+Strange plan validation issue with duplicated schema,PIG-3397,12659902,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,serega_sheypak,serega_sheypak,25/Jul/13 21:25,26/Jul/13 08:28,15/Aug/18 23:11,26/Jul/13 08:28,0.11,,,,,,,,,,,,parser,,,0,,,,,"Please, see the screenshot.
+The problem is that plan builder ""renames"" schema fields.
+
+
+http://bigdatapath.com/wp-content/uploads/2013/07/01_pig.png",,serega_sheypak,,,,,,,,,,,,,,PIG-1654,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,340094,,,,Fri Jul 26 08:28:02 UTC 2013,,,,,,0|i1mnon:,340412,,,,,,,26/Jul/13 08:28;serega_sheypak;The problem was in code.,,,,,,,,,,,,,
+Jython UDF invocation failure when importing java class in Cluster mode,PIG-3376,12657087,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,serega_sheypak,serega_sheypak,10/Jul/13 14:57,11/Jul/13 13:57,15/Aug/18 23:11,11/Jul/13 13:57,0.11,,,,,,,,,,,,,,,0,,,,,"Hi, I'm testing my scripts in local mode then I run them in production using oozie.
+Locally everything works fine. My pig version is 0.11
+
+When I run the same script in cluster mode, I do get exception on line where jython udf is invoked. Here is my UDF, see it imports java class. This class is IN runtime, I give 100%:
+
+{code}
+from ru.pig.geo import GSMCellCalculator
+
+@outputSchema(""centerLon:double, centerLat:double"")
+def calculateDropShapedCenter(lon, lat, maxDist, angleWidth, azimuth):
+    print lon, lat, maxDist, angleWidth, azimuth
+    spatialCoord = GSMCellCalculator.getDropShapeCenter(lon, lat, float(maxDist), float(angleWidth), float(azimuth))
+    return spatialCoord.longitude, spatialCoord.latitude
+{code}
+Here is a part of script:
+
+{code}
+register '$geoSpatialUdfs' using jython as udf;
+/*
+some code goes here....
+*/
+gsmCellProj = FOREACH gsmCellFixed GENERATE
+                                         branchId,
+                                         cellId, lac,
+                                         lon, lat,
+                                         (int)azimuth, (int)midDist, (int)maxDist,
+                                         cellType, (int)angWidth, gen, startAng,
+                                         angWidthFixed, startAngFixed,
+                                         FLATTEN(udf.calculateDropShapedCenter(lon, lat, midDist, angWidth, azimuth));
+{code}
+Here is the log STDOUT:
+{code}
+-07-10 17:33:30,729 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil  - Total input paths to process : 1
+2013-07-10 17:33:30,729 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil  - Total input paths to process : 1
+2013-07-10 17:33:30,737 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil  - Total input paths (combined) to process : 1
+2013-07-10 17:33:30,737 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil  - Total input paths (combined) to process : 1
+2013-07-10 17:33:31,562 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - HadoopJobId: job_201307101220_0154
+2013-07-10 17:33:31,562 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - HadoopJobId: job_201307101220_0154
+2013-07-10 17:33:31,563 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - Processing aliases cellUniqueLacCid,gsmCell,gsmCellFiltered,gsmCellFilteredGrp,gsmCellFixed,gsmCellProj
+2013-07-10 17:33:31,563 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - Processing aliases cellUniqueLacCid,gsmCell,gsmCellFiltered,gsmCellFilteredGrp,gsmCellFixed,gsmCellProj
+2013-07-10 17:33:31,563 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - detailed locations: M: gsmCell[3,10],gsmCell[-1,-1],gsmCellFiltered[20,18],cellUniqueLacCid[33,19],gsmCellFilteredGrp[32,21] C: cellUniqueLacCid[33,19],gsmCellFilteredGrp[32,21] R: cellUniqueLacCid[33,19],gsmCellFixed[38,15],gsmCellProj[60,14]
+2013-07-10 17:33:31,563 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - detailed locations: M: gsmCell[3,10],gsmCell[-1,-1],gsmCellFiltered[20,18],cellUniqueLacCid[33,19],gsmCellFilteredGrp[32,21] C: cellUniqueLacCid[33,19],gsmCellFilteredGrp[32,21] R: cellUniqueLacCid[33,19],gsmCellFixed[38,15],gsmCellProj[60,14]
+2013-07-10 17:33:31,563 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - More information at: http://prod-node016.lol.ru:50030/jobdetails.jsp?jobid=job_201307101220_0154
+2013-07-10 17:33:31,563 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - More information at: http://prod-node016.lol.ru:50030/jobdetails.jsp?jobid=job_201307101220_0154
+Heart beat
+2013-07-10 17:33:51,196 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 14% complete
+2013-07-10 17:33:51,196 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 14% complete
+2013-07-10 17:33:54,210 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 34% complete
+2013-07-10 17:33:54,210 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 34% complete
+2013-07-10 17:33:57,229 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 50% complete
+2013-07-10 17:33:57,229 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 50% complete
+2013-07-10 17:34:13,307 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+2013-07-10 17:34:13,307 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+Heart beat
+2013-07-10 17:34:31,899 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+2013-07-10 17:34:31,899 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+Heart beat
+2013-07-10 17:34:49,480 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+2013-07-10 17:34:49,480 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+2013-07-10 17:35:08,576 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+2013-07-10 17:35:08,576 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - 83% complete
+Heart beat
+2013-07-10 17:35:26,170 [main] WARN  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - Ooops! Some job has failed! Specify -stop_on_failure if you want Pig to stop immediately on failure.
+2013-07-10 17:35:26,170 [main] WARN  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - Ooops! Some job has failed! Specify -stop_on_failure if you want Pig to stop immediately on failure.
+2013-07-10 17:35:26,170 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - job job_201307101220_0154 has failed! Stop running all dependent jobs
+2013-07-10 17:35:26,170 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher  - job job_201307101220_0154 has failed! 
+{code}
+Here is the log with error:
+{code}
+org.apache.pig.backend.executionengine.ExecException: ERROR 0: Error executing function
+	at org.apache.pig.scripting.jython.JythonFunction.exec(JythonFunction.java:120)
+	at org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.POUserFunc.getNext(POUserFunc.java:337)
+	at org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.POUserFunc.getNext(POUserFunc.java:376)
+	at org.apache.pig.backend.hadoop.executionengine.physicalLayer.PhysicalOperator.getNext(PhysicalOperator.java:354)
+	at org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POForEach.processPlan(POForEach.java:372)
+	at org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POForEach.getNext(POForEach.java:297)
+	at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigGenericMapReduce$Reduce.runPipeline(PigGenericMapReduce.java:465)
+	at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigGenericMapReduce$Reduce.processOnePackage
+{code}
+","local, cluster",rohini,serega_sheypak,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2013-07-10 16:33:31.058,,false,,,,,,,,,,,,,337310,,,,Thu Jul 11 07:01:47 UTC 2013,,,,,,0|i1m6jj:,337633,It was user error.,,,,,,10/Jul/13 16:33;rohini;Can you give the full stacktrace from the map job?,"10/Jul/13 17:21;serega_sheypak;Sorry what do you mean by map job?
+10.07.2013 18:33 пользователь ""Rohini Palaniswamy (JIRA)"" <jira@apache.org>
+
+","10/Jul/13 21:57;rohini;The stacktrace you posted is not complete. Please post the full stack trace. If it is not in your pig log, you can go to the JobTracker UI for the hadoop job launched and get the stacktrace clicking on the map attempt. ","11/Jul/13 06:09;serega_sheypak;I happens during reduce side and its all I see. The first part of log is
+from hue. The second part is from job tracker. Reduce did 4 attempts and
+was killed.
+10.07.2013 23:57 пользователь ""Rohini Palaniswamy (JIRA)"" <jira@apache.org>
+
+","11/Jul/13 07:01;serega_sheypak;OMG, it was so stupid. I had to click view ALL logs in jobtracker UI. My
+Java code is called. I see that null pointer is there
+Looks like my big data is not properly filtered.
+I had such assumption and wrapped my Java code invocation code with
+try/except
+
+@outputSchema(""centerLon:double, centerLat:double"")
+def calculateDropShapedCenter(lon, lat, maxDist, angleWidth, azimuth):
+    print lon, lat, maxDist, angleWidth, azimuth
+    try:
+        spatialCoord = GSMCellCalculator.getDropShapeCenter(lon, lat,
+float(maxDist), float(angleWidth), float(azimuth))
+        return spatialCoord.longitude, spatialCoord.latitude
+    except BaseException, e:
+        print str(e)
+        return 1.0, 1.0
+
+but failure happened. I see it in logs now (i was dummy before and didn't
+click view ALL logs):
+
+A line with bad value goes here
+*47.4111 43.0136 675.0 0.0 55.0*
+
+A lot of hadoop info goes here...
+
+gsmCell[3,10],gsmCell[-1,-1],gsmCellFiltered[20,18],cellUniqueLacCid[34,19],gsmCellFilteredGrp[33,21]
+C: cellUniqueLacCid[34,19],gsmCellFilteredGrp[33,21] R:
+cellUniqueLacCid[34,19],gsmCellFixed[39,15],gsmCellProj[61,14]
+2013-07-11 10:41:25,248 INFO org.apache.hadoop.mapred.TaskLogsTruncater:
+Initializing logs&apos; truncater with mapRetainSize=-1 and
+reduceRetainSize=-1
+2013-07-11 10:41:25,250 ERROR
+org.apache.hadoop.security.UserGroupInformation: PriviledgedActionException
+as:oozie (auth:SIMPLE)
+cause:org.apache.pig.backend.executionengine.ExecException: ERROR 0: Error
+executing function
+2013-07-11 10:41:25,250 WARN org.apache.hadoop.mapred.Child: Error running
+child
+org.apache.pig.backend.executionengine.ExecException: ERROR 0: Error
+executing function
+at
+org.apache.pig.scripting.jython.JythonFunction.exec(JythonFunction.java:120)
+at
+org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.POUserFunc.getNext(POUserFunc.java:337)
+at
+org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.POUserFunc.getNext(POUserFunc.java:376)
+at
+org.apache.pig.backend.hadoop.executionengine.physicalLayer.PhysicalOperator.getNext(PhysicalOperator.java:354)
+at
+org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POForEach.processPlan(POForEach.java:372)
+at
+org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POForEach.getNext(POForEach.java:297)
+at
+org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigGenericMapReduce$Reduce.runPipeline(PigGenericMapReduce.java:465)
+at
+org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigGenericMapReduce$Reduce.processOnePackageOutput(PigGenericMapReduce.java:433)
+at
+org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigGenericMapReduce$Reduce.reduce(PigGenericMapReduce.java:413)
+at
+org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigGenericMapReduce$Reduce.reduce(PigGenericMapReduce.java:257)
+at org.apache.hadoop.mapreduce.Reducer.run(Reducer.java:164)
+at org.apache.hadoop.mapred.ReduceTask.runNewReducer(ReduceTask.java:610)
+at org.apache.hadoop.mapred.ReduceTask.run(ReduceTask.java:444)
+at org.apache.hadoop.mapred.Child$4.run(Child.java:268)
+at java.security.AccessController.doPrivileged(Native Method)
+at javax.security.auth.Subject.doAs(Subject.java:396)
+at
+org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1408)
+at org.apache.hadoop.mapred.Child.main(Child.java:262)
+Caused by: Traceback (most recent call last):
+  File
+&quot;/data/disk0/mapred/local/taskTracker/oozie/distcache/-2997063519790422007_-650099178_1282707185/nameservice1/applications/kyc-analytics/gsmcellpreparator/workflows/pig/udf/geoSpatialUdfs.py&quot;,
+line 12, in calculateDropShapedCenter
+  File
+&quot;/data/disk0/mapred/local/taskTracker/oozie/distcache/-2997063519790422007_-650099178_1282707185/nameservice1/applications/kyc-analytics/gsmcellpreparator/workflows/pig/udf/geoSpatialUdfs.py&quot;,
+line 12, in calculateDropShapedCenter
+at
+mycompany.kyc.common.geo.model.builder.GeometryUtil.calculatePolarRadiusForDropShapredSector(GeometryUtil.java:76)
+at
+mycompany.kyc.common.geo.model.builder.GeometryBuilder.buildDropShapedSector(GeometryBuilder.java:198)
+at
+mycompany.kyc.common.geo.model.builder.GeometryBuilder.buildGeometry(GeometryBuilder.java:128)
+at
+mycompany.kyc.common.geo.model.builder.GeometryBuilder.getCentroid(GeometryBuilder.java:147)
+at
+mycompany.kyc.common.geo.model.builder.GeometryBuilder$getCentroid.call(Unknown
+Source)
+at
+mycompany.pig.geo.GSMCellCalculator.getDropShapeCenter(GSMCellCalculator.groovy:49)
+at sun.reflect.GeneratedMethodAccessor5.invoke(Unknown Source)
+at
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+at java.lang.reflect.Method.invoke(Method.java:597)
+
+The problem is in wrong hands :(
+
+
+2013/7/11 serega.sheypak <serega.sheypak@gmail.com>
+
+",,,,,,,,,
+Publish h2 artifact to maven,PIG-3306,12645655,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,billgraham,billgraham,01/May/13 17:12,01/May/13 20:51,15/Aug/18 23:11,01/May/13 20:51,,,,,,,,,,,,,,,,0,,,,,The Pig artifact built with hadoopversion=23 should be published to maven.,,billgraham,rohini,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2013-05-01 18:17:39.848,,false,,,,,,,,,,,,,326016,,,,Wed May 01 20:51:11 UTC 2013,,,,,,0|i1k8tj:,326361,,,,,,,01/May/13 18:17;rohini;Isn't it already published? http://repo1.maven.org/maven2/org/apache/pig/pig/0.10.1/ and http://repo1.maven.org/maven2/org/apache/pig/pig/0.11.1/ have those jars. ,01/May/13 18:28;rohini;Is this jira for ivy-publish-local ?,"01/May/13 20:51;billgraham;Yup [~rohini] you're right we already do that.
+
+I should have known, I've published the last two releases. :)",,,,,,,,,,,
+Grunt shell automagically sets number of reducers and doesn't allow you to override it,PIG-2728,12558502,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,lucas3677,lucas3677,29/May/12 21:23,01/Nov/12 18:50,15/Aug/18 23:11,01/Nov/12 18:50,0.8.1,,,,,,,,,,,,grunt,,,0,,,,,"When running Pig scripts through the grunt shell I kept getting Java Heap Space error messages. The cause was that my Hadoop cluster was running 467 map tasks which were being passed down to only 199 reducers. The notice I was getting through the Grunt shell was:
+
+""Neither PARALLEL nor default parallelism is set for this job. Setting number of reducers to 199""
+
+I tried the following commands, none of which worked:
+
+SET DEFAULT_PARALLELISM 2;
+SET mapred.reduce.tasks 450;
+SET mapred.running.reduce.limit 30;
+
+When I ran the script directly from a file (pig filename.pig) it ran without problems.","CentOS
+12 boxes
+30 map/reduce tasks max per box @ 2GB memory each",daijy,lucas3677,prkommireddi,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-05-29 21:28:51.16,,false,,,,,,,,,,,,,253744,,,,Wed May 30 18:38:47 UTC 2012,,,,,,0|i0e4y7:,80564,,,,,,,"29/May/12 21:28;prkommireddi;Lucas, 0.8.1 is a pretty old version. Do you see this issue with 0.10 which the latest release?","30/May/12 18:38;daijy;There is typo in DEFAULT_PARALLELISM, should be:
+set default_parallel 2
+",,,,,,,,,,,,
+Can't get simple macro with two return values to work,PIG-2969,12611626,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,lcunningham,lcunningham,12/Oct/12 20:07,24/Oct/12 21:27,15/Aug/18 23:11,24/Oct/12 21:27,0.11,,,,,,,,,,,,piggybank,,,0,,,,,"Hi, I followed the documentation to try and write a pig macro with two output relations, but i'm getting errors:
+
+define mymacro (a, b)
+returns {c, d} {
+    $c = $a;
+    $d = $b;
+};
+
+e = load 'thing' as (x:int);
+f = load 'thing' as (x:int);
+
+g,h = mymacro(e,f);
+
+dump g;
+dump h;
+~                                                                                                                                                                                                                                
+~                  
+
+Gives me error: 
+
+ERROR 2999: Unexpected internal error. Undefined parameter : c
+
+java.lang.RuntimeException: Undefined parameter : c
+        at org.apache.pig.tools.parameters.PreprocessorContext.substitute(PreprocessorContext.java:232)
+        at org.apache.pig.tools.parameters.PigFileParser.input(PigFileParser.java:65)
+        at org.apache.pig.tools.parameters.PigFileParser.Parse(PigFileParser.java:43)
+        at org.apache.pig.tools.parameters.ParameterSubstitutionPreprocessor.parsePigFile(ParameterSubstitutionPreprocessor.java:105)
+        at org.apache.pig.tools.parameters.ParameterSubstitutionPreprocessor.genSubstitutedFile(ParameterSubstitutionPreprocessor.java:98)
+        at org.apache.pig.Main.runParamPreprocessor(Main.java:778)
+        at org.apache.pig.Main.run(Main.java:568)
+        at org.apache.pig.Main.main(Main.java:154)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at org.apache.hadoop.util.RunJar.main(RunJar.java:186)
+
+Is this something that I am doing wrong or is there a bug?
+
+Thanks!
+Lucy",,lcunningham,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,248111,,,,Wed Oct 24 21:27:06 UTC 2012,,,,,,0|i09liv:,53920,,,,,,,24/Oct/12 21:12;lcunningham;Is there any news on this?,24/Oct/12 21:27;lcunningham;Seems to be an issue with the documentation - removing curly brackets around the returns aliases works fine.,,,,,,,,,,,,
+Division of an integer by an integer returns an integer,PIG-2952,12610768,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,ashutoshc,ashutoshc,07/Oct/12 20:14,08/Oct/12 03:47,15/Aug/18 23:11,08/Oct/12 03:47,0.10.0,0.3.0,0.4.0,0.5.0,0.6.0,0.7.0,0.8.0,0.8.1,0.9.0,0.9.1,0.9.2,,impl,,,0,,,,,"Currently, 
+{code}
+a = load 'data' as (i:int); 
+b = foreach a generate i / 23;
+{code}
+
+will result in values in b being truncated to nearest int.
+SQL standard says correct behavior in such cases is to return double. MySQL does this correctly as well.",,ashutoshc,dvryaboy,jcoveney,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-10-07 21:50:26.255,,false,,,,,,,,,,,,,244986,,,,Mon Oct 08 03:47:16 UTC 2012,,,,,,0|i05xdj:,32506,,,,,,,"07/Oct/12 21:50;jcoveney;In this case, Pig follows the Java convention. I think in general that's the expectation we create, though sometimes we do try and go with the SQL standard, so I'll leave this open until some other committers weigh in.","08/Oct/12 03:47;dvryaboy;Agreed with Jon.
+
+If you want a float to come out, you can always cast i or use 23.0.
+
+This behavior is clearly documented: http://pig.apache.org/docs/r0.10.0/basic.html#arithmetic",,,,,,,,,,,,
+Pig query planner throwing parse error on Joins ,PIG-2713,12556640,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,bejoyks,bejoyks,21/May/12 05:15,06/Jun/12 05:54,15/Aug/18 23:11,06/Jun/12 05:33,0.8.1,0.9.2,,,,,,,,,,,parser,,,0,,,,,"Pig parser is throwing an exception when two columns in a table has the same name and when they are used as part of some projection operation after join.
+
+Error message
+ERROR 1103: Merge join/Cogroup only supports Filter, Foreach, filter and Load as its predecessor. Found :
+
+Error would be thrown for common join as well.",CentOS 6,bejoyks,daijy,dvryaboy,qwertymaniac,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-05-22 21:43:08.607,,false,,,,,,,,,,,,,256364,,,,Wed Jun 06 05:54:37 UTC 2012,,,,,,0|i0h4k7:,98001,,,,,,,"21/May/12 05:27;bejoyks;The following script throws the above mentioned error
+
+{code}
+data_1 = LOAD '/userdata/bejoy/samples/pigissue/input1'
+    as (
+    clmn_1:int,
+    clmn_2:int,
+    clmn_3:chararray,
+    clmn_4:chararray,
+    unique_id:chararray,
+    clmn_6:chararray,
+    clmn_7:chararray,
+    clmn_8:chararray,
+    clmn_9:chararray,
+    clmn_10:chararray,
+    clmn_11:chararray,
+    clmn_12:int,
+    num_sessions:int,
+    clmn_14:int,
+    clmn_15:int
+    );
+
+    data_2 = LOAD '/userdata/bejoy/samples/pigissue/input2'
+    as (
+    unique_id
+    );
+
+    good_use_data = join use_data by unique_id, good_users by unique_id USING 'merge';
+
+    top_grouping = group good_use_data all;
+    top_users = foreach top_grouping generate TOP($TOP_COUNT, 2, good_use_data);
+
+    user_lines = foreach top_users generate flatten($0);
+
+    top_data = foreach user_lines generate use_data.unique_id, num_sessions;
+
+    store top_data into '/userdata/bejoy/samples/pigissue/output/top_users';
+{code}
+
+
+If the same script is modified to use different column names (unique_id) then it works flawlessly.
+Modified Script:
+
+
+{code}
+.
+.
+.
+data_2 = LOAD '/userdata/bejoy/samples/pigissue/input2'
+    as (
+    data_2_unique_id
+    );
+
+    good_use_data = join use_data by unique_id, good_users by data_2_unique_id USING 'merge';
+
+    top_grouping = group good_use_data all;
+    top_users = foreach top_grouping generate TOP($TOP_COUNT, 2, good_use_data);
+
+    user_lines = foreach top_users generate flatten($0);
+
+    top_data = foreach user_lines generate unique_id, num_sessions;
+
+    store top_data into '/userdata/bejoy/samples/pigissue/output/top_users';
+{code}","22/May/12 21:43;daijy;There is no use_data and good_users in your script. I changed the script to:
+
+{code}
+data_1 = LOAD 'input1'
+    as (
+    clmn_1:int,
+    clmn_2:int,
+    clmn_3:chararray,
+    clmn_4:chararray,
+    unique_id:chararray,
+    clmn_6:chararray,
+    clmn_7:chararray,
+    clmn_8:chararray,
+    clmn_9:chararray,
+    clmn_10:chararray,
+    clmn_11:chararray,
+    clmn_12:int,
+    num_sessions:int,
+    clmn_14:int,
+    clmn_15:int
+    );
+
+data_2 = LOAD 'input2'
+    as (
+    unique_id
+    );
+
+    good_use_data = join data_1 by unique_id, data_2 by unique_id USING 'merge';
+
+    top_grouping = group good_use_data all;
+    top_users = foreach top_grouping generate TOP(10, 2, good_use_data);
+
+    user_lines = foreach top_users generate flatten($0);
+
+    top_data = foreach user_lines generate data_1::unique_id, num_sessions;
+
+    store top_data into '/userdata/bejoy/samples/pigissue/output/top_users';
+{code}
+
+It runs good for me under 0.9.2.
+
+Anything I am missing?","04/Jun/12 10:15;bejoyks;Hi Daniel
+    The only difference in the example I posted and the your script is i specified table_name.column_name where as you have specified it as table_name::column_name . 
+
+<code>
+top_data = foreach user_lines generate data_1::unique_id, num_sessions;
+<code>
+
+It is strange that rather than throwing a syntax error, it throws an error on joins. Isn't the error misleading or I'm missing something here?","04/Jun/12 10:17;bejoyks;Also if the default separator for specifying table name and then column name is '::' in pig, then shouldn't the documentation highlight that, as normally '.' is used in that place. ","05/Jun/12 23:02;daijy;Yes, :: is used instead of ""."". Do you still see error?","06/Jun/12 02:28;qwertymaniac;Hey Daniel,
+
+The {{::}} does work, but where is its (need for) usage documented, and why was it necessary for this case? If we can address either of these in this JIRA, we can mark it as resolved.
+
+Thanks!","06/Jun/12 05:32;dvryaboy;Harsh: ""."" is an operator that dereferences inside a tuple (or generates a projection, for bags). ""::"" is just two colons. If you do a ""describe"" on the relation, you will see that the field names after a join are made up of the name of the original relation, ""::"", and the original field name.
+
+Pig does some disambiguation when possible, so that if you say ""bar"" and there is a field called ""foo::bar"", it will know what you are talking about -- as long as there is only one bar, of course.
+
+
+The issue is getting a bit confused by the fact that pig allows you to treat relations as scalars if they only have 1 row. That means that while normally a ""foreach"" operator only works on one relation, you can actually say ""foreach some_relation generate some_field / some_other_relation.some_other_field"". In that case, pig figures you mean ""some_other_relation"" is a single-row relation, pull out ""some_other_field"" from it, and pull it in here. It's a convenience syntax since most people don't think of doing a replicated join to do the same thing. Sadly, after this feature was released, we have discovered that people often make grammatical mistakes like the one you and Bejoy are making, which would have failed fast before, quickly leading to identifying a resolution, but now fail in odd ways since Pig thinks you are trying to treat some other relation as a scalar -- rather than realizing you are just referencing fields incorrectly. We have a ticket open to fix this problem and revert to a fail-fast mode.",06/Jun/12 05:33;daijy;Check this: http://pig.apache.org/docs/r0.10.0/basic.html#disambiguate,"06/Jun/12 05:54;qwertymaniac;Thank you Dmitiriy, that clears it! Thanks for the link as well, Daniel.",,,,,
+sh  command should behave like fs command,PIG-2516,12541555,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,thejas,thejas,07/Feb/12 03:41,11/May/12 20:47,15/Aug/18 23:11,11/May/12 20:47,0.9.1,0.9.2,,,,,,,,,,,,,,0,newbie,simple,,,"Like fs command,  sh command failure should result in query failure when run in batch mode. In interactive mode it should result in a warning.
+
+Also, sh command parsing seems to be faulty, according to Daniel, parser generated by PigScriptParser.jj would result in sh command using GetPath(), ie all sh commands might not be working.
+ 
+",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-02-07 03:46:29.222,,false,,,,,,,,,,,,,226842,,,,Fri May 11 20:45:43 UTC 2012,,,,,,0|i0h313:,97753,,,,,,,07/Feb/12 03:46;dvryaboy;Not sure I want the transient inability to clean up some local log or other trivial task to kill a whole pig job?,"07/Feb/12 03:55;thejas;Yes, in some use cases you would not want the whole query to fail. But in such cases, you can write a shell command that does not result in failure. eg ""rm -f"" or ""rm /nosuchfile || echo 'rm failed'"". ","11/May/12 20:45;dkumarappan;This is not an issue in the trunk version anymore.If sh command fails, then Pig exits with non zero code.",,,,,,,,,,,
+Schema propogation not working correctly after join,PIG-2683,12554019,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,tagrawal,tagrawal,04/May/12 23:41,08/May/12 22:47,15/Aug/18 23:11,04/May/12 23:56,0.7.0,,,,,,,,,,,,,,,0,,,,,"The schema propagation is not working correctly in Pig 0.7.0. This was working in 0.4.0.
+
+Following was the output with Pig 0.4.0 -
+
+grunt> A = LOAD '/tmp/part-r-00000' USING PigStorage('\t');
+grunt> B = FOREACH A GENERATE $0 as f1, $1 as f2;
+grunt> describe B;
+B: {f1: bytearray,f2: bytearray}
+grunt> F = JOIN B by (f1), A by ($0);
+grunt> describe F;
+F: {B::f1: bytearray,B::f2: bytearray,bytearray}
+
+
+Following is the output with Pig 0.7.0 -
+
+grunt> A = LOAD '/tmp/part-r-00000' USING PigStorage('\t');
+grunt> B = FOREACH A GENERATE $0 as f1, $1 as f2;
+grunt> describe B;
+B: {f1: bytearray,f2: bytearray}
+grunt> F = JOIN B by (f1), A by ($0);
+grunt> describe F;
+Schema for F unknown.
+",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-05-04 23:55:50.591,,false,,,,,,,,,,,,,238238,,,,Tue May 08 22:47:09 UTC 2012,,,,,,0|i0h487:,97947,,,,,,,"04/May/12 23:55;billgraham;Actually, Pig 0.4.0 had the bug in your example. Since the schema isn't defined for A it is in fact unknown. Therefore describing F as shown above for 0.4.0 is wrong. Relation A could have multiple bytearrays (or not), but it's described as just one. Pig 0.7.0 fixed this to say unknown when the schema is really in fact unknown.
+
+Pig 0.7.0 is pretty old. You should consider upgrading to Pig 0.10.
+",08/May/12 22:47;tagrawal;Thanks Bill.,,,,,,,,,,,,
+HBaseStorage fails with multiple STORE statements,PIG-2085,12507932,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,billgraham,billgraham,billgraham,20/May/11 21:20,24/Apr/12 15:26,15/Aug/18 23:11,27/Mar/12 20:50,,,,,,,,,,,,,,,,0,,,,,"Scripts with multiple STORE statements using HBaseStorage fail when run against a cluster (they succeed in local mode). Below is an example script:
+
+{code}
+raw = LOAD 'hbase_split_load_bug.txt' AS
+      (f1: chararray, f2:chararray);
+
+SPLIT raw INTO apples IF (f2 == 'apple'), oranges IF (f2 == 'orange');
+
+STORE apples INTO 'hbase://test_table'
+   USING org.apache.pig.backend.hadoop.hbase.HBaseStorage('info:apple');
+
+STORE oranges INTO 'hbase://test_table'
+   USING org.apache.pig.backend.hadoop.hbase.HBaseStorage('info:orange');
+{code}
+
+The server throws the following exception after {{apples}} is successfully stored:
+{code}
+Backend error message
+---------------------
+java.io.IOException: org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation@6273305c closed
+        at org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation.locateRegion(HConnectionManager.java:566)
+        at org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation.processBatch(HConnectionManager.java:1113)
+        at org.apache.hadoop.hbase.client.HConnectionManager$HConnectionImplementation.processBatchOfPuts(HConnectionManager.java:1233)
+        at org.apache.hadoop.hbase.client.HTable.flushCommits(HTable.java:819)
+        at org.apache.hadoop.hbase.mapreduce.TableOutputFormat$TableRecordWriter.close(TableOutputFormat.java:106)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReducePOStoreImpl.tearDown(MapReducePOStoreImpl.java:96)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POStore.tearDown(POStore.java:122)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigMapBase.cleanup(PigMapBase.java:128)
+        at org.apache.hadoop.mapreduce.Mapper.run(Mapper.java:146)
+        at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:621)
+        at org.apache.hadoop.mapred.MapTask.run(MapTask.java:305)
+        at org.apache.hadoop.mapred.Child.main(Child.java:170)
+{code}",,dvryaboy,jboyd963,,,,,,,,,,,,,,20/May/11 21:27;billgraham;PIG-2085_example_input.txt;https://issues.apache.org/jira/secure/attachment/12479959/PIG-2085_example_input.txt,20/May/11 21:27;billgraham;PIG-2085_example_script.pig;https://issues.apache.org/jira/secure/attachment/12479957/PIG-2085_example_script.pig,20/May/11 21:27;billgraham;PIG-2085_schema.hbase;https://issues.apache.org/jira/secure/attachment/12479958/PIG-2085_schema.hbase,3.0,,,,,,,,,,,,,,,,2011-05-23 21:01:49.709,,false,,,,,,,,,,,,,165281,,,,Tue Apr 24 15:26:39 UTC 2012,,,,,,0|i0h0xr:,97414,,,,,,,"20/May/11 21:27;billgraham;Attaching scripts to create the HBase table and to reproduce, along with sample input data.",23/May/11 21:01;dvryaboy;I bet HBaseOutputFormat gets confused when the Pig does its optimizations and tries to do 2 stores in 1 reduce phase.,"23/May/11 22:04;billgraham;From discussions on the HBase list, I think this could be an issue in TableOutputFormat in 0.90, where closing the connection on one table killed the connections for all tables:
+
+http://mail-archives.apache.org/mod_mbox/hbase-user/201105.mbox/%3cBANLkTimCXKvtPAqi-HY2uT-h434xub8SNA@mail.gmail.com%3e
+
+If anyone has an HBase cluster running off the trunk to test this theory on (we're still on 0.90), please do so with the attached scripts and report back. HBASE-3777 is the relevant fix.","23/May/11 22:11;dvryaboy;We will likely be upgrading to 0.93 this week, I'll test once we do.","21/Feb/12 12:34;royston;9 months since last comment but in case it's still relevant: we are running HBase off trunk and this test PASSES using Pig 0.9.2. 
+
+
+",27/Mar/12 20:50;dvryaboy;Just doing some housecleaning.,24/Apr/12 12:45;kados;Using HBase 0.90.3 and Pig 0.9.2 : the bug is still here.,"24/Apr/12 15:26;dvryaboy;Kevin,
+This is an HBase bug as described above. The HBase bug was fixed in 0.92 (not 0.90.2).",,,,,,
+Embeded Pig returns a different error code than what generated from python ,PIG-2545,12543517,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,vivekp,vivekp,21/Feb/12 17:19,24/Feb/12 14:48,15/Aug/18 23:11,24/Feb/12 14:48,0.9.1,,,,,,,,,,,,,,,0,,,,,"If i have a Pig script embedded in python (0.9 and above) and the python script exits with an exit
+code , then Pig exits with a different error code.
+
+To illustrate consider the below script;
+{code}
+#!/usr/bin/python
+import sys 
+from org.apache.pig.scripting import Pig
+
+Q = Pig.compile("""""" sh bash -c 'echo DATADATE=20110101 > param_20110101.txt' """""")
+result = Q.bind().runSingle()
+sys.exit(10);
+if result.isSuccessful() :
+    print 'Pig job succeeded'
+else :
+    print 'Faled'
+{code}
+
+{code}
+echo $?
+6
+{code}
+
+Here the result should have been '10' instead of '6' . Please correct me if the expectation is otherwise.",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-02-21 23:24:29.145,,false,,,,,,,,,,,,,228763,,,,Fri Feb 24 14:48:52 UTC 2012,,,,,,0|i0h35r:,97774,,,,,,,21/Feb/12 23:24;daijy;It is expected Pig will reinterpret the error code (See org.apache.pig.ReturnCode). PIG-2543 is the real problem which we didn't check the status code for sh command in a right way.,24/Feb/12 14:48;vivekp;Thanks Daniel for this information.Sorry for the trouble.,,,,,,,,,,,,
+PigStorage -schema option,PIG-2517,12541663,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,finale,finale,07/Feb/12 18:06,07/Feb/12 23:26,15/Aug/18 23:11,07/Feb/12 23:23,,,,,,,,,,,,,,,,0,,,,,"I'm trying to use the -schema option of PigStorage.
+
+This is what I have in the pig script
+store line into '/path/to/file' using PigStorage('\t','-schema');
+
+This is the line related to the error
+2012-02-07 18:58:31,889 [main] ERROR org.apache.pig.tools.grunt.Grunt - ERROR 2999: Unexpected internal error. could not instantiate 'PigStorage' with arguments '[	, -schema]'
+",linux debian,,,,,,,,,,,,,,,,07/Feb/12 20:55;finale;A.txt;https://issues.apache.org/jira/secure/attachment/12513685/A.txt,07/Feb/12 20:54;finale;pig_1328647651097.log;https://issues.apache.org/jira/secure/attachment/12513683/pig_1328647651097.log,07/Feb/12 20:55;finale;test.pig;https://issues.apache.org/jira/secure/attachment/12513684/test.pig,3.0,,,,,,,,,,,,,,,,2012-02-07 19:03:47.945,,false,,,,,,,,,,,,,226950,,,,Tue Feb 07 23:26:23 UTC 2012,,,,,,0|i0h31b:,97754,,,,,,,07/Feb/12 19:03;daijy;Works for me. Do you have detailed logs?,"07/Feb/12 20:54;finale;I'm using a debian machine.
+
+Packages version:
+hadoop 0.20.2+923.142-1~squeeze-cdh3
+hadoop-native 0.20.2+923.142-1~squeeze-cdh3
+hadoop-pig 0.8.1+28.18-1~squeeze-cdh3",07/Feb/12 23:23;dvryaboy;You are using a version of Pig that does not support this feature. This feature is only in Pig 0.10+,"07/Feb/12 23:26;dvryaboy;(however, you can use PigStorageSchema from piggybank, which does exist in 0.8. It doesn't have globbing support, and may be inefficient when loading very large numbers of files, but it's still very handy).",,,,,,,,,,
+bag and tuple issues,PIG-2500,12540726,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,daijy,vaiaro1,vaiaro1,01/Feb/12 15:02,02/Feb/12 23:33,15/Aug/18 23:11,02/Feb/12 03:10,,,,,,,,,,,,,,,,0,,,,,"input file :
+
+cat input13
+(3,8,9) {(3,8,9)} [open#apache]
+(1,4,7) {(1,4,7)} [apache#hadoop]
+(2,5,8) {(2,5,8)} [open#apache]
+
+
+A = LOAD '/data/input13' AS (T1:tuple(f1:int, f2:int), B:bag{T2:tuple(t1:float,t2:float)}, M:map[] );
+
+output : 
+
+dump A ; 
+
+(3,),,)
+((1,),,)
+((2,),,)
+
+but it should be the same as input? 
+2)
+
+
+cat input15
+(3,8,9) (mary,19)
+(1,4,7) (john,18)
+(2,5,8) (joe,18)
+
+
+o/p
+((3,8,9),)
+((1,4,7),)
+((2,5,8),)
+---------------------------------------
+
+first logs
+
+--------------------------------------------------------------------------------
+
+grunt> A = LOAD '/data/input13' AS (T1:tuple(f1:int, f2:int), B:bag{T2:tuple(t1:float,t2:float)}, M:map[] );
+grunt> dump A ;
+2012-02-01 20:22:14,025 [main] INFO  org.apache.pig.impl.logicalLayer.optimizer.PruneColumns - No column pruned for A
+2012-02-01 20:22:14,025 [main] INFO  org.apache.pig.impl.logicalLayer.optimizer.PruneColumns - No map keys pruned for A
+2012-02-01 20:22:14,032 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:14,034 [main] INFO  org.apache.pig.backend.hadoop.executionengine.HExecutionEngine - (Name: Store(hdfs://localhost:54310/tmp/temp537168513/tmp899939258:org.apache.pig.builtin.BinStorage) - 1-246 Operator Key: 1-246)
+2012-02-01 20:22:14,035 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MultiQueryOptimizer - MR plan size before optimization: 1
+2012-02-01 20:22:14,035 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MultiQueryOptimizer - MR plan size after optimization: 1
+2012-02-01 20:22:14,040 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:14,040 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:14,040 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - mapred.job.reduce.markreset.buffer.percent is not set, set to default 0.3
+2012-02-01 20:22:15,334 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting up single store job
+2012-02-01 20:22:15,335 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,336 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 1 map-reduce job(s) waiting for submission.
+2012-02-01 20:22:15,336 [Thread-149] WARN  org.apache.hadoop.mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2012-02-01 20:22:15,378 [Thread-149] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,382 [Thread-149] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,388 [Thread-149] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2012-02-01 20:22:15,388 [Thread-149] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2012-02-01 20:22:15,425 [Thread-157] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,427 [Thread-157] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2012-02-01 20:22:15,427 [Thread-157] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2012-02-01 20:22:15,437 [Thread-157] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,438 [Thread-157] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,440 [Thread-157] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,444 [Thread-157] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,463 [Thread-157] INFO  org.apache.hadoop.mapred.TaskRunner - Task:attempt_local_0011_m_000000_0 is done. And is in the process of commiting
+2012-02-01 20:22:15,464 [Thread-157] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,465 [Thread-157] INFO  org.apache.hadoop.mapred.LocalJobRunner -
+2012-02-01 20:22:15,465 [Thread-157] INFO  org.apache.hadoop.mapred.TaskRunner - Task attempt_local_0011_m_000000_0 is allowed to commit now
+2012-02-01 20:22:15,466 [Thread-157] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:15,471 [Thread-157] INFO  org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter - Saved output of task 'attempt_local_0011_m_000000_0' to hdfs://localhost:54310/tmp/temp537168513/tmp899939258
+2012-02-01 20:22:15,471 [Thread-157] INFO  org.apache.hadoop.mapred.LocalJobRunner -
+2012-02-01 20:22:15,471 [Thread-157] INFO  org.apache.hadoop.mapred.TaskRunner - Task 'attempt_local_0011_m_000000_0' done.
+2012-02-01 20:22:15,837 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - HadoopJobId: job_local_0011
+2012-02-01 20:22:15,837 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 0% complete
+2012-02-01 20:22:20,843 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 100% complete
+2012-02-01 20:22:20,843 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Successfully stored result in: ""hdfs://localhost:54310/tmp/temp537168513/tmp899939258""
+2012-02-01 20:22:20,843 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Records written : 0
+2012-02-01 20:22:20,843 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Bytes written : 0
+2012-02-01 20:22:20,843 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Spillable Memory Manager spill count : 0
+2012-02-01 20:22:20,843 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Proactive spill count : 0
+2012-02-01 20:22:20,843 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Success!
+2012-02-01 20:22:20,855 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:22:20,859 [main] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2012-02-01 20:22:20,859 [main] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+((3,),,)
+((1,),,)
+((2,),,)
+
+
+----------------------------------------------------------------------
+
+second logs
+
+
+grunt> D = LOAD '/data/input15'  AS (F:tuple(f1:int,f2:int,f3:int),T:tuple(t1:chararray,t2:int));
+grunt> dump D ;
+2012-02-01 20:28:32,287 [main] INFO  org.apache.pig.impl.logicalLayer.optimizer.PruneColumns - No column pruned for D
+2012-02-01 20:28:32,287 [main] INFO  org.apache.pig.impl.logicalLayer.optimizer.PruneColumns - No map keys pruned for D
+2012-02-01 20:28:32,330 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Initializing JVM Metrics with processName=JobTracker, sessionId=
+2012-02-01 20:28:32,399 [main] INFO  org.apache.pig.backend.hadoop.executionengine.HExecutionEngine - (Name: Store(hdfs://localhost:54310/tmp/temp2086651143/tmp-1826566586:org.apache.pig.builtin.BinStorage) - 1-14 Operator Key: 1-14)
+2012-02-01 20:28:32,428 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MultiQueryOptimizer - MR plan size before optimization: 1
+2012-02-01 20:28:32,428 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MultiQueryOptimizer - MR plan size after optimization: 1
+2012-02-01 20:28:32,443 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:32,448 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:32,448 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - mapred.job.reduce.markreset.buffer.percent is not set, set to default 0.3
+2012-02-01 20:28:33,845 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting up single store job
+2012-02-01 20:28:33,869 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:33,870 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 1 map-reduce job(s) waiting for submission.
+2012-02-01 20:28:33,873 [Thread-8] WARN  org.apache.hadoop.mapred.JobClient - Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+2012-02-01 20:28:33,968 [Thread-8] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:33,977 [Thread-8] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:33,985 [Thread-8] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2012-02-01 20:28:33,985 [Thread-8] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2012-02-01 20:28:34,102 [Thread-17] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:34,104 [Thread-17] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2012-02-01 20:28:34,105 [Thread-17] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2012-02-01 20:28:34,136 [Thread-17] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:34,145 [Thread-17] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:34,149 [Thread-17] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:34,153 [Thread-17] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:34,179 [Thread-17] INFO  org.apache.hadoop.mapred.TaskRunner - Task:attempt_local_0001_m_000000_0 is done. And is in the process of commiting
+2012-02-01 20:28:34,181 [Thread-17] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:34,183 [Thread-17] INFO  org.apache.hadoop.mapred.LocalJobRunner -
+2012-02-01 20:28:34,184 [Thread-17] INFO  org.apache.hadoop.mapred.TaskRunner - Task attempt_local_0001_m_000000_0 is allowed to commit now
+2012-02-01 20:28:34,185 [Thread-17] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:34,192 [Thread-17] INFO  org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter - Saved output of task 'attempt_local_0001_m_000000_0' to hdfs://localhost:54310/tmp/temp2086651143/tmp-1826566586
+2012-02-01 20:28:34,193 [Thread-17] INFO  org.apache.hadoop.mapred.LocalJobRunner -
+2012-02-01 20:28:34,193 [Thread-17] INFO  org.apache.hadoop.mapred.TaskRunner - Task 'attempt_local_0001_m_000000_0' done.
+2012-02-01 20:28:34,371 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - HadoopJobId: job_local_0001
+2012-02-01 20:28:34,372 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 0% complete
+2012-02-01 20:28:39,379 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 100% complete
+2012-02-01 20:28:39,379 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Successfully stored result in: ""hdfs://localhost:54310/tmp/temp2086651143/tmp-1826566586""
+2012-02-01 20:28:39,380 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Records written : 0
+2012-02-01 20:28:39,380 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Bytes written : 0
+2012-02-01 20:28:39,381 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Spillable Memory Manager spill count : 0
+2012-02-01 20:28:39,381 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Proactive spill count : 0
+2012-02-01 20:28:39,381 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Success!
+2012-02-01 20:28:39,394 [main] INFO  org.apache.hadoop.metrics.jvm.JvmMetrics - Cannot initialize JVM Metrics with processName=JobTracker, sessionId= - already initialized
+2012-02-01 20:28:39,400 [main] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2012-02-01 20:28:39,400 [main] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+((3,8,9),)
+((1,4,7),)
+((2,5,8),)
+",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-02-02 03:10:28.374,,false,,,,,,,,,,,,,226121,Reviewed,,,Thu Feb 02 23:33:33 UTC 2012,,,,,,0|i0h2y7:,97740,,,,,,,"02/Feb/12 03:10;daijy;The data file should be:
+(3,8,9) {(3,8,9)} [open#apache]
+(1,4,7) {(1,4,7)} [apache#hadoop]
+(2,5,8) {(2,5,8)} [open#apache]
+
+The script should be:
+A = LOAD '1.txt' AS (T1:tuple(f1:int, f2:int), B:bag{T2:tuple(t1:float,t2:float,t3:float)}, M:map[] );","02/Feb/12 05:18;vaiaro1;in this ""A = LOAD '/data/input13' AS (T1:tuple(f1:int, f2:int), B:bag{T2:tuple(t1:float,t2:float)}, M:map[] );""  /data/ is a directory name on hadoop and input13 is file name.
+
+this is not the solution for that "" A = LOAD '1.txt' AS (T1:tuple(f1:int, f2:int), B:bag{T2:tuple(t1:float,t2:float,t3:float)}, M:map[] ); ""
+
+
+The problem is same as previous one even then i changed like your script.
+
+in case of one tuple it is working only but when i am adding more than one tuple it doesn't showing output
+
+
+like "" D = LOAD '/data/input15'  AS (F:tuple(f1:int,f2:int,f3:int),T:tuple(t1:chararray,t2:int));""
+
+input : 
+cat input15
+(3,8,9) (mary,19)
+(1,4,7) (john,18)
+(2,5,8) (joe,18)
+
+There is no problem in that i think so '/data/input15' it is a directory name and file name,i put file on that directory only.
+
+
+
+","02/Feb/12 06:50;daijy;Oh I didn't mean to change input file name, I mean to change the input schema. I changed ""T2:tuple(t1:float,t2:float)"" into ""T2:tuple(t1:float,t2:float)"". ","02/Feb/12 06:50;daijy;Sorry, into ""T2:tuple(t1:float,t2:float,t3:float)"".","02/Feb/12 09:58;vaiaro1;hi, it is not working again,i didn;t get proper output
+
+i have done indivisible MAP,TUPLE and BAG file also,But they are working and giving o/p also but i want how to combine two TUPLE or BAG., all of these three.
+
+like:
+1)
+cat input15
+(3,8,9) (mary,19)
+(1,4,7) (john,18)
+(2,5,8) (joe,18)
+
+D = LOAD '/data/input15' AS (F:tuple(f1:int,f2:int,f3:int),T:tuple(t1:chararray,t2:int));
+it gives no output
+
+
+2)cat input13
+(3,8,9) {(3,8,9)} open#apache
+(1,4,7) {(1,4,7)} apache#hadoop
+(2,5,8) {(2,5,8)} open#apache
+
+A = LOAD '/data/input13' AS (T1:tuple(f1:int, f2:int,f3:int), B:bag{T2:tuple(t1:float,t2:float,t2:float)}, M:map[] );
+
+output :
+
+dump A ;
+
+(3,),,)
+((1,),,)
+((2,),,)
+
+","02/Feb/12 23:33;daijy;There is \[\] around map entry. The comment system eats the square:
+\[open#apache\]
+
+I am not sure why your second column does not show up, are you using \t as delimit?",,,,,,,,
+ PigServer fails to parse parameters with dashes,PIG-2464,12537903,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,arov,arov,10/Jan/12 14:56,01/Feb/12 07:33,15/Aug/18 23:11,01/Feb/12 07:33,0.9.1,,,,,,,,,,,,,,,0,,,,,"I am using pig through the pig server. I need to pass some parameters to the pig script which I am passing by calling the pigServer.registerScript(pigScript, params); 
+
+If my parameters have dashes in them, pig fails with the following (Parameter used here is run-date=20110531 where ""run-date"" is the key and 20110531 is the value):
+
+11/10/18 19:44:57 ERROR pig.PigServer: Encountered "" <OTHER> ""-date=20110531 """" at line 1, column 6.
+Was expecting:
+    ""="" ...",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-01-10 19:59:13.725,,false,,,,,,,,,,,,,223409,,,,Sat Jan 21 09:05:47 UTC 2012,,,,,,0|i0h2sn:,97715,,,,,,,"10/Jan/12 19:59;daijy;I think key name cannot contain ""-"", but value can. We might not consider it a bug.","21/Jan/12 09:05;prkommireddi;Hi Alex, is there a specific need to use ""-"" in a key? 
+There are specific rules governing what can be used as a key, please read http://pig.apache.org/docs/r0.9.1/cont.html#parameter-sub
+Since we have a syntax around parameter subsitution, I don't feel this needs any fix.",,,,,,,,,,,,
+Incorrect outputSchema is invoked when overloading UDF in 0.9.1,PIG-2375,12531567,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,prkommireddi,prkommireddi,prkommireddi,16/Nov/11 01:59,24/Jan/12 02:33,15/Aug/18 23:11,24/Jan/12 02:33,0.9.1,,,,,,,,,,,,,,,0,,,,,"When overloading a UDF with getArgToFuncMapping() the parent/root UDF outputSchema() is being called. 
+
+{code}
+  @Override
+    public List<FuncSpec> getArgToFuncMapping() throws FrontendException {
+        List<FuncSpec> funcList = new ArrayList<FuncSpec>();
+        Schema s = new Schema();
+        s.add(new Schema.FieldSchema(null, DataType.TUPLE));
+        s.add(new Schema.FieldSchema(null, DataType.CHARARRAY));
+        funcList.add(new FuncSpec(this.getClass().getName(), s));
+
+        Schema s1 = new Schema();
+        s1.add(new Schema.FieldSchema(null, DataType.TUPLE));
+        s1.add(new Schema.FieldSchema(null, DataType.TUPLE));
+        funcList.add(new FuncSpec(LogFieldValues.class.getName(), s1));
+
+        return funcList;
+    }
+
+{code}
+In the above function, ""LogFieldValues"" is used when the input is (tuple, tuple) but the outputSchema() is invoked from the root UDF.",,prkommireddi,thejas,,,,,,,,,,,,,,16/Nov/11 02:04;prkommireddi;LogFieldValue.java;https://issues.apache.org/jira/secure/attachment/12503829/LogFieldValue.java,16/Nov/11 02:04;prkommireddi;LogFieldValues.java;https://issues.apache.org/jira/secure/attachment/12503830/LogFieldValues.java,,2.0,,,,,,,,,,,,,,,,2012-01-24 02:33:25.833,,false,,,,,,,,,,,,,217303,,,,Tue Jan 24 02:33:25 UTC 2012,,,,,,0|i0h2cf:,97642,,,,,,,"19/Dec/11 02:18;prkommireddi;The problem does not seem to be that incorrect outputSchema is invoked. Rather, the root/parent UDF is always instantiated before the actual overriding UDF is invoked. 
+
+getFieldSchema() (from UserFuncExpression) is invoked on root UDF before it is called on overriding UDF. 
+
+{code}
+  @Override
+    public LogicalSchema.LogicalFieldSchema getFieldSchema() throws FrontendException {
+        if (fieldSchema!=null)
+            return fieldSchema;
+        
+        LogicalSchema inputSchema = new LogicalSchema();
+        List<Operator> succs = plan.getSuccessors(this);
+
+        if (succs!=null) {
+            for(Operator lo : succs){
+                if (((LogicalExpression)lo).getFieldSchema()==null) {
+                    inputSchema = null;
+                    break;
+                }
+                inputSchema.addField(((LogicalExpression)lo).getFieldSchema());
+            }
+        }
+
+        // Since ef only set one time, we never change its value, so we can optimize it by instantiate only once.
+        // This significantly optimize the performance of frontend (PIG-1738)
+        if (ef==null)
+            ef = (EvalFunc<?>) PigContext.instantiateFuncFromSpec(mFuncSpec);
+        
+        ef.setUDFContextSignature(signature);
+        Properties props = UDFContext.getUDFContext().getUDFProperties(ef.getClass());
+        if(Util.translateSchema(inputSchema)!=null)
+    		props.put(""pig.evalfunc.inputschema.""+signature, Util.translateSchema(inputSchema));
+        // Store inputSchema into the UDF context
+        ef.setInputSchema(Util.translateSchema(inputSchema));
+        
+//WHY DOES THIS NEED TO BE CALLED ON THE EVALFUNC THAT IS NOT USED
+        Schema udfSchema = ef.outputSchema(Util.translateSchema(inputSchema));
+
+        if (udfSchema != null) {
+            Schema.FieldSchema fs;
+            if(udfSchema.size() == 0) {
+.
+.
+.
+.
+
+{code}
+
+Why would getFieldSchema() need to be invoked on root UDF when exec() actually needs to invoked on an overriding EvalFunc? ","20/Dec/11 06:34;prkommireddi;On having thought some more, when getArgToFuncMapping() is used the check is made based on this to invoke an overriding EvalFunc. It does not really make a lot of sense to use outputSchema(Schema inputSchema) to verify input schema once again.
+
+The role of outputSchema (as the name suggests) should be to specify the output schema for the UDF, and NOT necessarily to verify the input schema. Though for a new user or writer of Pig UDFs this might not seem obvious when overriding UDFs.
+
+To summarize: 
+
+1. When UDF is not overriden, it is ok to use outputSchema to verify input schema.
+2. When UDF is Overriden, it does not make sense to use outputSchema to verify input schema. This is because getArgToFuncMapping already finds a matching spec based on the input schema.","21/Jan/12 22:03;prkommireddi;Based on above, I think we should close this one out and open a new JIRA for better documentation of ""outputSchema"" and ""getArgToFuncMapping""?","24/Jan/12 02:33;thejas;A visitor (TypeCheckingExpVisitor) replaces the FuncSpec with the matching class, based on the input type and values returned by getArgToFuncMapping().
+It is possible that some code calls UserFuncExpression.getFieldSchema() on your base class before FuncSpec gets replaced by this visitor, but that should be harmless. 
+Please feel free to open a new jira to document this behavior more clearly. ",,,,,,,,,,
+Embed Pig in Java does not display exception message when error occurs,PIG-2401,12533984,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,prkommireddi,prkommireddi,prkommireddi,06/Dec/11 03:47,21/Jan/12 07:48,15/Aug/18 23:11,21/Jan/12 07:48,0.9.1,,,,,,,,,,,,,,,0,,,,,"Embedding Pig in Java does not display exception messages on console (logs are not produced either, which is known)
+I tried the mapreduce mode example http://pig.apache.org/docs/r0.9.1/cont.html#Usage+Examples-N101CF
+
+{code}
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.pig.PigServer;
+
+public class idmapreduce {
+    public static void main(String[] args) {
+        try {
+            PigServer pigServer = new PigServer(""mapreduce"");
+            runIdQuery(pigServer, ""passwd"");
+        } catch (Exception e) {}
+    }
+
+    public static void runIdQuery(PigServer pigServer, String inputFile) throws IOException {
+        pigServer.registerQuery(""A = load '"" + inputFile + ""' using PigStorage(':');"");
+        pigServer.registerQuery(""B = foreach A generate $0 as id;"");
+        pigServer.store(""B"", ""idout"");
+    }
+}
+{code}
+
+The issue with above code is that ""idout"" already exists on HDFS. Output when the above is run:
+{code}
+pkommireddi@pkommireddi-wsl:~/misc/pig$ java -cp /home/pkommireddi/gridforce_ws/hadoop-test/lib/pig-0.9.1.jar:.:$HADOOP_CONF_DIR idmapreduce 
+11/12/05 19:36:46 INFO executionengine.HExecutionEngine: Connecting to hadoop file system at: hdfs://xyz.net:54310
+11/12/05 19:36:46 INFO executionengine.HExecutionEngine: Connecting to map-reduce job tracker at: xyz.net:54311
+11/12/05 19:36:47 INFO pigstats.ScriptState: Pig features used in the script: UNKNOWN
+{code}
+
+There is no exception message spit out to the console.
+
+It runs fine once I delete the output directory
+{code}
+pkommireddi@pkommireddi-wsl:~/misc/pig$ hadoop fs -rmr idout
+Moved to trash: hdfs://xyz.net:54310/user/pkommireddi/idout
+
+pkommireddi@pkommireddi-wsl:~/misc/pig$ java -cp /home/pkommireddi/gridforce_ws/hadoop-test/lib/pig-0.9.1.jar:.:$HADOOP_CONF_DIR idmapreduce 
+11/12/05 19:37:14 INFO executionengine.HExecutionEngine: Connecting to hadoop file system at: hdfs://xyz.net:54310
+11/12/05 19:37:14 INFO executionengine.HExecutionEngine: Connecting to map-reduce job tracker at: xyz.net:54311
+11/12/05 19:37:14 INFO pigstats.ScriptState: Pig features used in the script: UNKNOWN
+11/12/05 19:37:14 INFO mapReduceLayer.MRCompiler: File concatenation threshold: 100 optimistic? false
+11/12/05 19:37:14 INFO mapReduceLayer.MultiQueryOptimizer: MR plan size before optimization: 1
+11/12/05 19:37:14 INFO mapReduceLayer.MultiQueryOptimizer: MR plan size after optimization: 1
+11/12/05 19:37:14 INFO pigstats.ScriptState: Pig script settings are added to the job
+11/12/05 19:37:14 INFO mapReduceLayer.JobControlCompiler: mapred.job.reduce.markreset.buffer.percent is not set, set to default 0.3
+11/12/05 19:37:17 INFO mapReduceLayer.JobControlCompiler: Setting up single store job
+11/12/05 19:37:17 INFO mapReduceLayer.MapReduceLauncher: 1 map-reduce job(s) waiting for submission.
+11/12/05 19:37:17 WARN mapred.JobClient: Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
+11/12/05 19:37:17 INFO input.FileInputFormat: Total input paths to process : 1
+11/12/05 19:37:17 INFO util.MapRedUtil: Total input paths to process : 1
+11/12/05 19:37:17 INFO util.MapRedUtil: Total input paths (combined) to process : 1
+11/12/05 19:37:17 INFO mapReduceLayer.MapReduceLauncher: 0% complete
+11/12/05 19:37:18 INFO mapReduceLayer.MapReduceLauncher: HadoopJobId: job_201111102203_3624
+11/12/05 19:37:18 INFO mapReduceLayer.MapReduceLauncher: More information at: http://xyz.net:50030/jobdetails.jsp?jobid=job_201111102203_3624
+11/12/05 19:37:30 INFO mapReduceLayer.MapReduceLauncher: 50% complete
+11/12/05 19:37:38 INFO mapReduceLayer.MapReduceLauncher: 100% complete
+11/12/05 19:37:38 INFO pigstats.SimplePigStats: Script Statistics: 
+
+HadoopVersion	PigVersion	UserId	StartedAt	FinishedAt	Features
+0.20.2	0.9.1	pkommireddi	2011-12-05 19:37:14	2011-12-05 19:37:38	UNKNOWN
+
+Success!
+
+Job Stats (time in seconds):
+JobId	Maps	Reduces	MaxMapTime	MinMapTIme	AvgMapTime	MaxReduceTime	MinReduceTime	AvgReduceTime	Alias	Feature	Outputs
+job_201111102203_3624	1	0	6	6	6	0	0	0	A,B	MAP_ONLY	idout,
+
+Input(s):
+Successfully read 49 records (2289 bytes) from: ""hdfs://xyz.net:54310/user/pkommireddi/passwd""
+
+Output(s):
+Successfully stored 49 records (2078 bytes) in: ""idout""
+
+Counters:
+Total records written : 49
+Total bytes written : 2078
+Spillable Memory Manager spill count : 0
+Total bags proactively spilled: 0
+Total records proactively spilled: 0
+
+Job DAG:
+job_201111102203_3624
+
+
+11/12/05 19:37:38 INFO mapReduceLayer.MapReduceLauncher: Success!
+{code}
+",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2011-12-06 10:27:13.188,,false,,,,,,,,,,,,,219710,,,,Tue Dec 06 18:44:32 UTC 2011,,,,,,0|i0h2hz:,97667,,,,,PigServer ,,06/Dec/11 10:27;dvryaboy;Do you perchance have a log4j properties file on your classpath or in the jars that redirects ERROR level logs?,"06/Dec/11 18:44;prkommireddi;No, what settings would I need to place in for the above to be enabled?",,,,,,,,,,,,
+Local mode for GroupBy followed by aggrete function results in ERROR: 2118,PIG-2376,12531569,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,araceli,araceli,16/Nov/11 02:04,16/Nov/11 19:17,15/Aug/18 23:11,16/Nov/11 19:17,,,,,,,,,,,,,,,,1,,,,,"Ran in LocalMode
+
+The following test 
+a = load '/user/user1/pig/tests/data/singlefile/studenttab10k' as (name, age, gpa);
+b = group a by (name, age);
+c = foreach b generate flatten(group), SUM(a.gpa);
+store c into '/user/user1/pig/out/user1.1321317375/GroupAggFunc_12.out';
+:
+==============
+Failed Jobs:
+:==============
+JobId   Alias   Feature Message Outputs
+job_local_0001  a,b,c   GROUP_BY,COMBINER       Message: org.apache.pig.backend.executionengine.ExecException: ERROR 2118: Input path does not exist: file:/user/user1/pig/tests/data/singlefile/studenttab10k
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigInputFormat.getSplits(PigInputFormat.java:282)
+        at org.apache.hadoop.mapreduce.JobSubmitter.writeNewSplits(JobSubmitter.java:445)
+        at org.apache.hadoop.mapreduce.JobSubmitter.writeSplits(JobSubmitter.java:462)
+        at org.apache.hadoop.mapreduce.JobSubmitter.submitJobInternal(JobSubmitter.java:360)
+        at org.apache.hadoop.mapreduce.Job$2.run(Job.java:1159)
+        at org.apache.hadoop.mapreduce.Job$2.run(Job.java:1156)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at javax.security.auth.Subject.doAs(Subject.java:396)
+        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1152)
+        at org.apache.hadoop.mapreduce.Job.submit(Job.java:1156)
+        at org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob.submit(ControlledJob.java:336)
+        at org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl.run(JobControl.java:233)
+        at java.lang.Thread.run(Thread.java:619)
+Caused by: org.apache.hadoop.mapreduce.lib.input.InvalidInputException: Input path does not exist: file:/user/user1/pig/tests/data/singlefile/studenttab10k
+        at org.apache.hadoop.mapreduce.lib.input.FileInputFormat.listStatus(FileInputFormat.java:243)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigTextInputFormat.listStatus(PigTextInputFormat.java:36)
+        at org.apache.hadoop.mapreduce.lib.input.FileInputFormat.getSplits(FileInputFormat.java:269)
+        at org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.PigInputFormat.getSplits(PigInputFormat.java:270)
+        ... 12 more
+        /user/user1/pig/out/user1.1321317375/GroupAggFunc_12.out,
+
+Input(s):
+Failed to read data from ""/user/user1/pig/tests/data/singlefile/studenttab10k""
+
+Output(s):
+Failed to produce result in ""/user/user1/pig/out/user1.1321317375/GroupAggFunc_12.out""
+
+
+File does exist from hdfs:
+-rw-r--r--   3 user1 hdfs     219190 2011-11-15 22:49 /user/user1/pig/tests/data/singlefile/studenttab10k
+
+Failed tests:
+GroupAggFunc_12 and GroupAggFunc_13
+","Apache Pig version 0.9.2.1111101150 (r1200499)
+compiled Nov 10 2011, 19:50:15
+-bash-3.1$ hadoop version
+Hadoop 0.23.0.1111080202
+Subversion http://svn.apache.org/repos/asf/hadoop/common/branches/branch-0.23.0/hadoop-common-project/hadoop-common -r 1196973
+Compiled by hadoopqa on Tue Nov  8 02:12:04 PST 2011
+From source with checksum 4e42b2d96c899a98a8ab8c7cc23f27ae
+",,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2011-11-16 05:18:59.763,,false,,,,,,,,,,,,,217305,,,,Wed Nov 16 19:17:42 UTC 2011,,,,,,0|i0h2cn:,97643,,,,,,,"16/Nov/11 05:18;dvryaboy;The error here says that the input file does not exist. Can you verify that the path /user/user1/pig/tests/data/singlefile/studenttab10k exists on your test machine? I just ran the same script on the tip of branch 0.9, and it works fine.","16/Nov/11 19:17;araceli;This was a problem with my environment. I fixed the problem, reran the test and it passes.",,,,,,,,,,,,
+dot Next integration with Pig 0.9 - mount side table is read only,PIG-2158,12513873,Bug,Closed,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,araceli,araceli,13/Jul/11 02:53,04/Aug/11 00:34,15/Aug/18 23:11,13/Jul/11 22:13,0.9.0,,,,,,,,,,,0.9.0,,,,0,,,,,"Creating a direcotry from hdfs directly on either namenode works:
+
+hadoop fs -mkdir hdfs://namenode1/user/hadoopqa/pig/out1/foo1
+hadoop fs -mkdir hdfs://namenode2/user/hadoopqa/pig/out2/foo2
+hadoop fs -ls hdfs://namenode2/user/hadoopqa/pig/out2/
+drwxr-xr-x   - hadoopqa hdfs          0 2011-07-13 01:07 /out2/foo2
+
+Creating it on the second name bnode with a mount side table works:
+hadoop fs -mkdir /out2/foo3
+hadoop fs -ls /out2
+drwxr-xr-x   - hadoopqa hdfs          0 2011-07-13 01:07 /out2/foo2
+drwxr-xr-x   - hadoopqa hdfs          0 2011-07-13 02:47 /out2/foo3
+
+Creating it from grunt fails with a readonly error:
+
+grunt> fs -mkdir /out2/foo4
+mkdir: Permission denied: user=araceli, access=WRITE, inode=""/user/hadoopqa/pig/out2"":hadoopqa:hdfs:drwxr-xr-x
+",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,66243,,,,Wed Jul 13 22:12:41 UTC 2011,,,,,,0|i0h1br:,97477,,,,,,,"13/Jul/11 22:12;araceli;I know what the problem is.
+When I was accessing the grunt shell I typed ""pig"" which picked up the pig that was in my path instead of the $PIG_HOME/bin/pig.
+
+If I use:
+
+$PIG_HOME/bin/pig to access grunt, then it works as expected.",,,,,,,,,,,,,
+Add trademark attribution footers to our webpages,PIG-1690,12478081,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,alangates,alangates,alangates,22/Oct/10 16:07,23/Jul/11 14:20,15/Aug/18 23:11,23/Jul/11 14:20,site,,,,,,,,,,,site,site,,31/Dec/10 00:00,0,,,,,In compliance with http://www.apache.org/foundation/marks/pmcs we need to add footers to our webpage that attribute any trademarks we reference in the page.,,,,,,,,,,,,,,,,,02/Nov/10 00:11;alangates;PIG-1690.patch;https://issues.apache.org/jira/secure/attachment/12458594/PIG-1690.patch,,,1.0,,,,,,,,,,,,,,,,2010-10-22 20:41:42.182,,false,,,,,,,,,,,,,67099,,,,Sat Jul 23 14:20:37 UTC 2011,,,,,,0|i0gyjr:,97027,,,,,,,"22/Oct/10 20:41;olgan;While we are doing that, we should also update the header to exlude Hadoop. The current one reads: Apache > Hadoop > Pig > 
+","02/Nov/10 00:11;alangates;This patch is large because I removed the extern on skins.  We were pulling in hadoop's skin definition ""hadoop-pelt"".  Since I needed to change the skin to include the trademark in the footer I removed the extern and created our own pig-pelt.  At this point pig-pelt is just the hadoop-pelt with the addition of a slot for the trademark statement.
+
+The actual trademark statement is in author/src/documentation/skinconf.xml.
+",11/Nov/10 00:53;alangates;Could someone review this patch?,"23/Jul/11 14:20;alangates;Since we extern our forrest skins from Hadoop, when they added their trademark attributions (which included Pig and Hadoop, the projects we reference) they solved this problem for us.",,,,,,,,,,
+Filtering a source and then merging the filtered rows only generates data from one half of the filtering,PIG-2178,12514537,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,dwollen,dwollen,19/Jul/11 04:57,21/Jul/11 05:23,15/Aug/18 23:11,21/Jul/11 05:20,0.8.1,,,,,,,,,,,0.8.1,impl,,,0,,,,,"Pig is generating a plan that eliminates half of input data when using FILTER BY
+
+To better illustrate, I created a small test case.
+1. Create a file in HDFS called ""/testinput""
+   The contents of the file should be:
+""1\ta\taline\n1\tb\tbline""
+2. Run the following pig script:
+ORIG = LOAD '/testinput' USING PigStorage() AS (parent_id: chararray, child_id:chararray, value:chararray);
+-- Split into two inputs based on the value of child_id
+A = FILTER ORIG BY child_id =='a';
+B = FILTER ORIG BY child_id =='b';
+-- Project out the column which chooses the correct data set
+APROJ = FOREACH A GENERATE parent_id, value;
+BPROJ = FOREACH B GENERATE parent_id, value;
+-- Merge both datasets by parent id
+ABMERGE = JOIN APROJ by parent_id FULL OUTER, BPROJ by parent_id;
+-- Project the result
+ABPROJ = FOREACH ABMERGE GENERATE APROJ::parent_id AS parent_id, APROJ::value,BPROJ::value;
+DUMP ABPROJ;
+3. The resulting tuple will be
+(1,aline,aline)
+",,thejas,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2011-07-20 17:33:23.08,,false,,,,,,,,,,,,,67303,,,,Thu Jul 21 05:23:29 UTC 2011,,,,,,0|i0h1fj:,97494,,,,,,,"20/Jul/11 17:33;thejas;I get the correct results - (1,aline,bline) with the following -
+- pig 0.8.1 released version 
+- latest jar from pig 0.8 svn branch
+- latest jar from pig 0.9 svn branch
+
+Are you the first release of pig 0.8 (ie not 0.8.1 ?) . 0.8.1 has a bunch of bug fixes, it is the stable release of 0.8, you should use that.
+
+","21/Jul/11 05:20;dwollen;I took a look, and you were right.  I was using 0.8.0, so this bug is incorrect.  And I'll take your word for the fact that this isn't an issue in 0.8.1
+
+Locally I was able to correct the problem by loading the file twice (ORIGA and ORIGB).
+
+I just wanted to make sure this was noted for future fixes.  If 0.8.1 takes care of that then I'll go and upgrade on my end.  Sorry for the trouble.","21/Jul/11 05:23;thejas;No problem, thanks for reporting issues as when you see them, and helping improve pig!",,,,,,,,,,,
+Logical to Physical Plan Translation fails when temporary alias are created within foreach,PIG-747,12421906,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,alangates,viraj,viraj,02/Apr/09 18:48,15/Jul/11 00:26,15/Aug/18 23:11,15/Jul/11 00:26,0.4.0,,,,,,,,,,,,,,,0,,,,,"Consider a the pig script which calculates a new column F inside the foreach as:
+{code}
+A = load 'physicalplan.txt' as (col1,col2,col3);
+
+B = foreach A {
+   D = col1/col2;
+   E = col3/col2;
+   F = E - (D*D);
+   generate
+   F as newcol;
+};
+
+dump B;
+{code}
+
+This gives the following error:
+=======================================================================================================================================
+Caused by: org.apache.pig.backend.hadoop.executionengine.physicalLayer.LogicalToPhysicalTranslatorException: ERROR 2015: Invalid physical operators in the physical plan
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.LogToPhyTranslationVisitor.visit(LogToPhyTranslationVisitor.java:377)
+        at org.apache.pig.impl.logicalLayer.LOMultiply.visit(LOMultiply.java:63)
+        at org.apache.pig.impl.logicalLayer.LOMultiply.visit(LOMultiply.java:29)
+        at org.apache.pig.impl.plan.DependencyOrderWalkerWOSeenChk.walk(DependencyOrderWalkerWOSeenChk.java:68)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.LogToPhyTranslationVisitor.visit(LogToPhyTranslationVisitor.java:908)
+        at org.apache.pig.impl.logicalLayer.LOForEach.visit(LOForEach.java:122)
+        at org.apache.pig.impl.logicalLayer.LOForEach.visit(LOForEach.java:41)
+        at org.apache.pig.impl.plan.DependencyOrderWalker.walk(DependencyOrderWalker.java:68)
+        at org.apache.pig.impl.plan.PlanVisitor.visit(PlanVisitor.java:51)
+        at org.apache.pig.backend.hadoop.executionengine.HExecutionEngine.compile(HExecutionEngine.java:246)
+        ... 10 more
+Caused by: org.apache.pig.impl.plan.PlanException: ERROR 0: Attempt to give operator of type org.apache.pig.backend.hadoop.executionengine.physicalLayer.expressionOperators.Divide multiple outputs.  This operator does not support multiple outputs.
+        at org.apache.pig.impl.plan.OperatorPlan.connect(OperatorPlan.java:158)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.plans.PhysicalPlan.connect(PhysicalPlan.java:89)
+        at org.apache.pig.backend.hadoop.executionengine.physicalLayer.LogToPhyTranslationVisitor.visit(LogToPhyTranslationVisitor.java:373)
+        ... 19 more
+=======================================================================================================================================",,,,,,,,,,,,,,,,PIG-1633,21/Oct/09 01:15;daijy;PIG-747-1.patch;https://issues.apache.org/jira/secure/attachment/12422758/PIG-747-1.patch,02/Apr/09 18:57;viraj;physicalplan.txt;https://issues.apache.org/jira/secure/attachment/12404476/physicalplan.txt,02/Apr/09 18:57;viraj;physicalplanprob.pig;https://issues.apache.org/jira/secure/attachment/12404475/physicalplanprob.pig,3.0,,,,,,,,,,,,,,,,2009-04-03 01:04:15.417,,false,,,,,,,,,,,,,67990,,,,Fri Jul 15 00:26:12 UTC 2011,,,,,,0|i0gnvb:,95297,,,,,,,02/Apr/09 18:57;viraj;Pig script and test data,"02/Apr/09 19:03;viraj;There are two workarounds:
+
+1) The obvious one is where you use:
+col1/col2 instead of D
+{code}
+A = load 'physicalplan.txt' as (col1,col2,col3);
+B = foreach A {
+   D = col1/col2;
+   E = col3/col2;
+   F = E - ((col1/col2) * (col1/col2));
+   generate
+   F as newcol;
+};
+dump B;
+{code}
+
+2) The second not obvious one is casting D to double:
+{code}
+B = foreach A {
+   D = col1/col2;
+   E = col3/col2;
+   F = E - ((double)D * (double)D);
+   generate
+   F as newcol;
+};
+
+dump B;
+{code}
+","03/Apr/09 01:04;ciemo;Another workaround is to split this into a chain of foreach statements:
+
+{code}
+B = foreach A generate
+    *,
+    (double)col1 / (double)col2 as d,
+    (double)col3 / (double)col2 as e;
+
+B = foreach B generate
+    e - d * d as newcol;
+
+dump B;
+{code}","15/Oct/09 20:21;daijy;One initial observation is, if we change ExpressionOperator.supportsMultipleOutputs to true, we see this error gone. Very similar problem to PIG-1024.","21/Oct/09 20:54;hadoopqa;-1 overall.  Here are the results of testing the latest attachment 
+  http://issues.apache.org/jira/secure/attachment/12422758/PIG-747-1.patch
+  against trunk revision 827829.
+
+    +1 @author.  The patch does not contain any @author tags.
+
+    +1 tests included.  The patch appears to include 3 new or modified tests.
+
+    +1 javadoc.  The javadoc tool did not generate any warning messages.
+
+    +1 javac.  The applied patch does not increase the total number of javac compiler warnings.
+
+    +1 findbugs.  The patch does not introduce any new Findbugs warnings.
+
+    +1 release audit.  The applied patch does not increase the total number of release audit warnings.
+
+    -1 core tests.  The patch failed core unit tests.
+
+    +1 contrib tests.  The patch passed contrib unit tests.
+
+Test results: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/106/testReport/
+Findbugs warnings: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/106/artifact/trunk/build/test/findbugs/newPatchFindbugsWarnings.html
+Console output: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/106/console
+
+This message is automatically generated.","28/Oct/09 11:51;hadoopqa;-1 overall.  Here are the results of testing the latest attachment 
+  http://issues.apache.org/jira/secure/attachment/12422758/PIG-747-1.patch
+  against trunk revision 830335.
+
+    +1 @author.  The patch does not contain any @author tags.
+
+    +1 tests included.  The patch appears to include 3 new or modified tests.
+
+    +1 javadoc.  The javadoc tool did not generate any warning messages.
+
+    +1 javac.  The applied patch does not increase the total number of javac compiler warnings.
+
+    +1 findbugs.  The patch does not introduce any new Findbugs warnings.
+
+    +1 release audit.  The applied patch does not increase the total number of release audit warnings.
+
+    -1 core tests.  The patch failed core unit tests.
+
+    +1 contrib tests.  The patch passed contrib unit tests.
+
+Test results: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/120/testReport/
+Findbugs warnings: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/120/artifact/trunk/build/test/findbugs/newPatchFindbugsWarnings.html
+Console output: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/120/console
+
+This message is automatically generated.",29/Oct/09 00:00;daijy;Please hold on this patch. Seems the calculation is not good. Looks like supportsMultipleOutputs is useful to prevent repeated calculation. We need to investigate more before submit new patch.,04/Dec/09 20:00;olgan;Unlinking from 0.6.0 release. The change is to large to make this late,"04/Dec/09 20:07;pkamath;I did some investigation and here are some observations:
+Consider the following foreach segment which is similar to the script above:
+{code}
+foreach a generate {
+ X = 10;
+ Y = X + X;
+ generate Y;
+}
+{code}
+
+Currently it looks like in the logical plan we connect the same instance of LOConst (X) twice to the LOAdd (Y). In LogToPhyTranslationVisitor,  each successor of an operator is supposed to get a different instance of the operator as its predecessor  because DependencyOrderWalkerWOSeenChk is used to visit the inner foreach plan and a new Physical Operator is created each time a Logical operator is seen (even if it is the same instance of the Logical Operator). However the LogToPhyTranslationVisitor maintains a LogToPhyMap which is hashmap for mapping between a logicaloperator and translated PhysicalOperator. Since this is a HashMap and not a MultiMap, the LOConst gets mapped to the last POConst created and POAdd gets connected to it twice. 
+
+Options to solve this:
+1) Change the design in LogToPhyTranslationVisitor to handle this by using a MultiMap - this might be pretty involved - not sure on the extent of changes required
+2) Change the parser to create copies originally in the nested foreach of the LogicalPlan and then LogToPhyTranslation doesn't need to worry about this case - this seems more cleaner - again unsure on how easy this is.
+
+","05/Dec/09 19:24;ashutoshc;In my opinion option 2 is better then option 1. Instead of carrying references, copies should be made as early as possible, right at time of parsing. Among other things this impacts the cloning of operators. And if there are references, references gets cloned which is not ideal situation. If there are different operators with different operator keys, one need not to worry about dangling references getting cloned. 
+Secondly, if plan is modified by optimizer by moving around operators in a tree, it so much easier to work with copy of operators instead of references to same object. 
+In terms of implementation, I have no idea which of the two will be easier to do.","11/Mar/10 20:46;zhijin;The following code is reported caused same error:
+
+// code
+register /homes/ciemo/yahoo-piggy-bank/java/build/math.jar;
+
+A = load 'one.txt' using PigStorage() as ( one: int );
+
+B = foreach A {
+        random = math.RANDOMINT(100000000);
+        generate
+                one,
+                random as r1,
+                random as r2,
+                ((random != random) ? 'bad' : 'good');
+        };
+describe B;
+
+dump B;
+
+// end code
+
+The conditional assignment calls ""random"" twice.  Besides, ""random"" is called 4 times total, and the conditional assignment is based on the last 2 calls, which is independent on the first 2 calls (r1 & r2).
+
+If we want the last field relating with the 2nd & 3rd fields, we shall call ""random"" twice:
+
+// code
+register /homes/ciemo/yahoo-piggy-bank/java/build/math.jar;
+
+A = load 'one.txt' using PigStorage() as ( one: int );
+
+B = foreach A {
+        random = math.RANDOMINT(100000000);
+        generate
+                one,
+                random as r1,
+                random as r2;
+        };
+
+C = foreach B generate
+        r1,
+        r2,
+        ((r1 != r2) ? 'bad' : 'good') as flag;
+
+// end code  
+
+
+","15/Feb/11 09:23;alangates;It would be interesting to retest this now that we have a different logical plan structure, to see if the same errors come up.  If they do, I vote with Ashutosh above that cloning early is probably better than cloning later.","15/Jul/11 00:26;thejas;This issue is not present in 0.9, which has a new logical plan.",
+New Logical Plan messes up schemas in projections,PIG-1971,12503576,Bug,Closed,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,dvryaboy,dvryaboy,07/Apr/11 02:44,06/Jun/11 00:26,15/Aug/18 23:11,06/Jun/11 00:26,0.8.0,,,,,,,,,,,,,,,0,,,,,"While dealing with PIG-1870, I found that when using the HBaseStorage load/storefunc, which implements projection pushdown and has a custom Caster, the caster is not getting used when the following script is executed:
+
+a = load 'hbase://TESTTABLE_1' using 
+  org.apache.pig.backend.hadoop.hbase.HBaseStorage('TESTCOLUMN_A TESTCOLUMN_B TESTCOLUMN_C',
+                                                   '-loadKey -caster HBaseBinaryConverter') 
+  as (rowKey:chararray,col_a:int, col_b:double, col_c:chararray);
+
+b = FOREACH a GENERATE rowKey, col_a, col_b;
+
+STORE b into  'TESTTABLE_2' using 
+  org.apache.pig.backend.hadoop.hbase.HBaseStorage('TESTCOLUMN_A TESTCOLUMN_B','-caster HBaseBinaryConverter');
+
+
+
+If a is stored directly, without the FOREACH, the HBaseBinaryConverter methods are invoked to convert fields as appropriate. If b gets stored, HBaseBinaryConverter is completely ignored.  If newlogicalplan is turned off, everything works as expected.
+
+Further evidence that something odd as afoot -- though possibly unrelated -- note that the field aliases are messed up in the new logical plan if b is EXPLAINed (col_a is repeated twice, instead of the first column being called rowkey, in the new logical plan):
+
+{noformat}
+
+#-----------------------------------------------
+# Logical Plan:
+#-----------------------------------------------
+fake: Store 1-18 Schema: {rowKey: chararray,col_a: int,col_b: double} Type: Unknown
+|
+|---b: ForEach 1-17 Schema: {rowKey: chararray,col_a: int,col_b: double} Type: bag
+    |   |
+    |   Project 1-14 Projections: [0] Overloaded: false FieldSchema: rowKey: chararray Type: chararray
+    |   Input: a: Load 1-9
+    |   |
+    |   Project 1-15 Projections: [1] Overloaded: false FieldSchema: col_a: int Type: int
+    |   Input: a: Load 1-9
+    |   |
+    |   Project 1-16 Projections: [2] Overloaded: false FieldSchema: col_b: double Type: double
+    |   Input: a: Load 1-9
+    |
+    |---a: Load 1-9 Schema: {rowKey: chararray,col_a: int,col_b: double,col_c: chararray} Type: bag
+
+
+
+#-----------------------------------------------
+# New Logical Plan:
+#-----------------------------------------------
+fake: (Name: LOStore Schema: col_a#12:chararray,col_a#13:int,col_b#14:double)ColumnPrune:InputUids=[12, 13, 14]ColumnPrune:OutputUids=[12, 13, 14]
+|
+|---b: (Name: LOForEach Schema: col_a#13:chararray,col_a#13:int,col_b#14:double)
+    |   |
+    |   (Name: LOGenerate[false,false,false] Schema: col_a#13:chararray,col_a#13:int,col_b#14:double)
+    |   |   |
+    |   |   (Name: Cast Type: chararray Uid: 13)
+    |   |   |
+    |   |   |---col_a:(Name: Project Type: bytearray Uid: 13 Input: 0 Column: 0)
+    |   |   |
+    |   |   (Name: Cast Type: int Uid: 13)
+    |   |   |
+    |   |   |---col_a:(Name: Project Type: bytearray Uid: 13 Input: 1 Column: 0)
+    |   |   |
+    |   |   (Name: Cast Type: double Uid: 14)
+    |   |   |
+    |   |   |---col_b:(Name: Project Type: bytearray Uid: 14 Input: 2 Column: 0)
+    |   |
+    |   |---(Name: LOInnerLoad[0] Schema: col_a#13:bytearray)
+    |   |
+    |   |---(Name: LOInnerLoad[0] Schema: col_a#13:bytearray)    |   |
+    |   |---(Name: LOInnerLoad[1] Schema: col_b#14:bytearray)
+    |
+    |---a: (Name: LOLoad Schema: col_a#13:bytearray,col_b#14:bytearray)ColumnPrune:RequiredColumns=[0, 1, 2]ColumnPrune:InputUids=[12, 13, 14]ColumnPrune:OutputUids=[12, 13, 14]RequiredFields:[1, 2]
+{noformat}",,billgraham,,,,,,,,,,,,,,,07/Apr/11 20:00;daijy;PIG-1971-0.patch;https://issues.apache.org/jira/secure/attachment/12475741/PIG-1971-0.patch,,,1.0,,,,,,,,,,,,,,,,2011-04-07 20:00:36.316,,false,,,,,,,,,,,,,71894,,,,Mon Jun 06 00:26:31 UTC 2011,,,,,,0|i0h093:,97303,,,,,,,"07/Apr/11 20:00;daijy;This is because HBaseStorage.pushProjection change requiredFieldList. requiredFieldList is intend to read only. I attached an initial patch and add a comment to pushProjection. Dmitriy, can you test it?","07/Apr/11 20:21;dvryaboy;Thanks for the fast response Daniel, I'll apply this to my fix for 1870 and see if it helps.",07/Apr/11 20:24;olgan;which release should this go to? 0.8? 0.9?,"07/Apr/11 20:32;dvryaboy;0.8, though if it is indeed a problem with HBaseStorage and not Pig, it'll just be part of 1870",06/Jun/11 00:26;dvryaboy;Closing as not-a-bug. I believe the documentation issue was solved in a different ticket.,,,,,,,,,
+getFieldSchema() in ExpressionOperators also sets up lineage information - this can cause issues if getFieldSchema() is called too early,PIG-808,12425346,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,pkamath,pkamath,13/May/09 17:50,04/Mar/11 18:58,15/Aug/18 23:11,04/Mar/11 18:58,0.3.0,,,,,,,,,,,0.8.0,,,,0,,,,,See PIG-804 for a use case which exposes this bug. We should probably be setting up lineage information outside getFieldSchema() through a visitor at a point where we know it is safe - (just before TypeCheckingVisitor?). ,,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,164365,,,,2009-05-13 17:50:08.0,,,,,,0|i0gokv:,95412,Lineage is no longer part of getSchema,,,,,,,,,,,,,,,,,,,
+Skewed join sampler generates unevenly partitioned data,PIG-1743,12480633,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,viraj,viraj,23/Nov/10 03:52,13/Dec/10 19:15,15/Aug/18 23:11,09/Dec/10 18:23,0.7.0,0.8.0,,,,,,,,,,,impl,,,0,,,,,"I have a data, when using the Skewed join generated uneven partitions. The script looks like this:
+
+{code}
+Data1 = LOAD '/user/viraj/relation1.in' AS (ref,intVal);
+Data2 = LOAD '/user/viraj/relation2.in' using PigStorage('\u0001') AS (ID:chararray, Key:chararray, DomainKey:chararray);
+JoinData = JOIN Data1 BY ref LEFT OUTER , Data2 BY ID using 'skewed' PARALLEL 10;
+STORE JoinData into 'skewedoutput' using PigStorage('\u0001');
+{code}
+
+The output generated has the following part files of varying sizes
+
+{quote}
+$ hadoop fs -ls /user/viraj/skewedoutput
+Found 10 items
+-rw-------   3 viraj users       2090 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00000
+-rw-------   3 viraj users      19380 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00001
+-rw-------   3 viraj users       2090 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00002
+-rw-------   3 viraj users       9690 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00003
+-rw-------   3 viraj users       2090 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00004
+-rw-------   3 viraj users       2090 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00005
+-rw-------   3 viraj users          0 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00006
+-rw-------   3 viraj users          0 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00007
+-rw-------   3 viraj users          0 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00008
+-rw-------   3 viraj users          0 2010-11-23 03:44 /user/viraj/skewedoutput/part-r-00009
+{quote}
+
+Attaching input datasets.
+
+Viraj",,,,,,,,,,,,,,,,,23/Nov/10 03:56;viraj;relation1.in;https://issues.apache.org/jira/secure/attachment/12460230/relation1.in,23/Nov/10 03:56;viraj;relation2.in;https://issues.apache.org/jira/secure/attachment/12460231/relation2.in,,2.0,,,,,,,,,,,,,,,,2010-11-23 21:36:46.386,,false,,,,,,,,,,,,,165171,,,,Tue Nov 23 21:36:46 UTC 2010,,,,,,0|i0gyx3:,97087,,,,,,,23/Nov/10 03:56;viraj;Input data for testing,23/Nov/10 21:36;rding;The data sets given here are too small for Pig to split keys into multiple reducers. Pig is smart enough to decide that there is no need for splitting the keys.,,,,,,,,,,,,
+Bug in Schema comparison for casting,PIG-669,12414686,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,araceli,araceli,12/Feb/09 19:18,21/Sep/10 21:45,15/Aug/18 23:11,21/Sep/10 21:45,,,,,,,,,,,,,,,,0,,,,,"This is a bug int he Schema comparison for casting. This is a valid use of a cast in SUM,  the first and second arguments are a cast to a Bag with an int.
+
+ ERROR 1045: Could not infer the matching function for org.apache.pig.builtin.SUM as multiple or none of them fit. Please use an explicit cast.
+
+TEST: AggregateFunc_61 
+
+A =LOAD '/user/pig/tests/data/types/DataAll' USING PigStorage() AS ( Fint:int, Flong:long, Fdouble:double, Ffloat:float, Fchar:chararray, Fchararray:chararray, Fbytearray:bytearray, Fmap:map[], Fbag:BAG{ t:tuple( name, age, avg ) }, Ftuple:( name:chararray, age:int, avg:float) );
+B =GROUP A ALL; 
+X =FOREACH B GENERATE SUM ( ( BAG{tuple(int)} ) A.Fbag.age, ( BAG{tuple(int)} ) A.Fbag.age); 
+STORE X INTO '/user/pig/tests/results/araceli.1234465985/AggregateFunc_61.out' USING PigStorage();
+
+Suggest you also try:
+X =FOREACH B GENERATE SUM ( ( BAG{tuple(int)} ) A.Fbag.age, A.Fint ); ","i686 i386 GNU/Linux
+",,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2010-09-21 21:45:35.991,,false,,,,,,,,,,,,,164249,,,,Tue Sep 21 21:45:35 UTC 2010,,,,,,0|i0gmy7:,95148,,,,,,,21/Sep/10 21:45;alangates;This is correct behavior.  SUM does not accept two arguments.,,,,,,,,,,,,,
+Schema of a relation reported by DESCRIBE and allowed operations on the relation are not compatible,PIG-768,12422977,Bug,Closed,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,,gmavromatis,gmavromatis,16/Apr/09 04:53,13/Sep/10 22:16,15/Aug/18 23:11,13/Sep/10 22:14,0.2.0,,,,,,,,,,,0.9.0,impl,,,0,,,,,"The DESCIBE command in the following script  prints:
+{s: bytearray, pg: bytearray, wm: bytearray}
+
+However, the script later treats the s field of urlMap as a map instead of a bytearray, as shown in s#'Url'.
+
+Pig does not complain about this contradiction and at execution time, the s field is treated as hash, although it was reported as byterray at parse time.
+
+Pig should either not report s as a byterray or exit with a parsing error.
+
+Note that all above operations happen before the query executes at the cluster.
+
+
+
+register WebDataProcessing.jar; 
+register opencrawl.jar; 
+
+urlMap = LOAD '$input' USING opencrawl.pigudf.WebDataLoader() AS (s, pg, wm);
+
+DESCRIBE urlMap;
+
+-- in fact the loader in the WebDataProcessing.jar populates s and pg as s:map[], pg:bag{t1:(contents:bytearray)}
+-- and defines that in determineSchema() but pig describe ignores it!
+
+urlMap2 = LIMIT urlMap 20;
+
+urlList2 = FOREACH urlMap2 GENERATE s#'Url', pg;
+
+DESCRIBE urlList2;
+
+STORE urlList2 INTO 'output2' USING BinStorage();",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2010-09-13 22:14:34.113,,false,,,,,,,,,,,,,164330,,,,Mon Sep 13 22:14:34 UTC 2010,,,,,,0|i0go4f:,95338,,,,,,,"13/Sep/10 22:14;alangates;This is the way Pig is supposed to work.  If the loader or the user does not tell it what type a column is, it assumes that it is bytearray.  If later the script acts as if it is a certain type (by for example, applying the map dereference operator), then Pig assumes it is really of that type and casts it.
+
+You are right that the loader would do better to return it as a bytearray and then cast it later when Pig asks it to.  However, since casts of a type to the same type work, what the loader does works out.",,,,,,,,,,,,,
+[zebra] Prevent checkin test cases from running twice in nightly test.,PIG-982,12436855,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Major,Not A Problem,chaow,chaow,chaow,29/Sep/09 20:32,09/Dec/09 18:19,15/Aug/18 23:11,09/Dec/09 18:19,,,,,,,,,,,,,,,,0,,,,,Currently check-in test cases are running twice in nightly test. This jira is to fix this problem and also make some other polishing changes to Zebra's build script.,,chaow,jing1234,rangadi,,,,,,,,,,,,,29/Sep/09 21:04;chaow;patch_build;https://issues.apache.org/jira/secure/attachment/12420831/patch_build,,,1.0,,,,,,,,,,,,,,,,2009-09-29 20:45:23.234,,false,,,,,,,,,,,,,164519,,,,Tue Sep 29 21:04:56 UTC 2009,,,,,,0|i0gqlb:,95738,,,,,,,"29/Sep/09 20:45;hadoopqa;-1 overall.  Here are the results of testing the latest attachment 
+  http://issues.apache.org
+  against trunk revision 819691.
+
+    +1 @author.  The patch does not contain any @author tags.
+
+    -1 tests included.  The patch doesn't appear to include any new or modified tests.
+                        Please justify why no tests are needed for this patch.
+
+    -1 patch.  The patch command could not apply the patch.
+
+Console output: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/50/console
+
+This message is automatically generated.",29/Sep/09 20:51;chaow;The previous patch did not get submitted properly due to network issue - will resubmit.,"29/Sep/09 21:04;chaow;This patch is only involving build script, therefore there is no unit test cases.","29/Sep/09 21:04;hadoopqa;-1 overall.  Here are the results of testing the latest attachment 
+  http://issues.apache.org
+  against trunk revision 819691.
+
+    +1 @author.  The patch does not contain any @author tags.
+
+    -1 tests included.  The patch doesn't appear to include any new or modified tests.
+                        Please justify why no tests are needed for this patch.
+
+    -1 patch.  The patch command could not apply the patch.
+
+Console output: http://hudson.zones.apache.org/hudson/job/Pig-Patch-h7.grid.sp2.yahoo.net/51/console
+
+This message is automatically generated.",,,,,,,,,,
+TEZ bug broke hadoop compilation 2 in trunk,PIG-4100,12731689,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Minor,Not A Problem,,hxquangnhat,hxquangnhat,04/Aug/14 08:36,07/Aug/14 09:27,15/Aug/18 23:11,04/Aug/14 23:03,,,,,,,,,,,,0.14.0,tez,,,0,,,,,"Cannot compile pig trunk (with parameter -Dhadoopversion=23) due to this error
+
+[javac] /home/hoang/DATA/trunk-test/trunk/src/org/apache/pig/backend/hadoop/executionengine/tez/TezDagBuilder.java:594: error: cannot find symbol
+    [javac]             vertex.setLocationHint(new VertexLocationHint(tezOp.getLoaderInfo().getInputSplitInfo().getTaskLocationHints()));
+    [javac]                   ^
+    [javac]   symbol:   method setLocationHint(VertexLocationHint)
+    [javac]   location: variable vertex of type Vertex",,cheolsoo,daijy,hxquangnhat,knoguchi,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2014-08-04 16:06:24.593,,false,,,,,,,,,,,,,409718,,,,Thu Aug 07 09:27:55 UTC 2014,,,,,,0|i1yhs7:,409710,,,,,,,"04/Aug/14 16:06;cheolsoo;Sorry for the inconvenience. This is because of PIG-4098.
+
+Tez snapshot jars are not published to maven yet, so you're seeing an error. But it will be resolved as soon as Tez jenkin build run. One way to workaround is to manually run {{mvn install -DskipTests}} with [Tez trunk|https://github.com/apache/tez].","04/Aug/14 16:16;hxquangnhat;I got it.
+Thank you.","04/Aug/14 18:13;knoguchi;bq. Tez snapshot jars are not published to maven yet, so you're seeing an error.
+We should have waited for this to happen before committing PIG-4098? ","04/Aug/14 18:15;cheolsoo;Indeed, my bad.",04/Aug/14 19:18;daijy;Let me ask Tez folks to publish a SNAPSHOT.,"04/Aug/14 19:28;cheolsoo;If it's delayed, I can revert PIG-4098 for now. Let me know.",04/Aug/14 22:07;daijy;SNAPSHOT published.,04/Aug/14 23:03;cheolsoo;Closing the jira now.,"05/Aug/14 08:17;hxquangnhat;Hi, After checking out, I tried to build by ""ant -Dhadoopversion=23"" and still got these errors:
+
+[javac] /home/hoang/DATA/trunk-test/trunk/src/org/apache/pig/backend/hadoop/executionengine/tez/TezDagBuilder.java:594: error: cannot find symbol
+    [javac]             vertex.setLocationHint(new VertexLocationHint(tezOp.getLoaderInfo().getInputSplitInfo().getTaskLocationHints()));
+    [javac]                   ^
+    [javac]   symbol:   method setLocationHint(VertexLocationHint)
+    [javac]   location: variable vertex of type Vertex
+    [javac] /home/hoang/DATA/trunk-test/trunk/src/org/apache/pig/backend/hadoop/executionengine/tez/TezLauncher.java:80: error: cannot find symbol
+    [javac]             pc.getProperties().setProperty(TezRuntimeConfiguration.TEZ_RUNTIME_OPTIMIZE_LOCAL_FETCH, ""true"");
+    [javac]                                                                   ^
+    [javac]   symbol:   variable TEZ_RUNTIME_OPTIMIZE_LOCAL_FETCH
+    [javac]   location: class TezRuntimeConfiguration
+    [javac] Note: Some input files use or override a deprecated API.
+    [javac] Note: Recompile with -Xlint:deprecation for details.
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+    [javac] 2 errors
+    [javac] 3 warnings","05/Aug/14 15:09;cheolsoo;[~hxquangnhat], that looks like your workspace issue. I can build cleanly, and the apache jenkin builds also succeeds-
+https://builds.apache.org/job/Pig-trunk/1623/changes
+
+Can you try remove {{\~/.ivy2/cache/org.apache.tez}} and {{\~/.m2/repository/org/apache/tez}} and rebuild?","07/Aug/14 09:27;hxquangnhat;Compiled perfectly!
+Thank you.",,,
+Limit Optimizer getLimitPlan broken,PIG-3804,12699815,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Minor,Not A Problem,,goirix,goirix,10/Mar/14 17:48,27/May/14 22:21,15/Aug/18 23:11,27/May/14 22:21,0.10.0,0.10.1,0.11,0.11.1,0.12.0,0.8.0,0.8.1,0.9.2,,,,0.14.0,impl,,,0,,,,,"The LimitOptimizer cases don't seem right (Starting at line 142 in file src/org/apache/pig/newplan/logical/rules/LimitOptimizer.java). It looks like one optimization was added wrongly and one extra bracket had to be added at the end. There's a TODO note but it looks like some parts weren't commented properly.
+
+
+",,aniket486,goirix,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2014-05-27 22:21:12.119,,false,,,,,,,,,,,,,378161,,,,Tue May 27 22:21:12 UTC 2014,,,,,,0|i1t5tj:,378453,,,,,,,27/May/14 22:21;aniket486;Code looks good to me. It's just indented badly.,,,,,,,,,,,,,
+passing an empty string parameter cause a Encountered <EOF> parse exception,PIG-2903,12606065,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Minor,Not A Problem,,ihadanny,ihadanny,04/Sep/12 12:08,01/Oct/12 18:16,15/Aug/18 23:11,01/Oct/12 18:16,0.8.1,,,,,,,,,,,,parser,,,0,newbie,,,,"when passing an empty string parameter such as my_param=""""
+you get:
+
+Encountered ""<EOF>"" at line 1, column 8.
+Was expecting one of:
+    <IDENTIFIER> ...
+    <OTHER> ...
+    <LITERAL> ...
+    <SHELLCMD> ...
+    
+	at org.apache.pig.tools.parameters.ParamLoader.generateParseException(ParamLoader.java:244)
+	at org.apache.pig.tools.parameters.ParamLoader.jj_consume_token(ParamLoader.java:182)
+	at org.apache.pig.tools.parameters.ParamLoader.Parse(ParamLoader.java:66)
+	at org.apache.pig.tools.parameters.ParameterSubstitutionPreprocessor.loadParamsFromCmdline(ParameterSubstitutionPreprocessor.java:144)
+	at org.apache.pig.tools.parameters.ParameterSubstitutionPreprocessor.genSubstitutedFile(ParameterSubstitutionPreprocessor.java:80)
+
+
+",,dvryaboy,ihadanny,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-09-04 18:44:39.115,,false,,,,,,,,,,,,,242082,,,,Tue Sep 04 18:44:39 UTC 2012,,,,,,0|i02ikn:,12610,,,,,,,"04/Sep/12 18:44;dvryaboy;Can you post the script you are passing this to? If the parameter value is not being used in quotes inside the script, that makes absolute sense (you probably want to pass ""''"" as the value, instead). If the parameter value _is_ being used in quotes, this is a bug.",,,,,,,,,,,,,
+NullPointerException when reusing non defined alias,PIG-2703,12555897,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Minor,Not A Problem,julienledem,julienledem,julienledem,15/May/12 21:09,24/Aug/12 18:31,15/Aug/18 23:11,24/Aug/12 18:31,0.9.2,,,,,,,,,,,,parser,,,0,newbie,,,,"the following (invalid) script generates a NullPointerException:
+{noformat}
+C = FOREACH C GENERATE c1;
+
+ERROR 1200: null
+
+Failed to parse: null
+        at org.apache.pig.parser.QueryParserDriver.parse(QueryParserDriver.java:180)
+        at org.apache.pig.PigServer$Graph.validateQuery(PigServer.java:1560)
+        at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:1533)
+        at org.apache.pig.PigServer.registerQuery(PigServer.java:535)
+        at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:969)
+        at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:386)
+        at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:189)
+        at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:165)
+        at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:69)
+        at org.apache.pig.Main.run(Main.java:495)
+        at org.apache.pig.Main.main(Main.java:111)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at org.apache.hadoop.util.RunJar.main(RunJar.java:186)
+Caused by: java.lang.NullPointerException
+        at org.apache.pig.parser.LogicalPlanGenerator.alias_col_ref(LogicalPlanGenerator.java:14326)
+        at org.apache.pig.parser.LogicalPlanGenerator.col_ref(LogicalPlanGenerator.java:14177)
+        at org.apache.pig.parser.LogicalPlanGenerator.projectable_expr(LogicalPlanGenerator.java:8607)
+        at org.apache.pig.parser.LogicalPlanGenerator.var_expr(LogicalPlanGenerator.java:8358)
+        at org.apache.pig.parser.LogicalPlanGenerator.expr(LogicalPlanGenerator.java:7711)
+        at org.apache.pig.parser.LogicalPlanGenerator.flatten_generated_item(LogicalPlanGenerator.java:5693)
+        at org.apache.pig.parser.LogicalPlanGenerator.generate_clause(LogicalPlanGenerator.java:12307)
+        at org.apache.pig.parser.LogicalPlanGenerator.foreach_plan(LogicalPlanGenerator.java:12048)
+        at org.apache.pig.parser.LogicalPlanGenerator.foreach_clause(LogicalPlanGenerator.java:11915)
+        at org.apache.pig.parser.LogicalPlanGenerator.op_clause(LogicalPlanGenerator.java:1364)
+        at org.apache.pig.parser.LogicalPlanGenerator.general_statement(LogicalPlanGenerator.java:683)
+        at org.apache.pig.parser.LogicalPlanGenerator.statement(LogicalPlanGenerator.java:483)
+        at org.apache.pig.parser.LogicalPlanGenerator.query(LogicalPlanGenerator.java:369)
+        at org.apache.pig.parser.QueryParserDriver.parse(QueryParserDriver.java:171)
+        ... 15 more
+{noformat}
+
+
+When this one outputs the correct error:
+{noformat}
+D = FOREACH D GENERATE $0;
+
+ERROR 1200: Pig script failed to parse:
+<line 1, column 4> pig script failed to validate: Unrecognized alias D
+
+Failed to parse: Pig script failed to parse:
+<line 1, column 4> pig script failed to validate: Unrecognized alias D
+        at org.apache.pig.parser.QueryParserDriver.parse(QueryParserDriver.java:178)
+        at org.apache.pig.PigServer$Graph.validateQuery(PigServer.java:1560)
+        at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:1533)
+        at org.apache.pig.PigServer.registerQuery(PigServer.java:535)
+        at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:969)
+        at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:386)
+        at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:189)
+        at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:165)
+        at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:69)
+        at org.apache.pig.Main.run(Main.java:495)
+        at org.apache.pig.Main.main(Main.java:111)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+        at java.lang.reflect.Method.invoke(Method.java:597)
+        at org.apache.hadoop.util.RunJar.main(RunJar.java:186)
+Caused by:
+<line 1, column 4> pig script failed to validate: Unrecognized alias D
+        at org.apache.pig.parser.LogicalPlanBuilder.buildOp(LogicalPlanBuilder.java:396)
+        at org.apache.pig.parser.LogicalPlanBuilder.buildOp(LogicalPlanBuilder.java:384)
+        at org.apache.pig.parser.LogicalPlanBuilder.buildForeachOp(LogicalPlanBuilder.java:448)
+        at org.apache.pig.parser.LogicalPlanGenerator.foreach_clause(LogicalPlanGenerator.java:11931)
+        at org.apache.pig.parser.LogicalPlanGenerator.op_clause(LogicalPlanGenerator.java:1364)
+        at org.apache.pig.parser.LogicalPlanGenerator.general_statement(LogicalPlanGenerator.java:683)
+        at org.apache.pig.parser.LogicalPlanGenerator.statement(LogicalPlanGenerator.java:483)
+        at org.apache.pig.parser.LogicalPlanGenerator.query(LogicalPlanGenerator.java:369)
+        at org.apache.pig.parser.QueryParserDriver.parse(QueryParserDriver.java:171)
+        ... 15 more
+{noformat}",,julienledem,prasanth_j,thejas,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2012-05-17 22:30:17.422,,false,,,,,,,,,,,,,256356,,,,Fri Aug 24 18:31:26 UTC 2012,,,,,,0|i0h4gf:,97984,,,,,,,"17/May/12 22:30;prasanth_j;Hi Julien
+
+I am not able to reproduce this issue. For me both the cases seem to work fine. Can you please post the complete script which produces NullPointerException?","17/May/12 22:46;julienledem;This is the complete script.
+This happens with Pig 9
+I haven't tried with trunk
+Julien",17/May/12 23:05;prasanth_j;This doesn't happen with trunk. ,24/Aug/12 18:31;thejas;not a problem in trunk.,,,,,,,,,,
+"pig cluster shouldn't default to kryptonite, even for Yahoo!",PIG-1909,12501523,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Minor,Not A Problem,,aw,aw,16/Mar/11 00:07,16/Mar/11 00:20,15/Aug/18 23:11,16/Mar/11 00:20,0.9.0,,,,,,,,,,,,,,,0,,,,,"Running pig in such a way that a usage message is generated results in a message that says:
+
+    -c, -cluster clustername, kryptonite is default
+
+Clearly the default shouldn't be a non-existent Y! cluster, especially in a public release. :D",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,,,false,,,,,,,,,,,,,165239,,,,Wed Mar 16 00:20:07 UTC 2011,,,,,,0|i0gzvr:,97243,,,,,,,16/Mar/11 00:20;aw;Looks like this is fixed in trunk.,,,,,,,,,,,,,
+HBaseStorage option -gte resolves to CompareOp.GREATER instead of CompareOp.GREATER_OR_EQUAL,PIG-1699,12478252,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Minor,Not A Problem,,jjh,jjh,25/Oct/10 17:46,25/Jan/11 07:47,15/Aug/18 23:11,25/Jan/11 07:47,0.8.0,0.9.0,,,,,,,,,,,,,,0,,,,,"When using HBaseStorage, and using  '-gte'  option, this is passed to  HTableInputFormat, which then uses CompareOp.GREATER instead of CompareOp.GREATER_OR_EQUAL for split decisions.",,jjh,,,,,,,,,,,,,,,25/Oct/10 17:50;jjh;PIG-1699.patch;https://issues.apache.org/jira/secure/attachment/12457984/PIG-1699.patch,,,1.0,,,,,,,,,,,,,,,,2011-01-08 21:47:43.907,,false,,,,,,,,,,,,,165140,,,,Tue Jan 25 07:47:16 UTC 2011,,,Patch Available,,,0|i0gymv:,97041,,,,,,,25/Oct/10 17:49;jjh;One line fix.,25/Oct/10 17:50;jjh;One line fix.,"08/Jan/11 21:47;dvryaboy;This is actually intentional. 
+
+End keys reported by HBase are not inclusive -- an hbase region contains row keys in the range [start_key, end_key).  So if endkey == gtevalue, the gte value is NOT in this region.  
+This is documented on this wiki page: http://wiki.apache.org/hadoop/Hbase/HbaseArchitecture .
+
+Did you encounter a situation in which a region was filtered out incorrectly that required this fix?
+
+-D","25/Jan/11 07:47;dvryaboy;Resolving as 'not a problem' since I don't believe it to be and have not been provided with a counter example.
+
+Please reopen if I am wrong.",,,,,,,,,,
+regression: execution plan does not show up in the job's output,PIG-384,12402675,Bug,Resolved,PIG,Pig,software,olgan,Pig is a platform for analyzing large data sets.,http://pig.apache.org/,Minor,Not A Problem,,olgan,olgan,19/Aug/08 22:22,15/Jan/10 06:21,15/Aug/18 23:11,15/Jan/10 06:21,0.2.0,,,,,,,,,,,,,,,0,,,,,"The code in trunk shows execution plan as part of job's output. this is missing from types branch
+
+",,,,,,,,,,,,,,,,,,,,0.0,,,,,,,,,,,,,,,,2010-01-15 06:21:15.482,,false,,,,,,,,,,,,,164012,,,,Fri Jan 15 06:21:15 UTC 2010,,,,,,0|i0gjkn:,94601,,,,,,,15/Jan/10 06:21;alangates;This is by design.  The execution plan can be shown by adding -v to the pig command line.,,,,,,,,,,,,,

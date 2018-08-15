@@ -25,11 +25,11 @@ verts.collect().foreach { case (vid, count) =>
     println(vid + "": "" + count)
 }
 ```
-"
+",
 https://api.github.com/repos/amplab/graphx/issues/147,https://api.github.com/repos/amplab/graphx/issues/147/comments,Update README.md,"Hi,
 
 I added section ""Books"" and a link to the Spark GraphX in Action written by Michael S. Malak and Robin East for Manning Publications. We believe this book is a great resource and all members of community will benefit from this information. If you find this inappropriate, please let me know where I can publish it.
-"
+",
 https://api.github.com/repos/amplab/graphx/issues/145,https://api.github.com/repos/amplab/graphx/issues/145/comments,How to build project from https://github.com/apache/spark using sbt,"can anyone mention the steps which i need to follow for building spark application also commands to test the scala testcase.referring from https://github.com/apache/spark
 
 I m getting build error 
@@ -42,7 +42,7 @@ ven-repo (http://repo.maven.apache.org/maven2): Access denied to: http://repo.ma
 > [Help 1]
 
 Thanx
-"
+",usability
 https://api.github.com/repos/amplab/graphx/issues/139,https://api.github.com/repos/amplab/graphx/issues/139/comments,"There are some issues in article ""Launch a benchmarking cluster"" ","```
 I want to run pagerank on Graphx, following the instructions(https://github.com/amplab/graphx/wiki/Launch-a-benchmarking-cluster), I encountered some problems.
 First, the running command(~/graphx/run-example org.apache.spark.graph.Analytics spark://$MASTERS:7077 pagerank hdfs://$MASTERS:9000/soc-LiveJournal1.txt --numIter=20 --numEPart=128) is wrong, I changed it to ""./bin/run-example org.apache.spark.graphx.lib.Analytics spark://XXX:7077 pagerank hdfs://XXX:8020/soc-LiveJournal1.txt"". The parameter ""--numIter"" can not be found in running pagerank, I read the source code and find it is used in cc benchmark.
@@ -57,32 +57,32 @@ Exception in thread ""main"" org.apache.spark.SparkException: Job aborted due to
 
    What I expect is, if you can give some hint in deploying Graphx on standlone cluster? 
 Thanks very very much, cause I have been blocked on this for 1 week. :)
-"
-https://api.github.com/repos/amplab/graphx/issues/135,https://api.github.com/repos/amplab/graphx/issues/135/comments,In memory shuffle,
-https://api.github.com/repos/amplab/graphx/issues/134,https://api.github.com/repos/amplab/graphx/issues/134/comments,Store local vertex ids in EdgePartition,
-https://api.github.com/repos/amplab/graphx/issues/123,https://api.github.com/repos/amplab/graphx/issues/123/comments,Add coarsen function to GraphOps,
-https://api.github.com/repos/amplab/graphx/issues/122,https://api.github.com/repos/amplab/graphx/issues/122/comments,Graph Load/Save,
+",app building
+https://api.github.com/repos/amplab/graphx/issues/135,https://api.github.com/repos/amplab/graphx/issues/135/comments,In memory shuffle,,memory
+https://api.github.com/repos/amplab/graphx/issues/134,https://api.github.com/repos/amplab/graphx/issues/134/comments,Store local vertex ids in EdgePartition,,data strcuture
+https://api.github.com/repos/amplab/graphx/issues/123,https://api.github.com/repos/amplab/graphx/issues/123/comments,Add coarsen function to GraphOps,,
+https://api.github.com/repos/amplab/graphx/issues/122,https://api.github.com/repos/amplab/graphx/issues/122/comments,Graph Load/Save,,io
 https://api.github.com/repos/amplab/graphx/issues/113,https://api.github.com/repos/amplab/graphx/issues/113/comments,Collapsed Gibbs Sampling for LDA,"This is a work in progress implementation of the collapsed Gibbs sampler for the LDA model using the GraphX abstraction primitives.  While this is based on the (non-ergodic) bulk synchronous Gibbs sampler, we do exploit local parameter sharing and if document vertex partitioning is used we recover the Newman et al. style sampler.
 
 Remaining tasks:
 - [ ] Unite tests
 - [ ] Raw document processing
 - [ ] Likelihood calculation (requires log gamma transcendental functions)
-"
-https://api.github.com/repos/amplab/graphx/issues/109,https://api.github.com/repos/amplab/graphx/issues/109/comments,Add K-Core to Analytics,
-https://api.github.com/repos/amplab/graphx/issues/108,https://api.github.com/repos/amplab/graphx/issues/108/comments,Add LDA to Analytics,
+","parameter, data partition"
+https://api.github.com/repos/amplab/graphx/issues/109,https://api.github.com/repos/amplab/graphx/issues/109/comments,Add K-Core to Analytics,,
+https://api.github.com/repos/amplab/graphx/issues/108,https://api.github.com/repos/amplab/graphx/issues/108/comments,Add LDA to Analytics,,
 https://api.github.com/repos/amplab/graphx/issues/106,https://api.github.com/repos/amplab/graphx/issues/106/comments,Improve pre-shuffle aggregation performance in mrTriplets,"I realized today that we can actually save the position of the source vertex and the target vertex in the array in EdgeTriplet, and then in aggregation, we can simply use that position to update the aggregation value (without actually doing any hash lookups).
 
 Issue 101 will make this easier to implement. 
 
 https://github.com/amplab/graphx/issues/101
-"
+",job
 https://api.github.com/repos/amplab/graphx/issues/67,https://api.github.com/repos/amplab/graphx/issues/67/comments,Compress vertex IDs and attributes during replication ,"Possible configurations:
 1. Columnar replication with sorted vertex IDs and delta compression
 2. Non-columnar replication with variable-length encoding for vertex IDs
-"
+",memory
 https://api.github.com/repos/amplab/graphx/issues/66,https://api.github.com/repos/amplab/graphx/issues/66/comments,Add a flag to Analytics to keep the driver alive,"#65 adds a long delay to keep the Spark dashboard open. It would be better to have a flag for this that defaults to off.
-"
+",job
 https://api.github.com/repos/amplab/graphx/issues/52,https://api.github.com/repos/amplab/graphx/issues/52/comments,PageRank causes java.util.NoSuchElementException,"When running PageRank on a cluster, sometimes I hit a NoSuchElementException that's caused somewhere in VertexSetRDD. Full stack trace and command below. The line numbers may be slightly off due to debugging printlns.
 
 Command:
@@ -148,9 +148,9 @@ java.util.NoSuchElementException: End of stream
     at java.lang.Thread.run(Thread.java:744)
 
 ```
-"
+",parallelism
 https://api.github.com/repos/amplab/graphx/issues/45,https://api.github.com/repos/amplab/graphx/issues/45/comments,Graph Parsing,"Improve graph parsing and load performance. 
-"
+",io
 https://api.github.com/repos/amplab/graphx/issues/35,https://api.github.com/repos/amplab/graphx/issues/35/comments,Edge contraction,"Based on our discussion today it seems like it might be helpful to have a function of the form:
 
 ``` scala
@@ -161,7 +161,7 @@ def contractEdges(
 ```
 
 where the user defined edge predicate `ePred` determines which edges to contract and the user defined `contractFun` renders a new vertex for the contracted edge and `mergeFun` merges multiple vertices that have been contracted together.
-"
+",job
 https://api.github.com/repos/amplab/graphx/issues/32,https://api.github.com/repos/amplab/graphx/issues/32/comments,Lazy evaluation of join and map operations,"The `VertexSetRDD[VD]` stores the vertex attributes as an `IndexedSeq[VD]`.  When a `VertexSetRDD` is first constructed from an `RDD[(Vid,VD)]` the attributes are stored in an `Array[VD]`.  When `mapValues` is in invoked on a `VertexSetRDD[VD]` a _new_ array is created and populated with the result of the map operation.  
 
 https://github.com/amplab/graphx/blob/master/graph/src/main/scala/org/apache/spark/graph/VertexSetRDD.scala#L129
@@ -175,9 +175,9 @@ Should both be implemented using views or should both be implemented using actua
 2. Using Arrays could lead to many long-lived allocations. 
 
 I suspect all the operations should be implemented using the view but I am not sure what the implications are for caching. 
-"
+",job
 https://api.github.com/repos/amplab/graphx/issues/25,https://api.github.com/repos/amplab/graphx/issues/25/comments,Triplets.collect returns incorrect values,"The spark RDD.collect operation stores the output directly into an array.  Since we reuse the iterator values only a single edge triplet is stored (in duplicate) for each partition.
-"
+",data partition
 https://api.github.com/repos/amplab/graphx/issues/20,https://api.github.com/repos/amplab/graphx/issues/20/comments,Stack Overflow caused by repeated calls to default Java serialized data reader,"When we run PageRank for too many iterations (100 iterations consistently triggers it), we get a stack overflow that stems from reading deeply nested serial data using the default java serializer. Basically, we get repeated calls to the following sequence of methods
 
 ```
@@ -222,12 +222,12 @@ https://api.github.com/repos/amplab/graphx/issues/20,https://api.github.com/repo
 I did some more poking around today and when profiling PageRank running on livejournal, I found that a bunch of exceptions were being thrown in the Kryo serialization code. It seems that Kryo keeps trying to serialize something, fails with a NoSuchMethodException, and then falls back to Java serialization code. I'm thinking that these two might be related? The exception stack trace is here.
 
 ![screen shot 2013-10-11 at 3 22 15 pm 2](https://f.cloud.github.com/assets/431588/1318841/0b128070-32c6-11e3-9451-4cf56a55f93e.png)
-"
+",memeory
 https://api.github.com/repos/amplab/graphx/issues/16,https://api.github.com/repos/amplab/graphx/issues/16/comments,Fix Analytics.scala,"Remove broken commented code and fix primary functions: PageRank, Shortest Path, connected components etc...
 
 Also split out ALS and other non-analytics tasks.
-"
+","job, parallelism"
 https://api.github.com/repos/amplab/graphx/issues/11,https://api.github.com/repos/amplab/graphx/issues/11/comments,Synthetic Graph Generators,"To help with benchmarking lets create some synthetic graph generators.  The Pregel paper describes a log-normal generator which is relatively easy to implement.  
-"
+",job
 https://api.github.com/repos/amplab/graphx/issues/9,https://api.github.com/repos/amplab/graphx/issues/9/comments,Add Mean Field Inference to Analytics,"Add a basic implementation of the variational mean field algorithm to Analytics. In addition create a synthetic noisy image generator.
-"
+",

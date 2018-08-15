@@ -1,0 +1,28 @@
+https://api.github.com/repos/niessner/mLib/issues/7,https://api.github.com/repos/niessner/mLib/issues/7/comments,Ignore comments when loading MTL,,
+https://api.github.com/repos/niessner/mLib/issues/6,https://api.github.com/repos/niessner/mLib/issues/6/comments,Fix several compile and warning issues,"Fixed some small compile issues in material.h
+Silenced the signed v.s. unsigned comparison warnings in textWriter.h & uniformAccelerator.h
+Silenced the gcc warnings about friend declaration on non-templated function in baseImage.h
+Fixed gcc compile issues in distanceField3.h
+Fixed an indentation in grid3.cpp
+Fixed an undefined behavior in rng.h
+Fixed a compile issue in vec6.h (there's no ""w"")
+Fixed a compile issue in binaryDataStream.h (there is no ""closeStream()"" method)
+Fixed a compile issue in binaryDataStream.h (need to add the ""typename"" identifier)
+Fixed a compile issue in binaryDataBuffer.h (should be openmode instead of open_mode)
+Silenced a unused variable warning in utility.h",
+https://api.github.com/repos/niessner/mLib/issues/5,https://api.github.com/repos/niessner/mLib/issues/5/comments,mLib compile error in VS2017 + CUDA 9.1,"I want to use this lib to build the bundlefusion server using VS2017 + CUDA9.1.
+I meet a C2280 error: attempting to reference a deleted function in D3D11Canvas2D.h:
+the error happen in auto _e = e.castBillboard:
+
+![2018-02-01 10 33 09](https://user-images.githubusercontent.com/3665120/35658285-868640d6-073b-11e8-8145-dabac180958a.png)
+
+I not sure this error is the IDE bug or the mLib bug? ",
+https://api.github.com/repos/niessner/mLib/issues/4,https://api.github.com/repos/niessner/mLib/issues/4/comments,error in baseImage::loadFromBinaryMImage,"https://github.com/niessner/mLib/blob/7ca7eaaf8ea84ed6d959f654bf06e2e4cedebdee/include/core-base/baseImage.h#L568
+
+looks this line should be
+SAFE_DELETE_ARRAY(data);
+=>SAFE_DELETE_ARRAY(*data);",IO
+https://api.github.com/repos/niessner/mLib/issues/3,https://api.github.com/repos/niessner/mLib/issues/3/comments,Bug fix for 3D textures and OBJ files,"- The template argument in the class D3D11Texture3D was incorrect (RGBColor instead of T)
+- The method loadFromOBJ didn't work correctly if the OBJ file used relative indices. This has been fixed now.",data structure
+https://api.github.com/repos/niessner/mLib/issues/2,https://api.github.com/repos/niessner/mLib/issues/2/comments,pl. where is th mLibANN.h?  I didn't find it....,,
+https://api.github.com/repos/niessner/mLib/issues/1,https://api.github.com/repos/niessner/mLib/issues/1/comments,Changes that should not have changed any interfaces,,

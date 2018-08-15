@@ -1,0 +1,649 @@
+https://api.github.com/repos/dask/dask/issues/3876,https://api.github.com/repos/dask/dask/issues/3876/comments,[WIP] Fix collections.abc deprecation warnings in Python 3.7.0,"Since Python 3.3, the abstract base classes for collections
+were extracted into the collections.abc submodule.
+
+This fixes #3875 by adding the deprecated imports into the compatibility.py
+This should remove any eventual deprecation warnings related to collections.abc
+and prepare at least this part of Dask for the future versions of Python.
+
+See also:
+https://docs.python.org/3.7/library/collections.html
+
+- [x] Tests passed (no extra tests added)
+- [x] Passes `flake8 dask`
+"
+https://api.github.com/repos/dask/dask/issues/3875,https://api.github.com/repos/dask/dask/issues/3875/comments,Deprecation warnings from collections.abc in Python 3.7.0,"Hi,
+After upgrading to Python 3.7.0 I noticed several deprecation warnings in Dask such as:
+`
+dask/array/chunk.py:4: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated, and in 3.8 it will stop working.
+`
+
+Since Python 3.3, the abstract base classes for collections were extracted into the collections.abc submodule. Python 3.7 is the last version that will allow importing from collections directly (https://docs.python.org/3.7/library/collections.html).
+
+So far, I have not encountered any other issues with Dask in Python 3.7 (apart from some small, yet noticeable perf gains). Thanks for the great work on Dask.
+
+Python 3.7
+Dask master (0fca28e4226c9b5a5811f2a8e8913a773e277172)
+"
+https://api.github.com/repos/dask/dask/issues/3874,https://api.github.com/repos/dask/dask/issues/3874/comments,Changing priority of dask tasks in queue,Just submitting a feature request about being able to dynamically change the priority of the existing dask tasks. 
+https://api.github.com/repos/dask/dask/issues/3873,https://api.github.com/repos/dask/dask/issues/3873/comments,dd.write_parquet causes workers to run out of memory,"I am trying to convert a number of large .csv files to the parquet format using python and dask.
+
+This is the code that I use:
+```
+client = Client()
+trans = dd.read_csv(os.path.join(TRANS_PATH, ""*.TXT""), 
+                        sep="";"", dtype=col_types, parse_dates=['salesdate'])
+
+trans = trans.drop('salestime', axis=1)
+trans['month_year'] = trans['salesdate'].dt.strftime('M_%Y_%m')
+
+trans['key'] = trans['chainid'] + trans['barcode']
+trans = trans.join(attribs[['catcode']], on=['key'])
+
+trans.to_parquet(PARQUET_PATH, engine=""fastparquet"", compression='snappy',
+                     partition_on=['catcode', 'month_year'], append=False)
+```
+The code seems to run fine and all the parquet files are created under the correct directories with no warnings almost until the end. The graph execution reaches until here: 
+![almost_done](https://user-images.githubusercontent.com/10939319/44035361-fbbf3168-9f17-11e8-8671-346875290460.png)
+
+At this point the program gets stuck for a minute or so, and then the following warnings get raised:
+```
+distributed.nanny - WARNING - Worker exceeded 95% memory budget.  Restarting
+distributed.nanny - WARNING - Worker process 16996 was killed by signal 15
+distributed.nanny - WARNING - Restarting worker
+```
+After the warning, a few hundred processes get restarted and are executed again: 
+![unloaded](https://user-images.githubusercontent.com/10939319/44035410-1e54904c-9f18-11e8-8e57-27e8165d9966.png)
+
+This happens three times and the program finally crashes:
+```
+tornado.application - ERROR - Exception in callback <bound method Nanny.memory_monitor of <Nanny: tcp://127.0.0.1:49290, threads: 2>>
+Traceback (most recent call last):
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\psutil\_pswindows.py"", line 635, in wrapper
+    return fun(self, *args, **kwargs)
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\psutil\_pswindows.py"", line 751, in memory_info
+    t = self._get_raw_meminfo()
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\psutil\_pswindows.py"", line 726, in _get_raw_meminfo
+    return cext.proc_memory_info(self.pid)
+ProcessLookupError: [Errno 3] No such process
+
+During handling of the above exception, another exception occurred:
+
+
+Traceback (most recent call last):
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\tornado\ioloop.py"", line 1026, in _run
+    return self.callback()
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\distributed\nanny.py"", line 262, in memory_monitor
+    memory = proc.memory_info().rss
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\psutil\_common.py"", line 338, in wrapper
+    return fun(self)
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\psutil\__init__.py"", line 1044, in memory_info
+    return self._proc.memory_info()
+  File ""C:\Users\mrfksiv\Anaconda3\envs\tensorflow\lib\site-packages\psutil\_pswindows.py"", line 640, in wrapper
+    raise NoSuchProcess(self.pid, self._name)
+```
+
+I believe that this is a bug because if I use fewer .csv files then everything works. Even then however, if I then try to append the rest of the data using the `dd.read_parquet( ... append=True)` the same error occurs. I have also tried reducing the number of workers by passing a `LocalCluster` to `Client` so that they have more memory available, but this didn't help either.
+
+python 3.5.5
+dask 0.18.2
+distributed 1.22.0
+fastparquet 0.1.5
+
+"
+https://api.github.com/repos/dask/dask/issues/3872,https://api.github.com/repos/dask/dask/issues/3872/comments,DataFrame groupby apply gives incorrect result for cumulative functions. ,"I tried reproducing this using mock data but failed for some reason.  The data I am using is here: https://teblunthuis.cc/outgoing/dask_cumcount_bug.tsv
+
+    import dask.dataframe as dd
+
+    # reading the data, not initially in order
+    d = dd.read_table(input_file, dtype={""anon"":np.bool,
+                                         ""articleid"":np.int32,
+                                        ""deleted"":np.bool,
+                                         ""editor"":np.str,
+                                         ""minor"":np.bool,
+                                         ""namespace"":np.int32,
+                                         ""revert"":np.bool,
+                                         ""reverteds"":np.str,
+                                         ""revid"":np.int64,
+                                         ""sha1"":np.str,
+                                         ""title"":np.str},
+                      true_values=[""TRUE""],
+                      false_values=[""FALSE""],
+                      parse_dates=[""date_time""], 
+                      infer_datetime_format=True
+    )
+
+    d.set_index(""date_time"")
+    editor_groups = d.groupby(d['editor'])
+    d['editor_nth_edit'] = editor_groups.cumcount()
+    d.loc[d.editor==""%22Legobot%22"",['editor','date_time','editor_nth_edit']].compute()
+
+What happens: cumcount is applied to the data in the order of the data, but not in the order of the index. 
+Expected: Setting the index works, probably by sorting my data. 
+
+dask: 0.18.2
+python: 3.6.6
+numpy: 1.15.0
+OS: debian
+
+More generally, I'm having a pretty frustrating time finding a way to get dask dataframe to actually sort my data according to a column. An on disk sort is one of the main things I was looking for when trying dask. Is there another part of the API i should be using? "
+https://api.github.com/repos/dask/dask/issues/3871,https://api.github.com/repos/dask/dask/issues/3871/comments,Personal project overlaps dask?,"I'm working on a little project that may overlap or complement dask. I wanted to get your quick take on it, in case I'm duplicating your work. 
+
+Basically, my project ingests and organizes ""annoyingly large"" data. This is useful for research and prototyping on a personal machine. 
+
+For example, say I'm given a terabyte of JSON data, organized as 50 GB flat files. Each flat file may correspond to a division of the data, such as year, but is otherwise internally unsorted. The data in each file has useful features for stratification, e.g. date, location, user_id.
+
+My project chunks the flat files and puts the JSON data into a partitioned tabular form, figuring out the partitions, features, etc., along the way. It then stores the partitioned data into nested subdirectories. This effectively creates multiple indexes, speeding up data access along more than one index. 
+
+I'm actually using dask for the last level of the indexing. I tried to use dask originally for the whole task, starting from the flat files, and it didn't seem to work well for me. Can you confirm that I haven't overlooked some easy way for dask to grok a 50 GB flat file (besides explicitly chunking)? This could simplify things.
+
+Thanks for your time, dask is great."
+https://api.github.com/repos/dask/dask/issues/3870,https://api.github.com/repos/dask/dask/issues/3870/comments,converting dask array to numpy array taking long time,"Hi,
+
+I tried to convert dask array into numpy array using the following command 
+
+> x1=np.asarray(x)
+but it is taking long time ..
+Appreciate your help in advance.
+"
+https://api.github.com/repos/dask/dask/issues/3869,https://api.github.com/repos/dask/dask/issues/3869/comments,[WIP] Task annotations,"- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+"
+https://api.github.com/repos/dask/dask/issues/3868,https://api.github.com/repos/dask/dask/issues/3868/comments,Error: No module name 'Custom Class' while passing a Client object in the custom class's constructor in dask,"I have been trying to write custom classes for `Preprocessing` followed by `Feature selection` and `Machine Learning` algorithms as well.
+
+I cracked this `(preprocessing only)` using `@delayed`. But when I read from the [tutorials][1] that the same can be achieved using `Client`. It caused two problems.
+
+> Running as a script. Not as a Jupyter notebook
+
+*First Problem:*
+
+    # Haven't run any scheduler or worker manually
+    client = Client() # Nothing passed as an argument
+    # Local Cluster is not working;
+    Error:... 
+           if __name__=='__main__': 
+                freeze_support()
+          ...
+
+I tried the same in Jupyter Notebook, without running any scheduler or workers in different terminals. **It worked!!**
+
+Now, I triggered 3 terminals with 1 scheduler and 2 workers and changed it to `Client('IP')` in the script. **Error resolved, any reason for this behavior.**
+
+*Second Problem:*
+
+The error mentioned in the title of the question. Passed the `client = Client('IP')` as the argument to the constructor and used `self.client.submit` things to the cluster. But failed with the error message
+
+> Error: No module name 'diya_info'
+
+Here's the code:
+
+main.py
+
+    import dask.dataframe as dd
+    from diya_info import Diya_Info
+    import time
+    # from dask import delayed
+    from dask.distributed import Client
+
+    df = dd.read_csv(
+        '/Users/asifali/workspace/playground/flask/yellow_tripdata_2015- 01.csv')
+
+    # df = delayed(df.fillna(0.3))
+    # df = df.compute()
+
+    client = Client('192.168.0.129:8786')
+
+    X = df.drop('payment_type', axis=1).copy()
+    y = df['payment_type']
+
+
+    Instance = Diya_Info(X, y, client)
+    s = time.ctime(int(time.time()))
+    print(s)
+
+
+    Instance = Instance.fit(X, y)
+
+
+    e = time.ctime(int(time.time()))
+    print(e)
+    # print((e-s) % 60, ' secs')
+
+diya_info.py
+
+    from sklearn.base import TransformerMixin, BaseEstimator
+    from dask.multiprocessing import get
+    from dask import delayed, compute
+    
+    
+    class Diya_Info(BaseEstimator, TransformerMixin):
+        def __init__(self, X, y, client):
+            assert X is not None, 'X can\'t be None'
+            assert type(X).__name__ == 'DataFrame', 'X not of type DataFrame'
+            assert y is not None, 'y can\'t be None'
+            assert type(y).__name__ == 'Series', 'y not of type Series'
+    
+            self.client = client
+    
+        def fit(self, X, y):
+            self.X = X
+            self.y = y
+            # X_status = self.has_null(self.X)
+            # y_status = self.has_null(self.y)
+            # X_len = self.get_len(self.X)
+            # y_len = self.get_len(self.y)
+            X_status = self.client.submit(self.has_null, self.X)
+            y_status = self.client.submit(self.has_null, self.y)
+            X_len = self.client.submit(self.get_len, self.X)
+            y_len = self.client.submit(self.get_len, self.y)
+            # X_null, y_null, X_length, y_length
+            X_null, y_null, X_length, y_length = self.client.gather(
+            [X_status, y_status, X_len, y_len])
+    
+            assert X_null == False, 'X contains some columns with null/NaN values'
+            assert y_null == False, 'y contains some columns with null/NaN values'
+            assert X_length == y_length, 'Shape mismatch, X and y are of different length'
+            return self
+    
+        def transform(self, X):
+            return X
+    
+        @staticmethod
+        # @delayed
+        def has_null(df):
+            return df.isnull().values.any()
+    
+        @staticmethod
+        # @delayed
+        def get_len(df):
+            return len(df)
+
+Here's the full stacktrace:
+
+    Sat Aug 11 13:29:08 2018
+    distributed.utils - ERROR - No module named 'diya_info'
+    Traceback (most recent call last):
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/utils.py"", line 238, in f
+        result[0] = yield make_coro()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1055, in run
+        value = future.result()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/concurrent.py"", line 238, in result
+        raise_exc_info(self._exc_info)
+      File ""<string>"", line 4, in raise_exc_info
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1063, in run
+        yielded = self.gen.throw(*exc_info)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 1315, in _gather
+        traceback)
+      File ""/anaconda3/lib/python3.6/site-packages/six.py"", line 692, in reraise
+        raise value.with_traceback(tb)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/protocol/pickle.py"", line 59, in loads
+        return pickle.loads(x)
+    ModuleNotFoundError: No module named 'diya_info'
+    Traceback (most recent call last):
+      File ""notebook/main.py"", line 24, in <module>
+        Instance = Instance.fit(X, y)
+      File ""/Users/asifali/workspace/pythonProjects/ML-engine-DataX/pre-processing/notebook/diya_info.py"", line 28, in fit
+        X_status, y_status, X_len, y_len)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 2170, in compute
+        result = self.gather(futures)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 1437, in gather
+        asynchronous=asynchronous)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 592, in sync
+        return sync(self.loop, func, *args, **kwargs)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/utils.py"", line 254, in sync
+        six.reraise(*error[0])
+      File ""/anaconda3/lib/python3.6/site-packages/six.py"", line 693, in reraise
+        raise value
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/utils.py"", line 238, in f
+        result[0] = yield make_coro()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1055, in run
+        value = future.result()
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/concurrent.py"", line 238, in result
+        raise_exc_info(self._exc_info)
+      File ""<string>"", line 4, in raise_exc_info
+      File ""/anaconda3/lib/python3.6/site-packages/tornado/gen.py"", line 1063, in run
+        yielded = self.gen.throw(*exc_info)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/client.py"", line 1315, in _gather
+        traceback)
+      File ""/anaconda3/lib/python3.6/site-packages/six.py"", line 692, in reraise
+        raise value.with_traceback(tb)
+      File ""/anaconda3/lib/python3.6/site-packages/distributed/protocol/pickle.py"", line 59, in loads
+        return pickle.loads(x)
+    ModuleNotFoundError: No module named 'diya_info'
+
+If I uncomment the `@delayed` and few more comments it works. But how to make it work by passing in the `client` as an argument.
+Idea is to use the same client for all the libs I'm trying to write.
+
+**UPDATE 1:**
+I fixed the `second problem` by removing the `@staticmethod` decorators and placing the functions in the `fit closure`. **But what's wrong with the `@staticmethod`, these decorators are meant for non-self related stuff, right?**
+
+Here's the `diya_info.py`:
+
+    ...
+    def fit(self, X, y):
+       self.X = X
+       self.y = y
+
+       # function removed from @staticmethod
+       def has_null(df): return df.isnull().values.any()
+       # function removed from @staticmethod
+       def get_len(df): return len(df)
+
+       X_status = self.client.submit(has_null, self.X)
+       y_status = self.client.submit(has_null, self.y)
+    ...
+
+Is there a way to do it with `@staticmethod`. I don't feel good with the way I have solved this issue. Still no clue about `Problem 1`
+
+  [1]: https://github.com/dask/dask-tutorial/blob/master/06_distributed_advanced.ipynb
+"
+https://api.github.com/repos/dask/dask/issues/3867,https://api.github.com/repos/dask/dask/issues/3867/comments,Deterministic DataFrame.set_index,"`DataFrame.set_index` is not deterministic in the general case because  if no `divisions` are passed, they are computed by approximate quantiles. Although `partition_quantiles` accepts a `random_state` parameter, this is not exposed in `DataFrame.set_index`.
+"
+https://api.github.com/repos/dask/dask/issues/3866,https://api.github.com/repos/dask/dask/issues/3866/comments,Assign a column based on a dask.dataframe.from_array with unique values into a lazily loaded dask dataframe causes bad data,"I'm working on a case where I have a somewhat large dataframe in a csv file. I noticed that I had severe problems trying to import it into dask, and then add a new column to later set it as index.
+
+Turned out when I started hunting for some bug, that when I use ```df = df.assign(ReadableTimestamp = dd.from_array(sample_timestamps))```,  it appears only to insert some 100 of them as unique and skips the rest of the unique values in the `sample_timestamps` array.
+
+Here's a snippet of completely working example with dummy data:
+
+```
+import pandas as pd
+import numpy as np
+import dask.dataframe as dd
+
+from datetime import datetime
+from datetime import timedelta
+
+## Create dummy data and save to CSV file
+columns = []
+for i in range(0, 87):
+    columns.append(str.format(""Column{}"", i))
+
+dummy_csv_data = pd.DataFrame(np.random.randint(0,100,size=(605033, 87)), columns=columns)
+dummy_csv_data.to_csv(""testdata.csv"")
+
+## Load it and set index (we need it in order to be able to assign a new column).
+df = dd.read_csv(""testdata.csv"")
+df = df.set_index(df.Column0)
+
+## Define the funciton that creates the pseudo sample dates.
+def create_pseudo_datetime_based_on_even_samping_rate(df):
+    arbitrary_start_date = datetime(2015, 5, 1, 9, 0, 0, 0);
+    timearray = [arbitrary_start_date + timedelta(0,x) for x in range(0, len(df))];
+    return np.array(timearray)
+
+print(len(df.compute()))
+sample_timestamps = create_pseudo_datetime_based_on_even_samping_rate(df)
+df = df.assign(ReadableTimestamp = dd.from_array(sample_timestamps))
+
+df.ReadableTimestamp.compute().describe()
+```
+
+I would expect an unique count equal to this:
+
+```pd.Series(sample_timestamps).describe()```
+
+```
+count                  605033
+unique                 605033
+top       2015-05-06 16:47:00
+freq                        1
+first     2015-05-01 09:00:00
+last      2015-05-08 09:03:52
+dtype: object
+```
+
+But instead I find that I get only 100 uniques:
+
+```
+count                  605033
+unique                    100
+top       2015-05-01 09:01:17
+freq                     6288
+Name: ReadableTimestamp, dtype: object
+```
+
+Either I'm doing something somewhat wrong, or then I've found a bug.
+
+Versions of modules installed (while installing dask complete):
+
+```
+click-6.7 
+cloudpickle-0.5.3 
+dask-0.18.2 
+distributed-1.22.1 
+heapdict-1.0.0 
+locket-0.2.0 
+msgpack-0.5.6 
+numpy-1.15.0 
+pandas-0.23.4 
+partd-0.3.8 
+psutil-5.4.6 
+python-dateutil-2.7.3 
+pytz-2018.5 
+pyyaml-3.13 
+six-1.11.0 
+sortedcontainers-2.0.4 
+tblib-1.3.2 
+toolz-0.9.0 
+tornado-5.1 
+zict-0.1.3
+```"
+https://api.github.com/repos/dask/dask/issues/3865,https://api.github.com/repos/dask/dask/issues/3865/comments,NotImplementedError; struct<...> while reading from parquet using pyarrow engine (works with pandas),"  File ""/home/rafael.moraes/.virtualenvs/normalization_backend/lib/python3.6/site-packages/dask/dataframe/io/parquet.py"", line 995, in read_parquet
+    categories=categories, index=index, infer_divisions=infer_divisions)
+  File ""/home/rafael.moraes/.virtualenvs/normalization_backend/lib/python3.6/site-packages/dask/dataframe/io/parquet.py"", line 579, in _read_pyarrow
+    dtypes = _get_pyarrow_dtypes(schema, categories)
+  File ""/home/rafael.moraes/.virtualenvs/normalization_backend/lib/python3.6/site-packages/dask/dataframe/io/utils.py"", line 26, in _get_pyarrow_dtypes
+    numpy_dtype = field.type.to_pandas_dtype()
+  File ""pyarrow/types.pxi"", line 176, in pyarrow.lib.DataType.to_pandas_dtype
+NotImplementedError: struct<country: string, admin_area: string, sub_admin_area: string...>
+
+I got this error while reading a parquet file using dd.read_parquet  with engine pyarrow, even if i remove the specific column with this struct type using (columns=) it still throw this error, if i switch to pandas it works fine, seems a dask related issue only.
+"
+https://api.github.com/repos/dask/dask/issues/3864,https://api.github.com/repos/dask/dask/issues/3864/comments,Support for array chunking 'strategies',"I have an approach to this working for myself but I am raising it as I have a suspicion I am not the only one who might find this useful:
+
+I am currently using dask to write data parallel versions of several custom algorithms, which is making heavy use of `map_blocks` over custom numba functions usually dropping and adding axes along the way.  Something that has come up quite a few times through this is the need to rechunk with a specific strategy, usually one of ""ensure chunks don't break up a specific axis"" or ""ensure chunks are contiguous when unravelled"".
+
+I currently have (slightly hackish) solutions that work for me, but I wonder if there is scope for dask supporting certain chunking strategies more formally, perhaps extending the current 'auto' keyword to allowing hinting of the desirable chunking strategy?  This might have knock on benefits for the discussion about rechunking going on in #3587.
+
+I would be open to helping develop this if there was appetite for it."
+https://api.github.com/repos/dask/dask/issues/3863,https://api.github.com/repos/dask/dask/issues/3863/comments,Skip test_s3 for PYTHONOPTIMIZE=2 test,"New release of moto breaks with `PYTHONOPTIMIZE=2`.
+
+See https://travis-ci.org/dask/dask/jobs/413384495
+"
+https://api.github.com/repos/dask/dask/issues/3862,https://api.github.com/repos/dask/dask/issues/3862/comments,distributed.comm.core.CommClosedError error on Windows,"Thank you for reporting an issue.
+
+I'm trying to setup a `dask` distributed cluster, I've installed `dask` on  three machines to get started:
+
+- laptop (where searchCV gets called)
+- scheduler (small box where the dask scheduler process lives)
+- HPC (Large box expected to do the work)
+
+I have `dask[complete]` installed on the laptop and `dask` on the other machines. 
+The worker and scheduler start fine and I can see the dashboards, but I can't send them anything. Running `GridSearchCV` on the laptop get's a result but it comes from  the laptop alone, the worker sits idle. 
+
+All machines are windows 7 (HPC is 10) I've checked the ports with `netstat` and it appears that it is really listening where it is supposed to. 
+
+When running a small example I get the following error:
+
+    from dask.distributed import Client
+    scheduler_address = 'tcp://10.X.XX.XX:8786'
+    client = Client(scheduler_address)
+    
+    def square(x):
+            return x ** 2
+    
+    def neg(x):
+        return -x
+    
+    A = client.map(square, range(10))
+    B = client.map(neg, A)
+    total = client.submit(sum, B)
+    
+    print(total.result())
+
+```
+distributed.batched - INFO - Batched Comm Closed: in <closed TCP>: ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+tornado.application - ERROR - Exception in callback <bound method Client._heartbeat of <Client: scheduler='tcp://10.X.XX.XX:8786' processes=1 cores=10>>
+Traceback (most recent call last):
+  File ""C:\Users\rmenk\AppData\Local\Continuum\anaconda3\lib\site-packages\tornado\ioloop.py"", line 1208, in _run
+    return self.callback()
+  File ""C:\Users\rmenk\AppData\Local\Continuum\anaconda3\lib\site-packages\distributed\client.py"", line 907, in _heartbeat
+    self.scheduler_comm.send({'op': 'heartbeat-client'})
+  File ""C:\Users\rmenk\AppData\Local\Continuum\anaconda3\lib\site-packages\distributed\batched.py"", line 117, in send
+    raise CommClosedError
+distributed.comm.core.CommClosedError
+```
+the process does not stop and prints this error continuously for a while till it is killed. Making me suspect tornado or some other local async  aspect.
+
+The client object is:
+```
+
+Client   
+Scheduler: tcp://10.X.XX.XX:8786   
+Dashboard: http://10.X.XX.XX:8787/status
+
+Cluster    Workers: 1   Cores: 10   Memory: 68.72 GB
+```
+"
+https://api.github.com/repos/dask/dask/issues/3861,https://api.github.com/repos/dask/dask/issues/3861/comments,Re-add the ghost import to da __init__,"Needed for libraries that implicitly assumed `da.ghost` namespace was
+automatically imported.
+
+See #3830."
+https://api.github.com/repos/dask/dask/issues/3860,https://api.github.com/repos/dask/dask/issues/3860/comments,Fixes for pyarrow 0.10.0 release,"- Error nicely if pyarrow version has broken ORC reader
+- Skip ORC tests for bad pyarrow versions
+- Use `is_timestamp` instead of `TimestampType`
+- Remove support for pyarrow versions < 0.8.0 (which are missing `is_timestamp`, and are rather old anyway."
+https://api.github.com/repos/dask/dask/issues/3859,https://api.github.com/repos/dask/dask/issues/3859/comments,Testspace Management for Travis CI,"As suggestion by @mrocklin I am opening up an Issue to discuss how the [Testspace.com](https://testspace.com) technology could be used by the DASK team. We originally open an [Pull Request](https://github.com/dask/dask/pull/3839) that has been closed. Note that Testspace is completely **free** and does **not** affect the workflow. 
+
+Testspace is designed for managing test results -- consumes content generated from Travis jobs. 
+
+* **Failure Triage**: When there are a lot of failures, or the log is very large, or the failures happen across a number of jobs, etc. it can be tedious to track them down. Testspace provides a flat list very quickly containing the stderr output, etc.
+
+    **Example Travis Build Jobs with failures:**
+    
+![travis build jobs](https://user-images.githubusercontent.com/1229367/43743216-c78a5866-9989-11e8-8b57-9c26cde4a06d.PNG)
+ 
+   **Same Build using Testspace failure filtering:**
+
+![travis build failure filtering](https://user-images.githubusercontent.com/1229367/43743228-d45e32ba-9989-11e8-84ff-4a938382a59e.png)
+
+* **Metrics:** All of the results generated from the CI are collected and persisted for `history tracking`. This includes test results, code coverage, static analysis, and any custom content. Along with this information, statistical analysis is used to calculate `how effective the testing is` and measures the `workflow efficiency` (rates for resolving Pull Requests and test failures). 
+
+* For more details check out this **LIVE DEMO**: https://demo.testspace.com. 
+
+* Test results, metrics, insights, provides more visibility to others -- new contributors, unfamiliar with Travis, non-dev types, managers -- and enables easier navigation on content. "
+https://api.github.com/repos/dask/dask/issues/3858,https://api.github.com/repos/dask/dask/issues/3858/comments,Fix failing hdfs test,"- Remove skip for `test_parquet_pyarrow`, as this tests now passes
+- Update to use new travis ci conditionals for optionally testing hdfs functionality. When this was originally added you could only conditionally run on branch name - now you can conditionally run on commit message string (which is nicer and easier to use). New behavior is documented in the hdfs CI readme.
+
+Fixes #3345 
+Supersedes #3483"
+https://api.github.com/repos/dask/dask/issues/3857,https://api.github.com/repos/dask/dask/issues/3857/comments,Increase conda download retries,"We've been seeing an increase in conda download failures on travis lately.
+
+- https://travis-ci.org/dask/dask/jobs/412727337
+- https://travis-ci.org/dask/dask/jobs/412754348
+- https://travis-ci.org/dask/dask/jobs/412815896
+
+After talking to the conda team, it was suggested to try increasing the value of `remote_max_retries` to 10 to see if that helps (they're not 100% sure why this would be happening).
+"
+https://api.github.com/repos/dask/dask/issues/3856,https://api.github.com/repos/dask/dask/issues/3856/comments,"Don't cull in local scheduler, do cull in delayed","- Removes culling from the local scheduler. This was (usually)
+unnecessary, as all the collections (except delayed) culled by default.
+- Adds culling to ``dask.delayed``
+
+Fixes #3735.
+"
+https://api.github.com/repos/dask/dask/issues/3855,https://api.github.com/repos/dask/dask/issues/3855/comments,Add python_requires and Trove classifiers,"- [~] Tests added / passed - All pass except `TEST_HDFS`, same as `master`
+- [~] Passes `flake8 dask` - No, but fails in the same way as `master`
+
+This PR:
+
+* Adds python_requires to help pip install the right version for the user's version
+* Adds Trove version classifiers to make support clear on PyPI
+"
+https://api.github.com/repos/dask/dask/issues/3854,https://api.github.com/repos/dask/dask/issues/3854/comments,Periodic project meetings,"Should we have a monthly or quarterly Dask meeting?
+
+Currently there is a weekly thirty-minute meeting on Thursday, which tends to cover current work and pressing issues like ""is there anything blocking the next release?"" and ""what else do we need to handle for the tutorial at the upcoming conference?"".  This tends to have an attendance of around 4-6 people who actively work on the project day-to-day.
+
+We might consider having a longer but less frequent meeting monthly or quarterly.  My hope is that this meeting would draw a larger group of stakeholders in the project and discuss larger issues like ""should we drop Python 2.7?"" and ""how can we best support external project X?""
+
+Some open questions:
+
+1.  Would stakeholders who don't come to the weekly meeting come to the monthly/quarterly meeting?
+2.  What is the most productive way to structure such a meeting?  What has worked well for other projects?
+"
+https://api.github.com/repos/dask/dask/issues/3853,https://api.github.com/repos/dask/dask/issues/3853/comments,Move configuration to separate package,"I have packages that could benefit from some/all of the configuration functionality provided by dask (thread-safe, environment variable overrides, yaml loading, etc). I had considered copying what I needed, but when I looked at it again `dask` had changed the preferred way of interfacing with the configuration settings. It also looked like a lot of the internals had changed. It has been a month or so since I've looked at the current implementation and it looks like it supports even more now.
+
+Would the dask project/community be open to migrating the dask configuration functionality to a separate package that is agnostic of the package using it?"
+https://api.github.com/repos/dask/dask/issues/3852,https://api.github.com/repos/dask/dask/issues/3852/comments,Fix 3848,"- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+
+Fixes #3848, at least for the presented case, with the fix suggested by @jcrist. 
+I added a test to array/masked to test for this as well. I checked that this test fails for the old situation and passes for the new one, but I do not have the overview whether it is in the right location or even right format. Feedback is very much appreciated."
+https://api.github.com/repos/dask/dask/issues/3851,https://api.github.com/repos/dask/dask/issues/3851/comments,Fix numpy deprecation warning on tuple indexing,"This lifts the deprecation warning due to numpy's indexing changes. 
+I checked the code for occurances of similar patterns, but found none.
+I realize this is such a small fix, but hey, everbody needs to start somewhere, right?
+Fixes #3835 .
+
+- [ ] Tests added / passed
+- [x] Passes `flake8 dask`"
+https://api.github.com/repos/dask/dask/issues/3850,https://api.github.com/repos/dask/dask/issues/3850/comments,Remove link to non existent notebook,
+https://api.github.com/repos/dask/dask/issues/3849,https://api.github.com/repos/dask/dask/issues/3849/comments,add DASK_ROOT_CONFIG environment variable,"closes #3798
+
+- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+
+Putting this up here compliment discussion in #3798. "
+https://api.github.com/repos/dask/dask/issues/3848,https://api.github.com/repos/dask/dask/issues/3848/comments,Dask.array deepcopy does not preserve masking since 0.18.2,"If 'a' is a dask array wrapped around a numpy masked array (with ""from _array(..., asarray=False)"",
+then the result of ""copy.deepcopy(a).compute()"" is now (wrongly) **not** a masked array,
+
+Though the original ""a.compute()"", and even ""copy.copy(a)"" are correct.
+
+Example code to show :
+```
+import dask.array as da
+import numpy.ma as ma
+import copy
+t = ma.masked_array([1, 2], mask=[0, 1])
+a = da.from_array(t, chunks=t.shape, asarray=False)
+print(copy.deepcopy(a).compute())
+```
+
+For example, in dask 0.18.1
+```
+>>> import dask
+>>> import dask.array as da
+>>> import numpy.ma as ma
+>>> import copy
+>>> t = ma.masked_array([1, 2], mask=[0, 1])
+>>> a = da.from_array(t, chunks=t.shape, asarray=False)
+>>> print(dask.__version__)
+0.18.1
+>>> print(copy.copy(a).compute())
+[1 --]
+>>> print(copy.deepcopy(a).compute())
+[1 --]
+>>> 
+```
+
+But in 0.18.2 ...
+```
+>>> import dask
+>>> import dask.array as da
+>>> import numpy.ma as ma
+>>> import copy
+>>> 
+>>> t = ma.masked_array([1, 2], mask=[0, 1])
+>>> a = da.from_array(t, chunks=t.shape, asarray=False)
+>>> 
+>>> print(dask.__version__)
+0.18.2
+>>> print(copy.copy(a).compute())
+[1 --]
+>>> print(copy.deepcopy(a).compute())
+[1 2]
+>>> 
+```"
+https://api.github.com/repos/dask/dask/issues/3847,https://api.github.com/repos/dask/dask/issues/3847/comments,Unified filters/predicates interface for Parquet,"Currently we support filters on row-group level based on an _AND_ of predicates. I would like to implement this in the next 4-6 weeks also for `pyarrow`. I have a pure Python implementation working but for my use case I required more than simply  _AND_. Therefore I would propose to change the current interface to accept predicates in disjunctive normal form. With this representation, we are able to represent all possible predicates.
+
+This change would mean that we would also support `list of list of tuples` in 
+https://github.com/dask/dask/blob/e823ecf51032ea7e4d57687a91d788cfb28e36ac/dask/dataframe/io/parquet.py#L915-L919
+
+@martindurant @wesm @mrocklin Would that sound like an acceptable extension of the interface?"

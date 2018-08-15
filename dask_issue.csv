@@ -185,16 +185,16 @@ Here's the `diya_info.py`:
 Is there a way to do it with `@staticmethod`. I don't feel good with the way I have solved this issue. Still no clue about `Problem 1`
 
   [1]: https://github.com/dask/dask-tutorial/blob/master/06_distributed_advanced.ipynb
-"
+",
 https://api.github.com/repos/dask/dask/issues/3867,https://api.github.com/repos/dask/dask/issues/3867/comments,Deterministic DataFrame.set_index,"`DataFrame.set_index` is not deterministic in the general case because  if no `divisions` are passed, they are computed by approximate quantiles. Although `partition_quantiles` accepts a `random_state` parameter, this is not exposed in `DataFrame.set_index`.
-"
+",
 https://api.github.com/repos/dask/dask/issues/3864,https://api.github.com/repos/dask/dask/issues/3864/comments,Support for array chunking 'strategies',"I have an approach to this working for myself but I am raising it as I have a suspicion I am not the only one who might find this useful:
 
 I am currently using dask to write data parallel versions of several custom algorithms, which is making heavy use of `map_blocks` over custom numba functions usually dropping and adding axes along the way.  Something that has come up quite a few times through this is the need to rechunk with a specific strategy, usually one of ""ensure chunks don't break up a specific axis"" or ""ensure chunks are contiguous when unravelled"".
 
 I currently have (slightly hackish) solutions that work for me, but I wonder if there is scope for dask supporting certain chunking strategies more formally, perhaps extending the current 'auto' keyword to allowing hinting of the desirable chunking strategy?  This might have knock on benefits for the discussion about rechunking going on in #3587.
 
-I would be open to helping develop this if there was appetite for it."
+I would be open to helping develop this if there was appetite for it.",data partition
 https://api.github.com/repos/dask/dask/issues/3854,https://api.github.com/repos/dask/dask/issues/3854/comments,Periodic project meetings,"Should we have a monthly or quarterly Dask meeting?
 
 Currently there is a weekly thirty-minute meeting on Thursday, which tends to cover current work and pressing issues like ""is there anything blocking the next release?"" and ""what else do we need to handle for the tutorial at the upcoming conference?"".  This tends to have an attendance of around 4-6 people who actively work on the project day-to-day.
@@ -205,15 +205,15 @@ Some open questions:
 
 1.  Would stakeholders who don't come to the weekly meeting come to the monthly/quarterly meeting?
 2.  What is the most productive way to structure such a meeting?  What has worked well for other projects?
-"
+",
 https://api.github.com/repos/dask/dask/issues/3853,https://api.github.com/repos/dask/dask/issues/3853/comments,Move configuration to separate package,"I have packages that could benefit from some/all of the configuration functionality provided by dask (thread-safe, environment variable overrides, yaml loading, etc). I had considered copying what I needed, but when I looked at it again `dask` had changed the preferred way of interfacing with the configuration settings. It also looked like a lot of the internals had changed. It has been a month or so since I've looked at the current implementation and it looks like it supports even more now.
 
-Would the dask project/community be open to migrating the dask configuration functionality to a separate package that is agnostic of the package using it?"
+Would the dask project/community be open to migrating the dask configuration functionality to a separate package that is agnostic of the package using it?",
 https://api.github.com/repos/dask/dask/issues/3852,https://api.github.com/repos/dask/dask/issues/3852/comments,Fix 3848,"- [x] Tests added / passed
 - [x] Passes `flake8 dask`
 
 Fixes #3848, at least for the presented case, with the fix suggested by @jcrist. 
-I added a test to array/masked to test for this as well. I checked that this test fails for the old situation and passes for the new one, but I do not have the overview whether it is in the right location or even right format. Feedback is very much appreciated."
+I added a test to array/masked to test for this as well. I checked that this test fails for the old situation and ",
 https://api.github.com/repos/dask/dask/issues/3848,https://api.github.com/repos/dask/dask/issues/3848/comments,Dask.array deepcopy does not preserve masking since 0.18.2,"If 'a' is a dask array wrapped around a numpy masked array (with ""from _array(..., asarray=False)"",
 then the result of ""copy.deepcopy(a).compute()"" is now (wrongly) **not** a masked array,
 
@@ -263,13 +263,13 @@ But in 0.18.2 ...
 >>> print(copy.deepcopy(a).compute())
 [1 2]
 >>> 
-```"
+```",
 https://api.github.com/repos/dask/dask/issues/3847,https://api.github.com/repos/dask/dask/issues/3847/comments,Unified filters/predicates interface for Parquet,"Currently we support filters on row-group level based on an _AND_ of predicates. I would like to implement this in the next 4-6 weeks also for `pyarrow`. I have a pure Python implementation working but for my use case I required more than simply  _AND_. Therefore I would propose to change the current interface to accept predicates in disjunctive normal form. With this representation, we are able to represent all possible predicates.
 
 This change would mean that we would also support `list of list of tuples` in 
 https://github.com/dask/dask/blob/e823ecf51032ea7e4d57687a91d788cfb28e36ac/dask/dataframe/io/parquet.py#L915-L919
 
-@martindurant @wesm @mrocklin Would that sound like an acceptable extension of the interface?"
+@martindurant @wesm @mrocklin Would that sound like an acceptable extension of the interface?",job
 https://api.github.com/repos/dask/dask/issues/3846,https://api.github.com/repos/dask/dask/issues/3846/comments,Weighted mean of masked dask array does not apply mask to weights,"```python
 import dask.array as da
 import numpy as np
@@ -300,14 +300,14 @@ Upon further investigation it seems that the weights are normalised by dask, but
 i.e. this line
 https://github.com/dask/dask/blob/e823ecf51032ea7e4d57687a91d788cfb28e36ac/dask/array/routines.py#L1293
 
-I'm not sure how to fix this - I don't think one has access to the mask without realising all the data, so the weight normalisation can't happen lazily(?) Maybe the way to solve this is to specify that the weights array must be masked by the user before being passed - this would make the API different to numpy."
+I'm not sure how to fix this - I don't think one has access to the mask without realising all the data, so the weight normalisation can't happen lazily(?) Maybe the way to solve this is to specify that the weights array must be masked by the user before being passed - this would make the API different to numpy.",
 https://api.github.com/repos/dask/dask/issues/3845,https://api.github.com/repos/dask/dask/issues/3845/comments,rechunking multidimensional xarray with dask distributed: impact of operations order,"I posted the following issue on stackoverflow but got no replies:
 https://stackoverflow.com/q/51631454/9124633
-Please let me know if the issue is not clearly formulated."
+Please let me know if the issue is not clearly formulated.",parallelism
 https://api.github.com/repos/dask/dask/issues/3843,https://api.github.com/repos/dask/dask/issues/3843/comments,Support axis/axes/keepdims in apply_gufunc(),"As of NumPy 1.15, NumPy's generalized ufuncs now support axis/axes/keepdims arguments:
 https://docs.scipy.org/doc/numpy/release.html#generalized-ufuncs-now-accept-axes-axis-and-keepdims-arguments
 
-It would be nice to support these in `dask.array.apply_gufunc()`, too. This would be useful for implementing functions like `median` (https://github.com/dask/dask/pull/3819)."
+It would be nice to support these in `dask.array.apply_gufunc()`, too. This would be useful for implementing functions like `median` (https://github.com/dask/dask/pull/3819).",
 https://api.github.com/repos/dask/dask/issues/3842,https://api.github.com/repos/dask/dask/issues/3842/comments,Saving to parquet with partition_on results in loss of divisions when reading it back to dataframe.,"
 # TLDR
 When I save a Dask dataframe to parquet using partition on a certain collumn and then I read those parquet files into a dataframe the divisions are lost. This doesn't happen with every dataframe, for example if the collumn I'm using for the partitioning (let's call it 'Categoricals') is ordered then this problem won't happen. Below I'll leave an example where the problem happens and one where it doesn't.
@@ -943,12 +943,12 @@ df.divisions
 
     (None, None, None, None, None, None)
 
-"
+",io
 https://api.github.com/repos/dask/dask/issues/3832,https://api.github.com/repos/dask/dask/issues/3832/comments,Reentrant versions of dask.utils.SerializableLock and distributed.Lock,"I'm pretty sure to get distributed writes working properly in xarray (https://github.com/pydata/xarray/pull/2261) we will need reentrant versions of `dask.utils.SerializableLock` and `distributed.Lock`, i.e., which can be acquired multiple times by the same thread like [`threading.RLock`](https://docs.python.org/3.7/library/threading.html#rlock-objects). These could potentially be useful for other projects using dask as well.
 
 Contemplating how to write these is hurting my head a little bit. In principle, we could just make a forked version of `SerializableLock` that uses `RLock` internally, but for `distributed.Lock` it's less clear.
 
-Ideally, we could do this with composition, e.g., by writing `ReentrantLock(distributed.Lock(...))` to make a reentrant distributed lock. Does anyone have any idea what that would look like?"
+Ideally, we could do this with composition, e.g., by writing `ReentrantLock(distributed.Lock(...))` to make a reentrant distributed lock. Does anyone have any idea what that would look like?",job
 https://api.github.com/repos/dask/dask/issues/3831,https://api.github.com/repos/dask/dask/issues/3831/comments,Computation graphs overcomplicated when reading/writing  partitioned parquet files?,"
 # TLDR
 
@@ -1723,7 +1723,7 @@ df.loc[df['categoricals'] == 'a'].visualize()
 
 
 **Question 4:** Given that the dataframe is being read from a parquet file that is partitioned on `categoricals`, shouldn't the `.loc` be smart to realize 'a' can only be in 4 of the 16 Row Groups?
-"
+",io
 https://api.github.com/repos/dask/dask/issues/3824,https://api.github.com/repos/dask/dask/issues/3824/comments,Chaining slicing one dask array with another dask array,"I don't seem to be able to chain multiple slices of one dask array with another (without realising the intermediate result):
 
 ```python
@@ -1797,11 +1797,11 @@ ValueError: max() arg is an empty sequence
 
 I'm using dask v0.18.2.
 
-Note: my underlying use-case is chaining multiple lazy array operations on large Iris cubes."
+Note: my underlying use-case is chaining multiple lazy array operations on large Iris cubes.",data partition
 https://api.github.com/repos/dask/dask/issues/3821,https://api.github.com/repos/dask/dask/issues/3821/comments,Put do/don't into boxes for delayed best practice docs,"Fixes #3773 *if* you think this actually looks nicer.
 
 ![screen shot 2018-07-26 at 18 07 22](https://user-images.githubusercontent.com/6042212/43291264-cf9c2e0a-90fe-11e8-99e3-0e27b6467a2a.png)
-"
+",
 https://api.github.com/repos/dask/dask/issues/3819,https://api.github.com/repos/dask/dask/issues/3819/comments,MAINT: implement median,"This PR implements `da.median` and `dask.array.Array.median`. It is a simple wrapper around `da.percentile`.
 
 This would close #46
@@ -1813,7 +1813,7 @@ This would close #46
 TODO
 
 - [ ] implement `dask.dataframe._Frame.median`
-- [ ] (possibly) close #3099"
+- [ ] (possibly) close #3099",
 https://api.github.com/repos/dask/dask/issues/3818,https://api.github.com/repos/dask/dask/issues/3818/comments,DataFrame.__setitem__ fails for index,"```python
 In [10]: import pandas as pd
 
@@ -1848,12 +1848,12 @@ TypeError                                 Traceback (most recent call last)
 TypeError: unhashable type: 'Index'
 ```
 
-pandas index objects aren't hashable, putting them in a dictionary fails. We should probably special Index objects in `DataFrame.__setitem__` and convert them to lists."
+pandas index objects aren't hashable, putting them in a dictionary fails. We should probably special Index objects in `DataFrame.__setitem__` and convert them to lists.",data structure
 https://api.github.com/repos/dask/dask/issues/3817,https://api.github.com/repos/dask/dask/issues/3817/comments,Add DataFrame.nunique,"http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.nunique.html
 
 essentially a `pd.concat([self[col].n_unique() for col self.columns], axis=1)`
 
-Could do a `DataFrame.nunique_approx` as well."
+Could do a `DataFrame.nunique_approx` as well.",data structure
 https://api.github.com/repos/dask/dask/issues/3815,https://api.github.com/repos/dask/dask/issues/3815/comments,[new feature] crash test dummy scheduler for unit tests,"I've been spending quite a lot of time recently debugging the dask distributed scheduler being unexpectedly invoked in the middle of defining the dask.array graph, both by xarray and by my own application code. If the distributed client and scheduler are on opposite ends of a high-latency network, this can easily compound into hours of overhead in some cases. Another, worse situation that I'm fighting against is when the dask graph definition is performed inside a process pool - a dire necessity for particularly large graphs. In this case, an accidental invocation of the threaded scheduler from inside the subprocess will cause a random and complete deadlock of the Python interpreter, and an inexperienced developer will never figure out what's going on.
 
 To debug this, so far I have been starting a distributed scheduler without workers and watched for my code getting stuck when it accidentally tries submitting stuff to it. This approach however is impractical when writing unit tests.
@@ -1873,7 +1873,7 @@ def test1():
     a = dask.array.arange(4, chunks=2)
     # internally invokes compute(scheduler='sync')
     assert_eq(a, dask.array.from_array([0, 1,2, 3], chunks]=2)
-```"
+```",parallelism
 https://api.github.com/repos/dask/dask/issues/3814,https://api.github.com/repos/dask/dask/issues/3814/comments,[trivial] [doc] Scheduler doc improvements,"http://dask.pydata.org/en/latest/scheduler-overview.html needs some improvements after the recent change from get= to scheduler=.
 
 1. What is the comprehensive list of choices for scheduler=? Namely, if I want to use threaded scheduler, is it ""threads"", ""threaded"", or...?
@@ -1887,7 +1887,7 @@ Using the get keyword in the compute method:
 
 https://distributed.readthedocs.io/en/latest/client.html#dask is also improvable:
 1. It says how I can stop a client from registering itself as the default dask scheduler, but it does not say anything about how I can actually use it explicitly after I do that. ``scheduler='distributed', pool=client)``? ``scheduler=client``? something else?
-2. Does the ``num_workers`` parameter have any effect?"
+2. Does the ``num_workers`` parameter have any effect?",job
 https://api.github.com/repos/dask/dask/issues/3811,https://api.github.com/repos/dask/dask/issues/3811/comments,Some tests assume endianness,"On [ppc64](https://koji.fedoraproject.org/koji/taskinfo?taskID=28589824) and [s390x](https://koji.fedoraproject.org/koji/taskinfo?taskID=28589826), two big-endian arches, two tests seem to fail due to some assumptions in tests and/or implementation:
 
 ```
@@ -1929,7 +1929,7 @@ E        +  where dtype('>M8[ns]') = DatetimeIndex([], dtype='datetime64[ns]', f
 E        +    where DatetimeIndex([], dtype='datetime64[ns]', freq=None) = Empty DataFrame\nColumns: [x]\nIndex: [].index
 dask/dataframe/tests/test_multi.py:1090: AssertionError
 ```
-At least the latter looks like a test issue, but the former might be a problem in the implementation."
+At least the latter looks like a test issue, but the former might be a problem in the implementation.",
 https://api.github.com/repos/dask/dask/issues/3808,https://api.github.com/repos/dask/dask/issues/3808/comments,Support slicing with out-of-order numpy arrays,"This stages a random slice into a numpy array into a two-staged slice
 in such a way that reduces overhead.  We will now get, at worst, n-squared
 behavior.
@@ -1941,7 +1941,7 @@ reduce the scope of when this gets applied.
 - [ ] Tests added / passed
 - [ ] Passes `flake8 dask`
 
-cc @jakirkham "
+cc @jakirkham ",data partition
 https://api.github.com/repos/dask/dask/issues/3807,https://api.github.com/repos/dask/dask/issues/3807/comments,Linear tasks not fusing in dask.dataframe,"Some tasks within dask.dataframe don't seem to fuse well, even though I've turned on fusion and have a linear chain of tasks.  I've worked things down to the following example:
 
 ```python
@@ -1964,7 +1964,7 @@ ddf.visualize('dask.png')
 
 ![dask](https://user-images.githubusercontent.com/306380/43091090-3cd13180-8e77-11e8-94db-47cfe0f315b0.png)
 
-Many operations will fuse, but something about these kinds of tasks don't let them.  I'm finding it difficult to find out why.  cc @eriknw in case he has a moment to look this over."
+Many operations will fuse, but something about these kinds of tasks don't let them.  I'm finding it difficult to find out why.  cc @eriknw in case he has a moment to look this over.",job
 https://api.github.com/repos/dask/dask/issues/3803,https://api.github.com/repos/dask/dask/issues/3803/comments,Parquet files generated using ds.to_parquet having issues,"Hi Team,
 
 I am using dask ds.to_parquet for converting to parquet files. Parquet files created using fastparquet works fine with everywhere except in Hive. All columns are read as Null in Hive. Upon trying different options, created new virtual environment, without Fast parquet, so now dask uses pyarrow for parquet conversion and files generated now works fine in Hive. Could you please confirm issue in Hive for reading parquet files generated using fast parquet. 
@@ -1987,8 +1987,8 @@ ds.to_parquet('s3://XXX-XXXXX/ABC/', has_nulls=True,write_index=True)
 
 Please letme know the issue with fast parquet version with Hive. Or is there any fix applied for this in latest updates. 
 
-"
-https://api.github.com/repos/dask/dask/issues/3802,https://api.github.com/repos/dask/dask/issues/3802/comments,"Change configuration names for optimizations, arrays, etc..","There are a variety of options available in the opimizations and collections that were previously handled by `dask.set_options`, but are now under `dask.config.set` like `fuse_ave_width` and `array_plugins`.  Do we want to change these names and place them into a configuraiton namespace like `optimization.fuse.width` and `array.plugins` ?  "
+","job, io"
+https://api.github.com/repos/dask/dask/issues/3802,https://api.github.com/repos/dask/dask/issues/3802/comments,"Change configuration names for optimizations, arrays, etc..","There are a variety of options available in the opimizations and collections that were previously handled by `dask.set_options`, but are now under `dask.config.set` like `fuse_ave_width` and `array_plugins`.  Do we want to change these names and place them into a configuraiton namespace like `optimization.fuse.width` and `array.plugins` ?  ",
 https://api.github.com/repos/dask/dask/issues/3801,https://api.github.com/repos/dask/dask/issues/3801/comments,Fuse dataframe collections by default,"Currently we don't fuse dask.dataframe computations by default
 
 ```python
@@ -2017,7 +2017,7 @@ Should we?  If I recall correctly this was done for two reasons:
 1.  Fusing can be about as expensive as the overhead of running
 2.  By fusing you sometimes lose out on shared structure between subsequent computations
 
-However, as I've seen more ways in which dask.dataframe gets used in the wild I've found that *very* long linear-ish chains are pretty common.  The overhead of the distributed scheduler is a bit higher, and having very long linear chains affects other things, like diagnostics, the memory on the distributed scheduler process, etc.."
+However, as I've seen more ways in which dask.dataframe gets used in the wild I've found that *very* long linear-ish chains are pretty common.  The overhead of the distributed scheduler is a bit higher, and having very long linear chains affects other things, like diagnostics, the memory on the distributed scheduler process, etc..",job
 https://api.github.com/repos/dask/dask/issues/3794,https://api.github.com/repos/dask/dask/issues/3794/comments,test_info from test_dataframe failing on Python 2.7,"Seeing the following failure from `test_info` in `test_dataframe` on Python 2.7. Not sure what is causing it. Suggestions welcome.
 
 ```python
@@ -2071,7 +2071,7 @@ dask/dataframe/tests/test_dataframe.py::test_mixed_dask_array_operations
 
 -- Docs: http://doc.pytest.org/en/latest/warnings.html
 ========================================= 1 failed, 431 passed, 115 skipped, 1 xfailed, 1 warnings in 44.64 seconds =========================================
-```"
+```",
 https://api.github.com/repos/dask/dask/issues/3788,https://api.github.com/repos/dask/dask/issues/3788/comments,DataFrame reset_index() not working with DataFrames created with from_delayed or read_csv methods,"When creating dataframes from normal pandas dfs, there is no problem with resetting the index:
 
 ```python
@@ -2105,5 +2105,5 @@ yields:
 0 | 0 | 4 | 16 | 64
 1 | 1 | 4 | 16 | 64
 2 | 2 | 4 | 16 | 64
-"
-https://api.github.com/repos/dask/dask/issues/3787,https://api.github.com/repos/dask/dask/issues/3787/comments,Python 3.6 CI tests taking ~40mins,Looks like our CI test matrix element for Python 3.6 is taking ~40mins per run. Note the Travis CI limit is shy of ~50min. Probably worth looking how we can speed up and/or slim down our test suite.
+",data strcuture
+https://api.github.com/repos/dask/dask/issues/3787,https://api.github.com/repos/dask/dask/issues/3787/comments,Python 3.6 CI tests taking ~40mins,Looks like our CI test matrix element for Python 3.6 is taking ~40mins per run. Note the Travis CI limit is shy of ~50min. Probably worth looking how we can speed up and/or slim down our test suite.,

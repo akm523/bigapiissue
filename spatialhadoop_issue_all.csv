@@ -3,13 +3,13 @@ https://api.github.com/repos/aseldawy/spatialhadoop2/issues/42,https://api.githu
 I need to include my geospatial data.
 
 is there any tutorial or steps to create custom test file ?
-",
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/41,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/41/comments,Polygonal dataset error,"What is the format for a polygon, as similar to rectangle. I tried it in different ways,  as tiger sample, as given on the website. But all of them end with the same error when Indexing.  Input points must be greater than 0.",data format
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/41,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/41/comments,Polygonal dataset error,"What is the format for a polygon, as similar to rectangle. I tried it in different ways,  as tiger sample, as given on the website. But all of them end with the same error when Indexing.  Input points must be greater than 0."
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/40,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/40/comments,No scaling with multiple computing nodes,"I am using SpatialHadoop to store and index a dataset with 87 million points. I then apply various range queries.
 
 I tested on 3 different cluster configurations: 1 , 2 and 4 nodes. Unfortunately, I don't see a runtime decrease with growing node number.
 
-Any ideas why there is no horizontal-scaling effect?",performance
+Any ideas why there is no horizontal-scaling effect?"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/39,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/39/comments,how to enter visualizer?,"how to enter visualizer?  HTTP ERROR 404
 
 Problem accessing /visualizer,jsp. Reason:
@@ -17,7 +17,7 @@ Problem accessing /visualizer,jsp. Reason:
     NOT_FOUND
 
 thank you~
-",
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/38,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/38/comments,RTree knn ArrayIndexOutOfBoundsException," if (distances.elementAt(k - 1) > query_radius) {
           result_correct = false;
 
@@ -31,7 +31,7 @@ https://api.github.com/repos/aseldawy/spatialhadoop2/issues/38,https://api.githu
 
         } else {
           result_correct = true;
- }",
+ }"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/37,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/37/comments,SpatialHadoop: installation issue on hadoop 2.x,"Hi,
 
 I tried creating the tar file with the help of given commands in the post but was not able to create any tar or jar files.
@@ -40,9 +40,9 @@ Could you please provide detailed steps of installing spatialhadoop on hadoop cl
 
 Thanks,
 Nishant
-",usability
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/36,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/36/comments,'java.lang.NumberFormatException: empty String' When indexing big files,"I suspect it is because the sampler generates an empty ""_SUCCESS"" file which is then tried to be read.
-",job
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/35,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/35/comments,Extensible data types only work if the name starts with a known Shape,"I created a new data type extended from Point. When trying to create an index I got the following error:
 
 `~/tempdir$ shadoop index -libjars spatial-types.jar antenas_santiago_por_torre antennas.grid mbr:-100,-100,100,100 sindex:rtree shape:Antenna
@@ -102,9 +102,10 @@ Caused by: java.lang.NullPointerException
 `
 
 The problem was fixed when I renamed the custom class to 'PointAntenna' instead of 'Antenna'
-",data format
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/34,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/34/comments,base on hadoop2.x hdfs webapps jsp is not run,"hadoop 2.x JspHelper 's package is changed. org.apache.hadoop.hdfs.server.common.JspHelper constructor method is privated.
-",
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/33,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/33/comments,Revert 26 release/replace synchronized collections fix 1,
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/32,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/32/comments,Problems indexing MOD09GQ.005,"Trying to import MOD09GQ.005 file in Spatial Hadoop 2.3 (installation shipped with apache hadoop).
 File was taken from here:
 http://e4ftl01.cr.usgs.gov/MOLT/MOD09GQ.005/2016.02.17/MOD09GQ.A2016048.h35v09.005.2016050064358.hdf
@@ -176,14 +177,45 @@ java.io.IOException: Job failed!
         at edu.umn.cs.spatialHadoop.operations.Main.main(Main.java:115)
 
 ```
-",data structure
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/31,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/31/comments,"equals(Object obj)"" and ""hashCode()"" should be overridden in pairs","This pull request is focused on resolving occurrences of Sonar rule squid:S1206 - “equals(Object obj)"" and ""hashCode()"" should be overridden in pairs ”. You can find more information about the issue here: https://dev.eclipse.org/sonar/rules/show/squid:S1206
+Please let me know if you have any questions.
+Ayman Abdelghany.
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/30,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/30/comments,Null pointers should not be dereferenced,"This pull request is focused on resolving occurrences of Sonar rule squid:S2259 - “Null pointers should not be dereferenced”. You can find more information about the issue here:
+https://dev.eclipse.org/sonar/rules/show/squid:S2259
+Please let me know if you have any questions.
+Ayman Abdelghany.
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/29,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/29/comments, Utility classes should not have public constructors,"This pull request is focused on resolving occurrences of Sonar rule squid:S1118 - “Utility classes should not have public constructors ”. You can find more information about the issue here:
 https://dev.eclipse.org/sonar/rules/show/squid:S1118
 Please let me know if you have any questions.
 Ayman Abdelghany.
-",
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/28,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/28/comments,Dead stores should be removed,"This pull request is focused on resolving occurrences of Sonar rule squid:S1854 - “ Dead stores should be removed ”. You can find more information about the issue here:
+https://dev.eclipse.org/sonar/rules/show/squid:S1854
+Please let me know if you have any questions.
+Ayman Abdelghany.
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/27,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/27/comments,Using Collection.isEmpty() to test for emptiness,"This pull request is focused on resolving occurrences of Sonar rule squid:S1155 - “Collection.isEmpty() should be used to test for emptiness”. You can find more information about the issue here:
+https://dev.eclipse.org/sonar/rules/show/squid:S1155
+Please let me know if you have any questions.
+Ayman Abdelghany.
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/26,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/26/comments,"Synchronized classes Vector, Hashtable, Stack and StringBuffer should not be used","This pull request is focused on resolving occurrences of Sonar rule squid:S1149 - “Synchronized classes Vector, Hashtable, Stack and StringBuffer should not be used ”. You can find more information about the issue here:
+https://dev.eclipse.org/sonar/rules/show/squid:S1149
+Please let me know if you have any questions.
+Ayman Abdelghany.
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/25,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/25/comments, Resources should be closed,"This pull request is focused on resolving occurrences of Sonar rule squid:S1155 - “Collection.isEmpty() should be used to test for emptiness”. You can find more information about the issue here:
+https://dev.eclipse.org/sonar/rules/show/squid:S1155
+Please let me know if you have any questions.
+Ayman Abdelghany.
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/24,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/24/comments,Polygon,"It seems that the Polygon Class just support the Integer type of X and Y, and could not support float or double type.
-",data format
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/23,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/23/comments,Update prepareNextResult() for Errors,"A mistake of wrong brace place, maybe because of code copy. I debug the prepareNextResult() using point data set, and always get an error. Then I find this mistake and correct it.
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/22,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/22/comments,shadoop is really slow,"I am not sure what is causing this but the shadoop command is much much slower than then hadoop one.
 Observed this on two different machines, with and without the hadoop cluster running.
 
@@ -247,7 +279,11 @@ Most commands print help when invoked w/o parameters.
 real    0m0.011s
 user    0m0.000s
 sys 0m0.004s
-",performance
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/21,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/21/comments,Fix division by 0,"Ran into this while evaluating spatialhadoop. 
+
+There seems many places in the code where functions don't check for invalid arguments.
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/20,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/20/comments,java.lang.ArrayIndexOutOfBoundsException: Array index out of range: 0,"Compiled from the latest version after git cloning the repo. When I try to run the following
 
 $ bin/shadoop generate test mbr:0,0,1000000,1000000
@@ -282,7 +318,7 @@ Compiled by jenkins on 2015-04-10T18:40Z
 Compiled with protoc 2.5.0
 From source with checksum a9e90912c37a35c3195d23951fd18f
 This command was run using /home/hadoopuser/hadoop/share/hadoop/common/hadoop-common-2.7.0.jar
-",
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/19,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/19/comments, HDP Issue with Large File," I am getting following error, this error only occurs when I run with larger file  e.g.
 shadoop generate test.rects size:1.gb shape:rect mbr:0,0,1000,1000 
 
@@ -319,167 +355,42 @@ Error: java.lang.ClassNotFoundException: com.vividsolutions.jts.io.ParseExceptio
         at javax.security.auth.Subject.doAs(Subject.java:415)  
         at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1657)  
         at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:158)                         
-",data structure
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/18,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/18/comments,RangeQuery update,"add required parameters to command line documentation
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/17,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/17/comments,Intermediate files when running index,"I am running the index command and it seems to be saving intermediate files into `hdfs://user/filename`. However spatialhadoop2 is looking for it in `hdfs://user/my.username/filename`. This is occuring at `edu.umn.cs.spatialHadoop.operations.FileMBR.fileMBRMapReduce(FileMBR.java:252)`. This could well be something to do with the hadoop setup, but thought I would raise this here in case not.
-",io
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/16,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/16/comments,Added script to install on HDP,"This is related to #15. Not sure it it's better in a readme, but because the directory structure was so different to standard hadoop, I thought it was better to create a script.
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/15,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/15/comments,running SH2 on Hortonworks,"I am trying to install and run SpatialHadoop2 on an existing Hortonworks (HDP) platfom 2.2.6. I have followed the tips in #9 and manually installed files from SpatialHadoop 2.3.2 into various locations and restarted the cluster.
+
+I have tried so far:
+
+bin/\* files in /usr/bin
+bin/\* files in /usr/hdp/2.2.6.0-2800/hadoop
+
+etc/hadoop/conf/\* in /etc/hadoop/conf
+etc/hadoop/conf/\* in /usr/hdp/2.2.6.0-2800/hadoop/conf
+
+share/hadoop/common/lib/\* in /usr/lib/hadoop/lib
+share/hadoop/common/lib/\* in /usr/hdp/current/hadoop-mapreduce-client
+share/hadoop/common/lib/\* in /usr/hdp/current/hadoop-mapreduce-client/lib
+share/hadoop/common/lib/\* in /usr/hdp/2.2.6.0-2800/hadoop
+
+I can get the shadoop script to run, however when running the command `shadoop index /mydata /mydata_idx shape:edu.umn.cs.spatialHadoop.osm.OSMPolygon sindex:grid` 
+
+I still get the error `java.lang.ClassNotFoundException: com.vividsolutions.jts.io.ParseException` despite the jts-1.8 jar being in the 4 lib locations above. Does anyone have any other tips to get this to work on HDP?
+"
 https://api.github.com/repos/aseldawy/spatialhadoop2/issues/14,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/14/comments,How to define my own data type with SpatialHadoop,"Hello, I want to define my own object with SpatialHadoop to run a few experiments, I've got this [tutorial](http://spatialhadoop.cs.umn.edu/datatypes.html) from your website, a nice tutorial for beginners. But there are still one thing unclear for me: 
 
 When I want to use my own data type, the only way in my mind is that I can write a RectangleId class in package `edu.umn.cs.spatialhadoop.core` and recompile the whole project then run an experiment, is there any better solution?
-",data format
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/10,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/10/comments,Using HDFToText problem,"I tried to use HDFToText over MODIS dataset available here:
-
-http://aws.amazon.com/blogs/aws/process-earth-science-data-on-aws-with-nasa-nex/
-
-But, it does not seem to work. Any clue?
-
-Also, I could not find any documentation on HDFToText on the projects website (http://spatialhadoop.cs.umn.edu/)
-
-Thanks in advanced
-",data structure
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/9,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/9/comments,who can tell me spets to install the spatialhadoop on the hadoop?,"Just like the title!
-",app building
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/8,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/8/comments,Please analyse the function packInRectangles in Repartition.java,"I am reading the code of `src/edu/umn/cs/spatialHadoop/operations/Repartition.java`, which is to build index.
-
-Anyone can help to analyse the following function:
-
-```
-public static CellInfo[] packInRectangles(Path[] files,
-      Path outFile, OperationsParams params, Rectangle fileMBR)
-      throws IOException 
-```
-
-I have no idea of what word it does. 
-",data partitioning
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/7,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/7/comments,Any suggestions about build index using Apache-spark?,"Suppose I have the the input file from `HDFS`, how to write code to build index using `Apache-spark`, just as `src/edu/umn/cs/spatialHadoop/operations/Repartition.java` do in spatial-hadoop?
-",job
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/4,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/4/comments,convexhull operation is giving nullpointerexception,"Hi,
-
-I am trying to run the convex hull operation in spatialhadoop. Its giving nullpointerexception. Can you please help me?
-
-The full stack trace is
-
-bin/shadoop convexhull /user/hduser/points.grid /user/hduser/convexhull
-14/07/28 05:14:41 INFO util.NativeCodeLoader: Loaded the native-hadoop library
-14/07/28 05:14:41 WARN snappy.LoadSnappy: Snappy native library not loaded
-14/07/28 05:14:41 WARN mapred.JobClient: Use GenericOptionsParser for parsing the arguments. Applications should implement Tool for the same.
-14/07/28 05:14:41 INFO operations.ConvexHull: Processing 1 out of 1 partition
-14/07/28 05:14:41 INFO mapred.FileInputFormat: Spatial filter function matched with 1 cells
-14/07/28 05:14:42 INFO mapred.JobClient: Running job: job_201407230401_0013
-14/07/28 05:14:43 INFO mapred.JobClient:  map 0% reduce 0%
-14/07/28 05:14:54 INFO mapred.JobClient:  map 100% reduce 0%
-14/07/28 05:15:03 INFO mapred.JobClient:  map 100% reduce 33%
-14/07/28 05:15:06 INFO mapred.JobClient: Task Id : attempt_201407230401_0013_r_
-000000_0, Status : FAILED
-java.lang.NullPointerException
-    at edu.umn.cs.spatialHadoop.core.GridRecordWriter.closeCell(GridRecordWriter.java:357)
-    at edu.umn.cs.spatialHadoop.core.GridRecordWriter.close(GridRecordWriter.java:436)
-    at edu.umn.cs.spatialHadoop.mapred.GridRecordWriter2.close(GridRecordWriter2.java:39)
-    at org.apache.hadoop.mapred.ReduceTask$OldTrackingRecordWriter.close(ReduceTask.java:467)
-    at org.apache.hadoop.mapred.ReduceTask.runOldReducer(ReduceTask.java:535)
-    at org.apache.hadoop.mapred.ReduceTask.run(ReduceTask.java:421)
-    at org.apache.hadoop.mapred.Child$4.run(Child.java:255)
-    at java.security.AccessController.doPrivileged(Native Method)
-    at javax.security.auth.Subject.doAs(Subject.java:415)
-    at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1190)
-    at org.apache.hadoop.mapred.Child.main(Child.java:249)
-
-attempt_201407230401_0013_r_000000_0: log4j:WARN No appenders could be found for logger (org.apache.hadoop.hdfs.DFSClient).
-attempt_201407230401_0013_r_000000_0: log4j:WARN Please initialize the log4j system properly.
-14/07/28 05:15:07 INFO mapred.JobClient:  map 100% reduce 0%
-14/07/28 05:15:16 INFO mapred.JobClient:  map 100% reduce 33%
-14/07/28 05:15:18 INFO mapred.JobClient: Task Id : attempt_201407230401_0013_r_000000_1, Status : FAILED
-java.lang.NullPointerException
-    at edu.umn.cs.spatialHadoop.core.GridRecordWriter.closeCell(GridRecordWriter.java:357)
-    at edu.umn.cs.spatialHadoop.core.GridRecordWriter.close(GridRecordWriter.java:436)
-    at edu.umn.cs.spatialHadoop.mapred.GridRecordWriter2.close(GridRecordWriter2.java:39)
-    at org.apache.hadoop.mapred.ReduceTask$OldTrackingRecordWriter.close(ReduceTask.java:467)
-    at org.apache.hadoop.mapred.ReduceTask.runOldReducer(ReduceTask.java:535)
-    at org.apache.hadoop.mapred.ReduceTask.run(ReduceTask.java:421)
-    at org.apache.hadoop.mapred.Child$4.run(Child.java:255)
-    at java.security.AccessController.doPrivileged(Native Method)
-    at javax.security.auth.Subject.doAs(Subject.java:415)
-    at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1190)
-    at org.apache.hadoop.mapred.Child.main(Child.java:249)
-
-attempt_201407230401_0013_r_000000_1: log4j:WARN No appenders could be found for logger (org.apache.hadoop.hdfs.DFSClient).
-attempt_201407230401_0013_r_000000_1: log4j:WARN Please initialize the log4j system properly.
-14/07/28 05:15:19 INFO mapred.JobClient:  map 100% reduce 0%
-14/07/28 05:15:28 INFO mapred.JobClient:  map 100% reduce 33%
-14/07/28 05:15:32 INFO mapred.JobClient: Task Id : attempt_201407230401_0013_r_000000_2, Status : FAILED
-java.lang.NullPointerException
-    at edu.umn.cs.spatialHadoop.core.GridRecordWriter.closeCell(GridRecordWriter.java:357)
-    at edu.umn.cs.spatialHadoop.core.GridRecordWriter.close(GridRecordWriter.java:436)
-    at edu.umn.cs.spatialHadoop.mapred.GridRecordWriter2.close(GridRecordWriter2.java:39)
-    at org.apache.hadoop.mapred.ReduceTask$OldTrackingRecordWriter.close(ReduceTask.java:467)
-    at org.apache.hadoop.mapred.ReduceTask.runOldReducer(ReduceTask.java:535)
-    at org.apache.hadoop.mapred.ReduceTask.run(ReduceTask.java:421)
-    at org.apache.hadoop.mapred.Child$4.run(Child.java:255)
-    at java.security.AccessController.doPrivileged(Native Method)
-    at javax.security.auth.Subject.doAs(Subject.java:415)
-    at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1190)
-    at org.apache.hadoop.mapred.Child.main(Child.java:249)
-
-attempt_201407230401_0013_r_000000_2: log4j:WARN No appenders could be found for logger (org.apache.hadoop.hdfs.DFSClient).
-attempt_201407230401_0013_r_000000_2: log4j:WARN Please initialize the log4j system properly.
-14/07/28 05:15:33 INFO mapred.JobClient:  map 100% reduce 0%
-14/07/28 05:15:41 INFO mapred.JobClient:  map 100% reduce 33%
-14/07/28 05:15:46 INFO mapred.JobClient:  map 100% reduce 0%
-14/07/28 05:15:48 INFO mapred.JobClient: Job complete: job_201407230401_0013
-14/07/28 05:15:48 INFO mapred.JobClient: Counters: 25
-14/07/28 05:15:48 INFO mapred.JobClient:   Job Counters
-14/07/28 05:15:48 INFO mapred.JobClient:     Launched reduce tasks=4
-14/07/28 05:15:48 INFO mapred.JobClient:     SLOTS_MILLIS_MAPS=12354
-14/07/28 05:15:48 INFO mapred.JobClient:     Total time spent by all reduces waiting after reserving slots (ms)=0
-14/07/28 05:15:48 INFO mapred.JobClient:     Total time spent by all maps waiting after reserving slots (ms)=0
-14/07/28 05:15:48 INFO mapred.JobClient:     Launched map tasks=1
-14/07/28 05:15:48 INFO mapred.JobClient:     Data-local map tasks=1
-14/07/28 05:15:48 INFO mapred.JobClient:     Failed reduce tasks=1
-14/07/28 05:15:48 INFO mapred.JobClient:     SLOTS_MILLIS_REDUCES=51587
-14/07/28 05:15:48 INFO mapred.JobClient:   File Input Format Counters
-14/07/28 05:15:48 INFO mapred.JobClient:     Bytes Read=10502261
-14/07/28 05:15:48 INFO mapred.JobClient:   FileSystemCounters
-14/07/28 05:15:48 INFO mapred.JobClient:     FILE_BYTES_READ=930
-14/07/28 05:15:48 INFO mapred.JobClient:     HDFS_BYTES_READ=10502381
-14/07/28 05:15:48 INFO mapred.JobClient:     FILE_BYTES_WRITTEN=59744
-14/07/28 05:15:48 INFO mapred.JobClient:   Map-Reduce Framework
-14/07/28 05:15:48 INFO mapred.JobClient:     Map output materialized bytes=924
-14/07/28 05:15:48 INFO mapred.JobClient:     Map input records=288781
-14/07/28 05:15:48 INFO mapred.JobClient:     Spilled Records=102
-14/07/28 05:15:48 INFO mapred.JobClient:     Map output bytes=4620496
-14/07/28 05:15:48 INFO mapred.JobClient:     Total committed heap usage (bytes)=157810688
-14/07/28 05:15:48 INFO mapred.JobClient:     CPU time spent (ms)=2120
-14/07/28 05:15:48 INFO mapred.JobClient:     Map input bytes=10965940
-14/07/28 05:15:48 INFO mapred.JobClient:     SPLIT_RAW_BYTES=120
-14/07/28 05:15:48 INFO mapred.JobClient:     Combine input records=288781
-14/07/28 05:15:48 INFO mapred.JobClient:     Combine output records=51
-14/07/28 05:15:48 INFO mapred.JobClient:     Physical memory (bytes) snapshot=196898816
-14/07/28 05:15:48 INFO mapred.JobClient:     Virtual memory (bytes) snapshot=759816192
-14/07/28 05:15:48 INFO mapred.JobClient:     Map output records=288781
-14/07/28 05:15:48 INFO mapred.JobClient: Job Failed: # of failed Reduce Tasks exceeded allowed limit. FailedCount: 1. LastFailedTask: task_201407230401_0013_r_000000
-java.io.IOException: Job failed!
-    at org.apache.hadoop.mapred.JobClient.runJob(JobClient.java:1357)
-    at edu.umn.cs.spatialHadoop.operations.ConvexHull.convexHullMapReduce(ConvexHull.java:295)
-    at edu.umn.cs.spatialHadoop.operations.ConvexHull.main(ConvexHull.java:333)
-    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-    at java.lang.reflect.Method.invoke(Method.java:606)
-    at org.apache.hadoop.util.ProgramDriver$ProgramDescription.invoke(ProgramDriver.java:68)
-    at org.apache.hadoop.util.ProgramDriver.driver(ProgramDriver.java:139)
-    at edu.umn.cs.spatialHadoop.operations.Main.main(Main.java:97)
-",
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/3,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/3/comments,Cannot generate random polygon,"In `RandomSpatialGenerator#printUsage`, it says that when shape is set to polygon, it will generate random polygon. But in `RandomShapeGenerator#generateShape`, it only handles point and rectangle. 
-",data format
-https://api.github.com/repos/aseldawy/spatialhadoop2/issues/1,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/1/comments,Potential problem with points and r-tree indexes,"Creating an rtree index on point data fails.  Have not looked into what's causing this yet.  
-Here's the command to create the sample data
-hadoop jar /tmp/spatialhadoop-2-b2.jar generate testpoints mbr:0,0,10000000,10000000 size:100.mb shape:point -overwrite
-
-And the command to index it that leads to the error
-hadoop jar /tmp/spatialhadoop-2-b2.jar index testpoints testpoints.rtree sindex:rtree shape:point -overwrite
-
-java.lang.IllegalArgumentException: Width (0) and height (600) cannot be <= 0
-        at java.awt.image.DirectColorModel.createCompatibleWritableRaster(DirectColorModel.java:999)
-at java.awt.image.BufferedImage.<init>(BufferedImage.java:321)
-at edu.umn.cs.spatialHadoop.operations.Plot.plotLocal(Unknown Source)
-at edu.umn.cs.spatialHadoop.operations.Repartition$RepartitionOutputCommitter.commitJob (Unknown Source)
-",data structure
+"
+https://api.github.com/repos/aseldawy/spatialhadoop2/issues/13,https://api.github.com/repos/aseldawy/spatialhadoop2/issues/13/comments,RangeQuery in java,"I want to use RangeQuery in java, but i don't know how to use.
+public static <S extends Shape> long rangeQueryLocal(Path inPath,
+                                     Shape queryRange,
+                                     S shape,
+                                     OperationsParams params,
+                                     ResultCollector<S> output)
+                            throws java.io.IOException
+i want to get some example code using this ""rangeQueryLocal"" method and explain the parameters.
+"

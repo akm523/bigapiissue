@@ -1,0 +1,1080 @@
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/261,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/261/comments,Spell checker performance review,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",performance
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/260,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/260/comments,Expose parameters in OCR Helper,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+I exposed mutator methods to change OCR parameters and added re-scaling capabilities to the OCR helper.
+
+
+## Motivation and Context
+Re-scaling can help improve accuracy on certain images.
+Setters are better that public vars.
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",performance
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/259,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/259/comments,Vivekn Sentiment Performance improvements,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+This fixes a long intersection operation during prediction and training. Improves performance significantly.
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [x] All new and existing tests passed.
+",performance
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/258,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/258/comments,1.6.1 release candidate,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/257,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/257/comments,"Renamed configs, added overrideable cluster tmp location","<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Renamed configurations for better modularity. Added overridable TMP location for clusters without a distributed fs.defaultFS system.
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",memory
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/256,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/256/comments,Move config param to appropriate params,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Some Annotators had params set in applicacion.conf. Moved them to Params instead.
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/255,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/255/comments,Fixing misspelled parameter in Lemmatizer example,"This fixes the Scala example of Lemmatizer in the documentation.
+
+## Types of changes
+Documentation
+
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/254,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/254/comments,Annotation functions,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Provides API to filter and map content on datasets, regarding annotation content
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [x] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [x] My code follows the code style of this project.
+- [x] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [x] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [x] I have added tests to cover my changes.
+- [x] All new and existing tests passed.
+",job
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/253,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/253/comments,NER label always 'O' with Pyspark ,"When training a ner label via Pyspark, the results of the NER tags always is 'O'.
+This issue happens when following the provided example notebooks for NER tagging. One can simply reproduce this by following the example on Github: 
+https://github.com/JohnSnowLabs/spark-nlp/blob/1.6.0/python/example/crf-ner/ner.ipynb
+
+It seems to work fine when using the pretrained() POS and NER in a pipeline, but using a NerCrfApproach() in a pipeline results in 'O'. 
+
+
+",pipeline
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/252,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/252/comments,Fixed NerCRF not training properly due to DocumentAssembler trim,"Fixed disabling trim for NerCRF training. Added missing getters and setters.
+
+<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Fixes very low accuracy bug, introduced in 1.6.0. Causing very low performance in NerCRF when training new models.
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [x] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [x] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [x] All new and existing tests passed.
+",performance
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/251,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/251/comments,Chunk type refactor,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/250,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/250/comments,Issue while loading a saved model into a different cluster,"The below error occurred when I created and saved a custom model in CDH cluster and tried to load in AWS EMR.
+
+
+Traceback (most recent call last):
+  File ""/tmp/zeppelin_pyspark-5073389282467574021.py"", line 367, in <module>
+    raise Exception(traceback.format_exc())
+Exception: Traceback (most recent call last):
+  File ""/tmp/zeppelin_pyspark-5073389282467574021.py"", line 360, in <module>
+    exec(code, _zcUserQueryNameSpace)
+  File ""<stdin>"", line 1, in <module>
+  File ""/usr/lib/spark/python/pyspark/ml/util.py"", line 257, in load
+    return cls.read().load(path)
+  File ""/usr/lib/spark/python/pyspark/ml/util.py"", line 197, in load
+    java_obj = self._jread.load(path)
+  File ""/usr/lib/spark/python/lib/py4j-0.10.4-src.zip/py4j/java_gateway.py"", line 1133, in __call__
+    answer, self.gateway_client, self.target_id, self.name)
+  File ""/usr/lib/spark/python/pyspark/sql/utils.py"", line 79, in deco
+    raise IllegalArgumentException(s.split(': ', 1)[1], stackTrace)
+IllegalArgumentException: u'Wrong FS: s3://blah/model/ner_crf_custom_model/stages/4_NER_b3f45074bee5/embeddings, expected: hdfs://ip-.us-west-2.compute.internal:8020'",model IO
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/249,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/249/comments,Infer embeddings filesystem from path not configuration,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Infer embeddings filesystem from path not configuration
+
+May solve @S_L issue of embeddings being read from hdfs instead of s3 when utilized 
+
+REQUIRES cluster testing
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [x] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",io
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/248,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/248/comments,Finisher throws Exception when flattening Regex results,"<!--- Provide a general summary of the issue in the Title above -->
+When setting up a pipeline with RegexMatcher I got an exception executing the finisher step
+## Description
+<!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug -->
+1. Build test datafram
+2. Load Regex pattern
+3. Match
+4. Run finisher
+## Expected Behavior
+<!--- Tell us what should happen -->
+Expect new column in dataframe with results from RegexMatcher
+## Current Behavior
+<!--- Tell us what happens instead of the expected behavior -->
+org.apache.spark.SparkException: Failed to execute user defined function(anonfun$flatten$1: (array<struct<annotatorType:string,begin:int,end:int,result:string,metadata:map<string,string>>>) => string)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF.eval(ScalaUDF.scala:1072)
+  at org.apache.spark.sql.catalyst.expressions.Alias.eval(namedExpressions.scala:144)
+  at org.apache.spark.sql.catalyst.expressions.InterpretedProjection.apply(Projection.scala:48)
+  at org.apache.spark.sql.catalyst.expressions.InterpretedProjection.apply(Projection.scala:30)
+  at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+  at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+  at scala.collection.immutable.List.map(List.scala:285)
+  at org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$$anonfun$apply$21.applyOrElse(Optimizer.scala:1078)
+  at org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$$anonfun$apply$21.applyOrElse(Optimizer.scala:1073)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$3.apply(TreeNode.scala:288)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$3.apply(TreeNode.scala:288)
+  at org.apache.spark.sql.catalyst.trees.CurrentOrigin$.withOrigin(TreeNode.scala:70)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:287)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformDown$1.apply(TreeNode.scala:293)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformDown$1.apply(TreeNode.scala:293)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$5.apply(TreeNode.scala:331)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.mapProductIterator(TreeNode.scala:188)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:329)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:293)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformDown$1.apply(TreeNode.scala:293)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$transformDown$1.apply(TreeNode.scala:293)
+  at org.apache.spark.sql.catalyst.trees.TreeNode$$anonfun$5.apply(TreeNode.scala:331)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.mapProductIterator(TreeNode.scala:188)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.transformChildren(TreeNode.scala:329)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.transformDown(TreeNode.scala:293)
+  at org.apache.spark.sql.catalyst.trees.TreeNode.transform(TreeNode.scala:277)
+  at org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$.apply(Optimizer.scala:1073)
+  at org.apache.spark.sql.catalyst.optimizer.ConvertToLocalRelation$.apply(Optimizer.scala:1072)
+  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:85)
+  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1$$anonfun$apply$1.apply(RuleExecutor.scala:82)
+  at scala.collection.IndexedSeqOptimized$class.foldl(IndexedSeqOptimized.scala:57)
+  at scala.collection.IndexedSeqOptimized$class.foldLeft(IndexedSeqOptimized.scala:66)
+  at scala.collection.mutable.WrappedArray.foldLeft(WrappedArray.scala:35)
+  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:82)
+  at org.apache.spark.sql.catalyst.rules.RuleExecutor$$anonfun$execute$1.apply(RuleExecutor.scala:74)
+  at scala.collection.immutable.List.foreach(List.scala:381)
+  at org.apache.spark.sql.catalyst.rules.RuleExecutor.execute(RuleExecutor.scala:74)
+  at org.apache.spark.sql.execution.QueryExecution.optimizedPlan$lzycompute(QueryExecution.scala:73)
+  at org.apache.spark.sql.execution.QueryExecution.optimizedPlan(QueryExecution.scala:73)
+  at org.apache.spark.sql.execution.QueryExecution.sparkPlan$lzycompute(QueryExecution.scala:79)
+  at org.apache.spark.sql.execution.QueryExecution.sparkPlan(QueryExecution.scala:75)
+  at org.apache.spark.sql.execution.QueryExecution.executedPlan$lzycompute(QueryExecution.scala:84)
+  at org.apache.spark.sql.execution.QueryExecution.executedPlan(QueryExecution.scala:84)
+  at org.apache.spark.sql.Dataset.withTypedCallback(Dataset.scala:2791)
+  at org.apache.spark.sql.Dataset.head(Dataset.scala:2112)
+  at org.apache.spark.sql.Dataset.take(Dataset.scala:2327)
+  at org.apache.spark.sql.Dataset.showString(Dataset.scala:248)
+  at org.apache.spark.sql.Dataset.show(Dataset.scala:636)
+  at org.apache.spark.sql.Dataset.show(Dataset.scala:595)
+  at org.apache.spark.sql.Dataset.show(Dataset.scala:604)
+  ... 82 elided
+Caused by: org.apache.spark.SparkException: Failed to execute user defined function($anonfun$dfAnnotate$1: (array<array<struct<annotatorType:string,begin:int,end:int,result:string,metadata:map<string,string>>>>) => array<struct<annotatorType:string,begin:int,end:int,result:string,metadata:map<string,string>>>)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF.eval(ScalaUDF.scala:1072)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:90)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:88)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF.eval(ScalaUDF.scala:1069)
+  ... 133 more
+Caused by: java.util.regex.PatternSyntaxException: Unclosed character class near index 0
+[
+^
+  at java.util.regex.Pattern.error(Pattern.java:1955)
+  at java.util.regex.Pattern.clazz(Pattern.java:2548)
+  at java.util.regex.Pattern.sequence(Pattern.java:2063)
+  at java.util.regex.Pattern.expr(Pattern.java:1996)
+  at java.util.regex.Pattern.compile(Pattern.java:1696)
+  at java.util.regex.Pattern.<init>(Pattern.java:1351)
+  at java.util.regex.Pattern.compile(Pattern.java:1028)
+  at scala.util.matching.Regex.<init>(Regex.scala:191)
+  at scala.collection.immutable.StringLike$class.r(StringLike.scala:255)
+  at scala.collection.immutable.StringOps.r(StringOps.scala:29)
+  at scala.collection.immutable.StringLike$class.r(StringLike.scala:244)
+  at scala.collection.immutable.StringOps.r(StringOps.scala:29)
+  at com.johnsnowlabs.nlp.util.regex.RegexRule.<init>(RegexRule.scala:12)
+  at com.johnsnowlabs.nlp.annotators.RegexMatcherModel$$anonfun$com$johnsnowlabs$nlp$annotators$RegexMatcherModel$$matchFactory$1.apply(RegexMatcherModel.scala:50)
+  at com.johnsnowlabs.nlp.annotators.RegexMatcherModel$$anonfun$com$johnsnowlabs$nlp$annotators$RegexMatcherModel$$matchFactory$1.apply(RegexMatcherModel.scala:50)
+  at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+  at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+  at scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)
+  at scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:186)
+  at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+  at scala.collection.mutable.ArrayOps$ofRef.map(ArrayOps.scala:186)
+  at com.johnsnowlabs.nlp.annotators.RegexMatcherModel.com$johnsnowlabs$nlp$annotators$RegexMatcherModel$$matchFactory$lzycompute(RegexMatcherModel.scala:50)
+  at com.johnsnowlabs.nlp.annotators.RegexMatcherModel.com$johnsnowlabs$nlp$annotators$RegexMatcherModel$$matchFactory(RegexMatcherModel.scala:48)
+  at com.johnsnowlabs.nlp.annotators.RegexMatcherModel$$anonfun$annotate$1.apply(RegexMatcherModel.scala:55)
+  at com.johnsnowlabs.nlp.annotators.RegexMatcherModel$$anonfun$annotate$1.apply(RegexMatcherModel.scala:54)
+  at scala.collection.TraversableLike$$anonfun$flatMap$1.apply(TraversableLike.scala:241)
+  at scala.collection.TraversableLike$$anonfun$flatMap$1.apply(TraversableLike.scala:241)
+  at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)
+  at scala.collection.TraversableLike$class.flatMap(TraversableLike.scala:241)
+  at scala.collection.AbstractTraversable.flatMap(Traversable.scala:104)
+  at com.johnsnowlabs.nlp.annotators.RegexMatcherModel.annotate(RegexMatcherModel.scala:54)
+  at com.johnsnowlabs.nlp.AnnotatorModel$$anonfun$dfAnnotate$1.apply(AnnotatorModel.scala:43)
+  at com.johnsnowlabs.nlp.AnnotatorModel$$anonfun$dfAnnotate$1.apply(AnnotatorModel.scala:42)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:89)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF$$anonfun$2.apply(ScalaUDF.scala:88)
+  at org.apache.spark.sql.catalyst.expressions.ScalaUDF.eval(ScalaUDF.scala:1069)
+  ... 136 more
+ERROR
+## Possible Solution
+<!--- Not obligatory, but suggest a fix/reason for the bug, -->
+Looks like an issue when loading pattern from file. My Patternfile contains just a single line:
+
+[regex.txt](https://github.com/JohnSnowLabs/spark-nlp/files/2208485/regex.txt)
+[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}|email-address
+
+## Steps to Reproduce
+<!--- Provide a link to a live example, or an unambiguous set of steps to -->
+<!--- reproduce this bug. Include code to reproduce, if relevant -->
+val test = Seq(
+(""mail to john.snow@mail.com"")
+).toDF(""text"")
+import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.util.Benchmark
+import org.apache.spark.ml.Pipeline
+
+import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
+
+val documentAssembler = new DocumentAssembler()
+      .setInputCol(""text"")
+      .setOutputCol(""document"")
+
+val resource = ExternalResource(""../data/regex.txt"", ReadAs.LINE_BY_LINE,Map(""delimiter""->""|""))    
+  
+val mailExtractor = new RegexMatcher()
+      .setInputCols(""document"")
+      .setRules(resource)
+      .setOutputCol(""contact"")
+      
+val finisher = new Finisher()
+      .setInputCols(""contact"")
+      .setOutputAsArray(false)
+      .setAnnotationSplitSymbol(""@"")
+      .setValueSplitSymbol(""#"")
+      
+val recursivePipeline = new RecursivePipeline()
+      .setStages(Array(
+        documentAssembler,
+        mailExtractor,
+        finisher
+))
+
+recursivePipeline.fit(test).transform(test).show
+## Context
+<!--- How has this bug affected you? What were you trying to accomplish? -->
+Try to extract mail adresses from text 
+## Your Environment
+<!--- Include as many relevant details about the environment you experienced the bug in -->
+* Version used:Zeppelin notebook with /libs/spark-nlp-assembly-1.6.0.jar 
+* Browser Name and version:
+* Operating System and version (desktop or mobile):
+* Link to your project:
+",job
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/247,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/247/comments,Wrong FS when loading NerCrfModel,"<!--- Provide a general summary of the issue in the Title above -->
+## Description
+Saving a trained NerCrf model to s3 and loading it back throws a java.lang.IllegalArgumentException exception with the message ""Wrong FS, ... expected: file://....""
+
+## Expected Behavior
+<!--- Tell us what should happen -->
+A saved model (either standalone or as part of a spark PipelineModel) should be loadable from s3
+
+## Current Behavior
+<!--- Tell us what happens instead of the expected behavior -->
+While the model can be saved at the moment, reading it back throws an exception. A sample stacktrace looks like this:
+
+`Py4JJavaError: An error occurred while calling o872.load.
+: java.lang.IllegalArgumentException: Wrong FS: s3n://myntelligence-classifier-stage/stage/model/stages/4_NER_be413400d8f4/embeddings, expected: file:///
+	at org.apache.hadoop.fs.FileSystem.checkPath(FileSystem.java:649)
+	at org.apache.hadoop.fs.RawLocalFileSystem.pathToFile(RawLocalFileSystem.java:82)
+	at org.apache.hadoop.fs.RawLocalFileSystem.deprecatedGetFileStatus(RawLocalFileSystem.java:606)
+	at org.apache.hadoop.fs.RawLocalFileSystem.getFileLinkStatusInternal(RawLocalFileSystem.java:824)
+	at org.apache.hadoop.fs.RawLocalFileSystem.getFileStatus(RawLocalFileSystem.java:601)
+	at org.apache.hadoop.fs.FilterFileSystem.getFileStatus(FilterFileSystem.java:421)
+	at org.apache.hadoop.fs.FileUtil.copy(FileUtil.java:337)
+	at org.apache.hadoop.fs.FileUtil.copy(FileUtil.java:289)
+	at org.apache.hadoop.fs.LocalFileSystem.copyToLocalFile(LocalFileSystem.java:88)
+	at org.apache.hadoop.fs.FileSystem.copyToLocalFile(FileSystem.java:1979)
+	at com.johnsnowlabs.nlp.embeddings.SparkWordEmbeddings$.indexEmbeddings(SparkWordEmbeddings.scala:69)
+	at com.johnsnowlabs.nlp.embeddings.SparkWordEmbeddings$.apply(SparkWordEmbeddings.scala:108)
+	at com.johnsnowlabs.nlp.HasWordEmbeddings$class.deserializeEmbeddings(HasWordEmbeddings.scala:61)
+	at com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel.deserializeEmbeddings(NerCrfModel.scala:19)
+	at com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable$class.readEmbeddings(EmbeddingsReadable.scala:8)
+	at com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel$.readEmbeddings(NerCrfModel.scala:84)
+	at com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable$$anonfun$1.apply(EmbeddingsReadable.scala:11)
+	at com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable$$anonfun$1.apply(EmbeddingsReadable.scala:11)
+	at com.johnsnowlabs.nlp.ParamsAndFeaturesReadable$$anonfun$com$johnsnowlabs$nlp$ParamsAndFeaturesReadable$$onRead$1.apply(ParamsAndFeaturesReadable.scala:31)
+	at com.johnsnowlabs.nlp.ParamsAndFeaturesReadable$$anonfun$com$johnsnowlabs$nlp$ParamsAndFeaturesReadable$$onRead$1.apply(ParamsAndFeaturesReadable.scala:30)
+	at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)
+	at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)
+	at com.johnsnowlabs.nlp.ParamsAndFeaturesReadable$class.com$johnsnowlabs$nlp$ParamsAndFeaturesReadable$$onRead(ParamsAndFeaturesReadable.scala:30)
+	at com.johnsnowlabs.nlp.ParamsAndFeaturesReadable$$anonfun$read$1.apply(ParamsAndFeaturesReadable.scala:41)
+	at com.johnsnowlabs.nlp.ParamsAndFeaturesReadable$$anonfun$read$1.apply(ParamsAndFeaturesReadable.scala:41)
+	at com.johnsnowlabs.nlp.FeaturesReader.load(ParamsAndFeaturesReadable.scala:19)
+	at com.johnsnowlabs.nlp.FeaturesReader.load(ParamsAndFeaturesReadable.scala:8)
+	at org.apache.spark.ml.util.DefaultParamsReader$.loadParamsInstance(ReadWrite.scala:438)
+	at org.apache.spark.ml.Pipeline$SharedReadWrite$$anonfun$4.apply(Pipeline.scala:273)
+	at org.apache.spark.ml.Pipeline$SharedReadWrite$$anonfun$4.apply(Pipeline.scala:271)
+	at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+	at scala.collection.TraversableLike$$anonfun$map$1.apply(TraversableLike.scala:234)
+	at scala.collection.IndexedSeqOptimized$class.foreach(IndexedSeqOptimized.scala:33)
+	at scala.collection.mutable.ArrayOps$ofRef.foreach(ArrayOps.scala:186)
+	at scala.collection.TraversableLike$class.map(TraversableLike.scala:234)
+	at scala.collection.mutable.ArrayOps$ofRef.map(ArrayOps.scala:186)
+	at org.apache.spark.ml.Pipeline$SharedReadWrite$.load(Pipeline.scala:271)
+	at org.apache.spark.ml.PipelineModel$PipelineModelReader.load(Pipeline.scala:347)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)
+	at py4j.Gateway.invoke(Gateway.java:280)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.GatewayConnection.run(GatewayConnection.java:214)
+	at java.lang.Thread.run(Thread.java:748)
+`
+
+**pm = PipelineModel.read().load(""s3n://path"")**
+This is the line that is throwing the above error
+
+## Possible Solution
+<!--- Not obligatory, but suggest a fix/reason for the bug, -->
+
+## Steps to Reproduce
+<!--- Provide a link to a live example, or an unambiguous set of steps to -->
+<!--- reproduce this bug. Include code to reproduce, if relevant -->
+1.
+2.
+3.
+4.
+
+## Context
+<!--- How has this bug affected you? What were you trying to accomplish? -->
+
+## Your Environment
+<!--- Include as many relevant details about the environment you experienced the bug in -->
+* Version used: 1.5.4
+* Browser Name and version:
+* Operating System and version (desktop or mobile):
+* Link to your project:
+
+Please let me know if you need more information. Thanks
+",io
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/246,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/246/comments,Scaladoc,Is this available somewhere? I'm working on the R API and it would be helpful to have documentation that's more details than http://nlp.johnsnowlabs.com/components.html.,
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/245,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/245/comments,Error while loading model files,"<!--- Provide a general summary of the issue in the Title above -->
+
+I am unable to load model files from local and from s3 in my spark application which i trained using NerCrfModel.  
+
+## Description
+<!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug -->
+While trying to load the model files from local directory and from s3 this is what I am getting.
+
+`Exception in thread ""main"" org.apache.spark.SparkException: addFile does not support local directories when not running local mode.
+	at org.apache.spark.SparkContext.addFile(SparkContext.scala:1537)
+	at com.johnsnowlabs.nlp.embeddings.SparkWordEmbeddings$.copyIndexToCluster(SparkWordEmbeddings.scala:86)
+	at com.johnsnowlabs.nlp.embeddings.SparkWordEmbeddings$.apply(SparkWordEmbeddings.scala:111)
+	at com.johnsnowlabs.nlp.HasWordEmbeddings$class.deserializeEmbeddings(HasWordEmbeddings.scala:57)
+	at com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel.deserializeEmbeddings(NerCrfModel.scala:19)
+	at com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable$class.readEmbeddings(EmbeddingsReadable.scala:8)
+	at com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel$.readEmbeddings(NerCrfModel.scala:84)
+	at com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable$$anonfun$1.apply(EmbeddingsReadable.scala:11)
+	at com.johnsnowlabs.nlp.embeddings.EmbeddingsReadable$$anonfun$1.apply(EmbeddingsReadable.scala:11)
+	at com.johnsnowlabs.nlp.ParamsAndFeaturesReadable$$anonfun$com$johnsnowlabs$nlp$ParamsAndFeaturesReadable$$onRead$1.apply(ParamsAndFeaturesReadable.scala:31)
+`
+
+This is how i load the models  -
+
+`val model = PipelineModel.read.load(""/opt/model/"")`
+
+I have checked that the model files are present at this path on all the worker nodes. So it looks like the library is trying to call spark's addFile method which doesn't support local file directories in cluster or client mode.
+Please let me know if you need more information.
+Thanks.
+
+## Expected Behavior
+<!--- Tell us what should happen -->
+
+## Current Behavior
+<!--- Tell us what happens instead of the expected behavior -->
+
+## Possible Solution
+<!--- Not obligatory, but suggest a fix/reason for the bug, -->
+
+## Steps to Reproduce
+<!--- Provide a link to a live example, or an unambiguous set of steps to -->
+<!--- reproduce this bug. Include code to reproduce, if relevant -->
+1.
+2.
+3.
+4.
+
+## Context
+<!--- How has this bug affected you? What were you trying to accomplish? -->
+
+## Your Environment
+<!--- Include as many relevant details about the environment you experienced the bug in -->
+* Version used:
+* Browser Name and version:
+* Operating System and version (desktop or mobile):
+* Link to your project:
+",io
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/244,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/244/comments,Distributed pos light transit,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Improves new PerceptronApproach distributed training algorithm, for better performance
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [x] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+","parallelism, performance"
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/243,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/243/comments,Feature request: setMaxLength for SentenceDetector,"The Stanford CoreNLP has a global flag to improve performance where it avoids very long sentence from being parsed. I am not sure how this library is parsing for sentence detection, but I am sure the length of sentences and characters are impacting performance.
+
+
+## Description
+`setMaxLength`: Add option to avoid parsing any sentence more than `maxLength` to boost performance/memory especially in training stage.
+
+```
+val sentenceDetector = new SentenceDetector()
+  .setInputCols(""document"")
+  .setOutputCol(""sentence"")
+  .setMaxLength(""1000"") // avoid parsing any sentence more than 1000 characters 
+```
+
+
+",performance
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/242,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/242/comments,Release Candidate 1.6.0,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Contains ready to release changes, fixes, and final integration testing",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/241,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/241/comments,Spark based PerceptronApproach,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+PerceptronApproach for Part-of-speech utilizes 100% spark for training. This means it is better for larger datasets in a distributed environment, and probably worse in local machines. 
+
+This is an experimental implementation, thus PerceptronApproachLegacy is kept for particular use cases.
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [x] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [x] My code follows the code style of this project.
+- [x] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [x] I have added tests to cover my changes.
+- [x] All new and existing tests passed.
+",job
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/240,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/240/comments,Symspell empty dataset,"<!--- Provide a general summary of your changes in the Title above -->
+Changes in SymmetricDelete annotator to handle an empty dataset
+
+## Description
+<!--- Describe your changes in detail -->
+A require validation for a non-empty dataset was included when corpus parameter is not set
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+An error reported by a user in spark-nlp Slack in questions channel
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+With the unit test testEmptyDataset
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [x] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [x] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [x] I have added tests to cover my changes.
+- [x] All new and existing tests passed.
+",data
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/239,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/239/comments,How exactly can you use the output from finisher as input for word2vec? would you mind posting some code?,"I have used Spark's native Tokenizer on a corpus, and have seen examples that use Spark nlp's finisher afterwards. My question is, how can you use the output from the finisher as input to the word2vec algorithm in mllib? here is an example of my code: 
+
+val textDF = bigRdd.toDF(""text"")
+
+    val tokenizer = new Tokenizer().setInputCol(""text"").setOutputCol(""tokenized_text"")
+
+    val tokenized = tokenizer.transform(textDF)
+
+
+
+    val res = tokenized.select(""tokenized_text"")
+
+
+    val finisherR = new Finisher()
+      .setInputCols(""tokenized_text"")
+      .setOutputAsArray(true)
+
+    val finishedd = finisher.transform(res)
+
+
+I have no idea where to go from here, because the word2vec algorithm expects input of type JavaRDD[S], which I think is an RDD of a collection of strings (what kind of collection, I have no idea), and the finisher object is an RDD[Any]
+",intermediate data access
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/238,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/238/comments,Removed finishers default delimiters,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Default delimiter strings for finisher when output is String caused confusion and errors. This branch removes those default delimiters and forces user to set his own delimiters when running Finisher in String mode
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [x] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [x] My code follows the code style of this project.
+- [x] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [x] All new and existing tests passed.
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/237,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/237/comments,Tokenizer include defaults,"- Tokenizer allows option to not include defaults
+- Fixed pyspark tokenizer infix patterns order
+- Added missing finisher's include metadata
+
+<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/236,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/236/comments,Ocr annotator,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [ ] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [ ] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/235,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/235/comments,'Finisher' object has no attribute 'setIncludeMetadata',"When working with PySpark Finisher does not seem to have this attribute implemented.
+
+finisher = Finisher() \
+  .setInputCols([""assembled""]) \
+  .setCleanAnnotations(True) \
+  .setOutputAsArray(False) \
+  .setIncludeKeys(True) \
+  .setIncludeMetadata(False)
+
+This happens on machine with Apache Spark 2.3.1 and SparkNLP 1.5.4 
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/234,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/234/comments,Prepend infix patterns added via `addInfixPatterns` in Pyspark,"Fixes https://github.com/JohnSnowLabs/spark-nlp/issues/227
+
+## Description
+Simple change to prepend the infix patterns rather than append. Unit test is added to verify correctness.
+",
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/233,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/233/comments,Export csv tool,"<!--- Provide a general summary of your changes in the Title above -->
+
+## Description
+<!--- Describe your changes in detail -->
+Export a dataset to CSV file formatted as CoNLL 
+
+## Motivation and Context
+<!--- Why is this change required? What problem does it solve? -->
+<!--- If it fixes an open issue, please link to the issue here. -->
+Tool required for Roche demo
+
+## How Has This Been Tested?
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, and the tests you ran to -->
+<!--- see how your change affects other areas of the code, etc. -->
+Actually, the tool is in the test section
+
+## Screenshots (if appropriate):
+
+## Types of changes
+<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Code improvements with no or little impact
+- [x] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to change)
+
+## Checklist:
+<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
+<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
+- [x] My code follows the code style of this project.
+- [ ] My change requires a change to the documentation.
+- [ ] I have updated the documentation accordingly.
+- [ ] I have read the [CONTRIBUTING](http://nlp.johnsnowlabs.com/contribute.html) page.
+- [x] I have added tests to cover my changes.
+- [ ] All new and existing tests passed.
+",io
+https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/232,https://api.github.com/repos/JohnSnowLabs/spark-nlp/issues/232/comments,TypeError: 'JavaPackage' object is not callable,"<!--- Provide a general summary of the issue in the Title above -->
+Get ""TypeError: 'JavaPackage' object is not callable "" error whenever trying to call any annotators.  
+## Description
+<!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug -->
+Platform: Ubuntu 16.04LTS on Windows 10's Linux System (wls)
+Python: Python 3.6.4 |Anaconda custom (64-bit)| (default, Jan 16 2018, 18:10:19)
+Pyspark:  Use pip to install (ie python without explcit spark installation)
+spark-nlp: pip install --index-url https://test.pypi.org/simple/ spark-nlp==1.5.4
+
+Tried running the followings, but all returned with the same ""TypeError: 'JavaPackage' object is not callable "" error. There seems to have a similar bug ""Python annotators should be loadable on its own #91"" that was closed sometime ago, but it still happened to me. 
+
+from pyspark.sql import SparkSession
+spark = SparkSession \\
+  .builder \\
+  .config(""spark.driver.extraClassPath"", ""lib/sparknlp.jar"") \\
+  .getOrCreate()
+
+from sparknlp.annotator import *
+from sparknlp.common import *
+from sparknlp.base import *
+
+
+documentAssembler = DocumentAssembler()\
+  .setInputCol(""text"")\
+  .setOutputCol(""document"")
+
+lemmatizer = Lemmatizer() \
+  .setInputCols([""token""]) \
+  .setOutputCol(""lemma"") \
+  .setDictionary(""./lemmas001.txt"")
+
+normalizer = Normalizer() \
+  .setInputCols([""token""]) \
+  .setOutputCol(""normalized"")
+
+Here are the errors:
+
+# === from documentassembler ==============================================
+  File ""<ipython-input-7-e330f7904794>"", line 1, in <module>
+    documentAssembler = DocumentAssembler()  .setInputCol(""text"")  .setOutputCol(""document"")
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/__init__.py"", line 105, in wrapper
+    return func(self, **kwargs)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/sparknlp/base.py"", line 175, in __init__
+    super(DocumentAssembler, self).__init__(classname=""com.johnsnowlabs.nlp.DocumentAssembler"")
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/__init__.py"", line 105, in wrapper
+    return func(self, **kwargs)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/sparknlp/base.py"", line 20, in __init__
+    self._java_obj = self._new_java_obj(classname, self.uid)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/ml/wrapper.py"", line 63, in _new_java_obj
+    return java_obj(*java_args)
+
+TypeError: 'JavaPackage' object is not callable
+
+
+# === from lemmatizer ====================================================
+Traceback (most recent call last):
+
+  File ""<ipython-input-11-793942a5767b>"", line 1, in <module>
+    lemmatizer = Lemmatizer()   .setInputCols([""token""])   .setOutputCol(""lemma"")   .setDictionary(""./lemmas001.txt"")
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/__init__.py"", line 105, in wrapper
+    return func(self, **kwargs)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/sparknlp/annotator.py"", line 281, in __init__
+    super(Lemmatizer, self).__init__(classname=""com.johnsnowlabs.nlp.annotators.Lemmatizer"")
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/__init__.py"", line 105, in wrapper
+    return func(self, **kwargs)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/sparknlp/annotator.py"", line 95, in __init__
+    self._java_obj = self._new_java_obj(classname, self.uid)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/ml/wrapper.py"", line 63, in _new_java_obj
+    return java_obj(*java_args)
+
+TypeError: 'JavaPackage' object is not callable
+
+# === from normalizer ====================================================
+Traceback (most recent call last):
+
+  File ""<ipython-input-13-0cd941eb8a5d>"", line 1, in <module>
+    normalizer = Normalizer()   .setInputCols([""token""])   .setOutputCol(""normalized"")
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/__init__.py"", line 105, in wrapper
+    return func(self, **kwargs)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/sparknlp/annotator.py"", line 198, in __init__
+    super(Normalizer, self).__init__(classname=""com.johnsnowlabs.nlp.annotators.Normalizer"")
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/__init__.py"", line 105, in wrapper
+    return func(self, **kwargs)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/sparknlp/annotator.py"", line 95, in __init__
+    self._java_obj = self._new_java_obj(classname, self.uid)
+
+  File ""/home/quickt2/anaconda3/lib/python3.6/site-packages/pyspark/ml/wrapper.py"", line 63, in _new_java_obj
+    return java_obj(*java_args)
+
+TypeError: 'JavaPackage' object is not callable
+",usability

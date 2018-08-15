@@ -1,0 +1,496 @@
+https://api.github.com/repos/dask/dask/issues/3872,https://api.github.com/repos/dask/dask/issues/3872/comments,DataFrame groupby apply gives incorrect result for cumulative functions. ,"I tried reproducing this using mock data but failed for some reason.  The data I am using is here: https://teblunthuis.cc/outgoing/dask_cumcount_bug.tsv
+
+    import dask.dataframe as dd
+
+    # reading the data, not initially in order
+    d = dd.read_table(input_file, dtype={""anon"":np.bool,
+                                         ""articleid"":np.int32,
+                                        ""deleted"":np.bool,
+                                         ""editor"":np.str,
+                                         ""minor"":np.bool,
+                                         ""namespace"":np.int32,
+                                         ""revert"":np.bool,
+                                         ""reverteds"":np.str,
+                                         ""revid"":np.int64,
+                                         ""sha1"":np.str,
+                                         ""title"":np.str},
+                      true_values=[""TRUE""],
+                      false_values=[""FALSE""],
+                      parse_dates=[""date_time""], 
+                      infer_datetime_format=True
+    )
+
+    d.set_index(""date_time"")
+    editor_groups = d.groupby(d['editor'])
+    d['editor_nth_edit'] = editor_groups.cumcount()
+    d.loc[d.editor==""%22Legobot%22"",['editor','date_time','editor_nth_edit']].compute()
+
+What happens: cumcount is applied to the data in the order of the data, but not in the order of the index. 
+Expected: Setting the index works, probably by sorting my data. 
+
+dask: 0.18.2
+python: 3.6.6
+numpy: 1.15.0
+OS: debian
+
+More generally, I'm having a pretty frustrating time finding a way to get dask dataframe to actually sort my data according to a column. An on disk sort is one of the main things I was looking for when trying dask. Is there another part of the API i should be using? "
+https://api.github.com/repos/dask/dask/issues/3866,https://api.github.com/repos/dask/dask/issues/3866/comments,Assign a column based on a dask.dataframe.from_array with unique values into a lazily loaded dask dataframe causes bad data,"I'm working on a case where I have a somewhat large dataframe in a csv file. I noticed that I had severe problems trying to import it into dask, and then add a new column to later set it as index.
+
+Turned out when I started hunting for some bug, that when I use ```df = df.assign(ReadableTimestamp = dd.from_array(sample_timestamps))```,  it appears only to insert some 100 of them as unique and skips the rest of the unique values in the `sample_timestamps` array.
+
+Here's a snippet of completely working example with dummy data:
+
+```
+import pandas as pd
+import numpy as np
+import dask.dataframe as dd
+
+from datetime import datetime
+from datetime import timedelta
+
+## Create dummy data and save to CSV file
+columns = []
+for i in range(0, 87):
+    columns.append(str.format(""Column{}"", i))
+
+dummy_csv_data = pd.DataFrame(np.random.randint(0,100,size=(605033, 87)), columns=columns)
+dummy_csv_data.to_csv(""testdata.csv"")
+
+## Load it and set index (we need it in order to be able to assign a new column).
+df = dd.read_csv(""testdata.csv"")
+df = df.set_index(df.Column0)
+
+## Define the funciton that creates the pseudo sample dates.
+def create_pseudo_datetime_based_on_even_samping_rate(df):
+    arbitrary_start_date = datetime(2015, 5, 1, 9, 0, 0, 0);
+    timearray = [arbitrary_start_date + timedelta(0,x) for x in range(0, len(df))];
+    return np.array(timearray)
+
+print(len(df.compute()))
+sample_timestamps = create_pseudo_datetime_based_on_even_samping_rate(df)
+df = df.assign(ReadableTimestamp = dd.from_array(sample_timestamps))
+
+df.ReadableTimestamp.compute().describe()
+```
+
+I would expect an unique count equal to this:
+
+```pd.Series(sample_timestamps).describe()```
+
+```
+count                  605033
+unique                 605033
+top       2015-05-06 16:47:00
+freq                        1
+first     2015-05-01 09:00:00
+last      2015-05-08 09:03:52
+dtype: object
+```
+
+But instead I find that I get only 100 uniques:
+
+```
+count                  605033
+unique                    100
+top       2015-05-01 09:01:17
+freq                     6288
+Name: ReadableTimestamp, dtype: object
+```
+
+Either I'm doing something somewhat wrong, or then I've found a bug.
+
+Versions of modules installed (while installing dask complete):
+
+```
+click-6.7 
+cloudpickle-0.5.3 
+dask-0.18.2 
+distributed-1.22.1 
+heapdict-1.0.0 
+locket-0.2.0 
+msgpack-0.5.6 
+numpy-1.15.0 
+pandas-0.23.4 
+partd-0.3.8 
+psutil-5.4.6 
+python-dateutil-2.7.3 
+pytz-2018.5 
+pyyaml-3.13 
+six-1.11.0 
+sortedcontainers-2.0.4 
+tblib-1.3.2 
+toolz-0.9.0 
+tornado-5.1 
+zict-0.1.3
+```"
+https://api.github.com/repos/dask/dask/issues/3865,https://api.github.com/repos/dask/dask/issues/3865/comments,NotImplementedError; struct<...> while reading from parquet using pyarrow engine (works with pandas),"  File ""/home/rafael.moraes/.virtualenvs/normalization_backend/lib/python3.6/site-packages/dask/dataframe/io/parquet.py"", line 995, in read_parquet
+    categories=categories, index=index, infer_divisions=infer_divisions)
+  File ""/home/rafael.moraes/.virtualenvs/normalization_backend/lib/python3.6/site-packages/dask/dataframe/io/parquet.py"", line 579, in _read_pyarrow
+    dtypes = _get_pyarrow_dtypes(schema, categories)
+  File ""/home/rafael.moraes/.virtualenvs/normalization_backend/lib/python3.6/site-packages/dask/dataframe/io/utils.py"", line 26, in _get_pyarrow_dtypes
+    numpy_dtype = field.type.to_pandas_dtype()
+  File ""pyarrow/types.pxi"", line 176, in pyarrow.lib.DataType.to_pandas_dtype
+NotImplementedError: struct<country: string, admin_area: string, sub_admin_area: string...>
+
+I got this error while reading a parquet file using dd.read_parquet  with engine pyarrow, even if i remove the specific column with this struct type using (columns=) it still throw this error, if i switch to pandas it works fine, seems a dask related issue only.
+"
+https://api.github.com/repos/dask/dask/issues/3863,https://api.github.com/repos/dask/dask/issues/3863/comments,Skip test_s3 for PYTHONOPTIMIZE=2 test,"New release of moto breaks with `PYTHONOPTIMIZE=2`.
+
+See https://travis-ci.org/dask/dask/jobs/413384495
+"
+https://api.github.com/repos/dask/dask/issues/3862,https://api.github.com/repos/dask/dask/issues/3862/comments,distributed.comm.core.CommClosedError error on Windows,"Thank you for reporting an issue.
+
+I'm trying to setup a `dask` distributed cluster, I've installed `dask` on  three machines to get started:
+
+- laptop (where searchCV gets called)
+- scheduler (small box where the dask scheduler process lives)
+- HPC (Large box expected to do the work)
+
+I have `dask[complete]` installed on the laptop and `dask` on the other machines. 
+The worker and scheduler start fine and I can see the dashboards, but I can't send them anything. Running `GridSearchCV` on the laptop get's a result but it comes from  the laptop alone, the worker sits idle. 
+
+All machines are windows 7 (HPC is 10) I've checked the ports with `netstat` and it appears that it is really listening where it is supposed to. 
+
+When running a small example I get the following error:
+
+    from dask.distributed import Client
+    scheduler_address = 'tcp://10.X.XX.XX:8786'
+    client = Client(scheduler_address)
+    
+    def square(x):
+            return x ** 2
+    
+    def neg(x):
+        return -x
+    
+    A = client.map(square, range(10))
+    B = client.map(neg, A)
+    total = client.submit(sum, B)
+    
+    print(total.result())
+
+```
+distributed.batched - INFO - Batched Comm Closed: in <closed TCP>: ConnectionAbortedError: [WinError 10053] An established connection was aborted by the software in your host machine
+tornado.application - ERROR - Exception in callback <bound method Client._heartbeat of <Client: scheduler='tcp://10.X.XX.XX:8786' processes=1 cores=10>>
+Traceback (most recent call last):
+  File ""C:\Users\rmenk\AppData\Local\Continuum\anaconda3\lib\site-packages\tornado\ioloop.py"", line 1208, in _run
+    return self.callback()
+  File ""C:\Users\rmenk\AppData\Local\Continuum\anaconda3\lib\site-packages\distributed\client.py"", line 907, in _heartbeat
+    self.scheduler_comm.send({'op': 'heartbeat-client'})
+  File ""C:\Users\rmenk\AppData\Local\Continuum\anaconda3\lib\site-packages\distributed\batched.py"", line 117, in send
+    raise CommClosedError
+distributed.comm.core.CommClosedError
+```
+the process does not stop and prints this error continuously for a while till it is killed. Making me suspect tornado or some other local async  aspect.
+
+The client object is:
+```
+
+Client   
+Scheduler: tcp://10.X.XX.XX:8786   
+Dashboard: http://10.X.XX.XX:8787/status
+
+Cluster    Workers: 1   Cores: 10   Memory: 68.72 GB
+```
+"
+https://api.github.com/repos/dask/dask/issues/3861,https://api.github.com/repos/dask/dask/issues/3861/comments,Re-add the ghost import to da __init__,"Needed for libraries that implicitly assumed `da.ghost` namespace was
+automatically imported.
+
+See #3830."
+https://api.github.com/repos/dask/dask/issues/3860,https://api.github.com/repos/dask/dask/issues/3860/comments,Fixes for pyarrow 0.10.0 release,"- Error nicely if pyarrow version has broken ORC reader
+- Skip ORC tests for bad pyarrow versions
+- Use `is_timestamp` instead of `TimestampType`
+- Remove support for pyarrow versions < 0.8.0 (which are missing `is_timestamp`, and are rather old anyway."
+https://api.github.com/repos/dask/dask/issues/3859,https://api.github.com/repos/dask/dask/issues/3859/comments,Testspace Management for Travis CI,"As suggestion by @mrocklin I am opening up an Issue to discuss how the [Testspace.com](https://testspace.com) technology could be used by the DASK team. We originally open an [Pull Request](https://github.com/dask/dask/pull/3839) that has been closed. Note that Testspace is completely **free** and does **not** affect the workflow. 
+
+Testspace is designed for managing test results -- consumes content generated from Travis jobs. 
+
+* **Failure Triage**: When there are a lot of failures, or the log is very large, or the failures happen across a number of jobs, etc. it can be tedious to track them down. Testspace provides a flat list very quickly containing the stderr output, etc.
+
+    **Example Travis Build Jobs with failures:**
+    
+![travis build jobs](https://user-images.githubusercontent.com/1229367/43743216-c78a5866-9989-11e8-8b57-9c26cde4a06d.PNG)
+ 
+   **Same Build using Testspace failure filtering:**
+
+![travis build failure filtering](https://user-images.githubusercontent.com/1229367/43743228-d45e32ba-9989-11e8-84ff-4a938382a59e.png)
+
+* **Metrics:** All of the results generated from the CI are collected and persisted for `history tracking`. This includes test results, code coverage, static analysis, and any custom content. Along with this information, statistical analysis is used to calculate `how effective the testing is` and measures the `workflow efficiency` (rates for resolving Pull Requests and test failures). 
+
+* For more details check out this **LIVE DEMO**: https://demo.testspace.com. 
+
+* Test results, metrics, insights, provides more visibility to others -- new contributors, unfamiliar with Travis, non-dev types, managers -- and enables easier navigation on content. "
+https://api.github.com/repos/dask/dask/issues/3858,https://api.github.com/repos/dask/dask/issues/3858/comments,Fix failing hdfs test,"- Remove skip for `test_parquet_pyarrow`, as this tests now passes
+- Update to use new travis ci conditionals for optionally testing hdfs functionality. When this was originally added you could only conditionally run on branch name - now you can conditionally run on commit message string (which is nicer and easier to use). New behavior is documented in the hdfs CI readme.
+
+Fixes #3345 
+Supersedes #3483"
+https://api.github.com/repos/dask/dask/issues/3857,https://api.github.com/repos/dask/dask/issues/3857/comments,Increase conda download retries,"We've been seeing an increase in conda download failures on travis lately.
+
+- https://travis-ci.org/dask/dask/jobs/412727337
+- https://travis-ci.org/dask/dask/jobs/412754348
+- https://travis-ci.org/dask/dask/jobs/412815896
+
+After talking to the conda team, it was suggested to try increasing the value of `remote_max_retries` to 10 to see if that helps (they're not 100% sure why this would be happening).
+"
+https://api.github.com/repos/dask/dask/issues/3856,https://api.github.com/repos/dask/dask/issues/3856/comments,"Don't cull in local scheduler, do cull in delayed","- Removes culling from the local scheduler. This was (usually)
+unnecessary, as all the collections (except delayed) culled by default.
+- Adds culling to ``dask.delayed``
+
+Fixes #3735.
+"
+https://api.github.com/repos/dask/dask/issues/3855,https://api.github.com/repos/dask/dask/issues/3855/comments,Add python_requires and Trove classifiers,"- [~] Tests added / passed - All pass except `TEST_HDFS`, same as `master`
+- [~] Passes `flake8 dask` - No, but fails in the same way as `master`
+
+This PR:
+
+* Adds python_requires to help pip install the right version for the user's version
+* Adds Trove version classifiers to make support clear on PyPI
+"
+https://api.github.com/repos/dask/dask/issues/3851,https://api.github.com/repos/dask/dask/issues/3851/comments,Fix numpy deprecation warning on tuple indexing,"This lifts the deprecation warning due to numpy's indexing changes. 
+I checked the code for occurances of similar patterns, but found none.
+I realize this is such a small fix, but hey, everbody needs to start somewhere, right?
+Fixes #3835 .
+
+- [ ] Tests added / passed
+- [x] Passes `flake8 dask`"
+https://api.github.com/repos/dask/dask/issues/3850,https://api.github.com/repos/dask/dask/issues/3850/comments,Remove link to non existent notebook,
+https://api.github.com/repos/dask/dask/issues/3849,https://api.github.com/repos/dask/dask/issues/3849/comments,add DASK_ROOT_CONFIG environment variable,"closes #3798
+
+- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+
+Putting this up here compliment discussion in #3798. "
+https://api.github.com/repos/dask/dask/issues/3844,https://api.github.com/repos/dask/dask/issues/3844/comments,dask.array: Allow shape to be a numpy array,"Fixes #3710
+
+~~Still needs tests. Where should put them? I feel like I can parameterize an existing test, but I couldn't find the appropriate one.~~
+
+- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+"
+https://api.github.com/repos/dask/dask/issues/3841,https://api.github.com/repos/dask/dask/issues/3841/comments,Remove expired deprecation warnings,Removes deprecated functionality that was deprecated at least one major release ago. Each deprecation is in a separate commit to ease review.
+https://api.github.com/repos/dask/dask/issues/3840,https://api.github.com/repos/dask/dask/issues/3840/comments,Drop Python 3.4 support,"Removes support for Python 3.4.
+
+- Drop 3.4 from travis ci
+- Remove branches in our code for no longer supported python versions
+- Cleans up handling of python versions throughout the code to rely on `dask.compatibility.PY2`/`dask.compatibility.PY3` throughout. This makes it easier to grep for these branches in the future instead of the various `sys.version_info` things.
+
+Fixes #3797.
+Fixes #2626."
+https://api.github.com/repos/dask/dask/issues/3839,https://api.github.com/repos/dask/dask/issues/3839/comments,Test Management for Travis CI,"We’ve made a few minor changes to demonstrate how [Testspace.com](https://www.testspace.com/) can be used by your team to better manage your **test results**. Note that there is **no** impact on the workflow and the product is **completely free** for open source.
+
+YOUR TEST RESULTS from `our fork` at https://open.testspace.com/projects/TryTestspace:dask.
+
+Testspace Badge:
+
+[![Space Health](https://open.testspace.com/spaces/122575/badge?token=e5a355cd88ab636ec93ddc7f1727a50ab07c0c09)](https://open.testspace.com/spaces/122575?utm_campaign=badge&utm_medium=referral&utm_source=test ""Test Cases"")
+
+----
+
+To see more details on how Testspace works, check out our demo.
+
+**LIVE DEMO**: https://demo.testspace.com. 
+
+#### Setup is Easy
+
+1. Create a free [Open Source Account](https://signup.testspace.com/?plan_id=open.2)
+2. Create a **New Project** from the list of Github repo's
+3. Add a Travis **Environment Variable**: Name: `TS_ORG`  Value: `organization name` - based on name selected in step 1
+
+"
+https://api.github.com/repos/dask/dask/issues/3838,https://api.github.com/repos/dask/dask/issues/3838/comments,Add link to YARN docs,"Adds a link to dask-yarn documentation. The link shows up in the sidebar as well, keeping a uniform feel to the page. Fixes #3713.
+"
+https://api.github.com/repos/dask/dask/issues/3837,https://api.github.com/repos/dask/dask/issues/3837/comments,Support Python 2 for ImportErrors,"- [ ] Tests added / passed
+- [ ] Passes `flake8 dask`
+"
+https://api.github.com/repos/dask/dask/issues/3836,https://api.github.com/repos/dask/dask/issues/3836/comments,Support concatenate for scipy.sparse in dask array,cc @TomAugspurger 
+https://api.github.com/repos/dask/dask/issues/3835,https://api.github.com/repos/dask/dask/issues/3835/comments,Applying da.arg* with axis argument uses non-tuple nd indexing,"Applying a `da.array` function such as `da.argmax` along an axis yields the following warning:
+
+```
+C:\ProgramData\Anaconda3\lib\site-packages\dask\array\reductions.py:564:` FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. 
+In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  vals = vals[inds]
+```
+This is not triggered for a function such as `da.max` and not triggered if either no axis argument is given or the array is 1D.
+Minimal working example:
+```
+import dask array as da
+
+Y =  da.random.random((10,10), chunks='auto')
+da.argmax(Y, axis=0).compute()
+```
+
+Shows up on Python3.6 since I updated from dask 0.18.1 to 0.18.2.
+
+I would like to spend some time on fixing this to get into this as my first issue, but frankly, I have no idea where to start.
+"
+https://api.github.com/repos/dask/dask/issues/3834,https://api.github.com/repos/dask/dask/issues/3834/comments,wrong dataframe size when using map partitions,"I have a dask dataframe that is on only one partition.
+My problem is when I use map with the tou function, I don't find the shape of my original dataframe.
+ I know this isn't the intended use of dataframes , but still I think it is worth to mention this issue.
+
+```
+from sklearn.datasets import load_iris
+data=dd.from_pandas(pd.DataFrame(load_iris().target[[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]]),npartitions=1)
+out=data.map_partitions(f)
+
+
+def f(x):
+    print(x.shape)
+    return x
+
+
+```
+I am using the 0.17.5 version .
+"
+https://api.github.com/repos/dask/dask/issues/3833,https://api.github.com/repos/dask/dask/issues/3833/comments,Added index column name after resample (issue #3827),"This fixes #3827 
+Fixes #3660 
+
+I added the test mentioned in the issue in dask/dataframe/tseries/tests/test_resample.py
+
+- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+"
+https://api.github.com/repos/dask/dask/issues/3830,https://api.github.com/repos/dask/dask/issues/3830/comments,Rename ghost module to overlap,"This replaces `ghost` with an identical `overlap` module and makes the same changes to the docs. All of the old ghost tests or documentation are kept as is, and tests are duplicated for `overlap`.
+
+Calling an old function warns and returns the result from the corresponding function in `overlap`. I went ahead and replaced `ghost.ghost` with `overlap.overlap` for consistency, as it seemed confusing to be able to call `overlap.ghost(...)`.
+
+There are probably better ways to deprecate the old ghost module, too, but couldn't find any examples of deprecation warnings used elsewhere in dask so I tried to be conservative. Any pointers or feedback would be much appreciated!
+
+Addresses #3639.
+
+- [x] Tests added / passed
+- [x] Passes `flake8 dask`"
+https://api.github.com/repos/dask/dask/issues/3829,https://api.github.com/repos/dask/dask/issues/3829/comments,Remove test code in apply_along_axis,"I tried to use dask.apply_along_axis to do `interp.make_lsq_spline` over some axis. It always returns some mismatch error of the data dimension which turns out related to the test block in the code. What is the reason for having these codes?
+
+https://github.com/dask/dask/blob/b341ac841234cb06c170c7af0fc65b2827be2cef/dask/array/routines.py#L323-L325
+
+should not comment out in future?"
+https://api.github.com/repos/dask/dask/issues/3828,https://api.github.com/repos/dask/dask/issues/3828/comments,"When reading multiple paths, expand globs.","I had an exception when reading `csv` and providing a list of glob masks. It looks like globs are expanded when one path is provided, but not when a list of paths is provided:
+
+```
+In [3]: df = dd.read_csv(base_path + '*.csv')
+
+In [4]: df = dd.read_csv([base_path + '*.csv'])
+---------------------------------------------------------------------------
+FileNotFoundError                         Traceback (most recent call last)
+<ipython-input-4-ea5547b4df7e> in <module>()
+----> 1 df = dd.read_csv([base_path + '*.csv'])
+
+~/.pyenv/versions/3.6.5/envs/shareupd/lib/python3.6/site-packages/dask/dataframe/io/csv.py in read(urlpath, blocksize, collection, lineterminator, compression, sample, enforce, assume_missing, storage_options, **kwargs)
+    424                            enforce=enforce, assume_missing=assume_missing,
+    425                            storage_options=storage_options,
+--> 426                            **kwargs)
+    427     read.__doc__ = READ_DOC_TEMPLATE.format(reader=reader_name,
+    428                                             file_type=file_type)
+
+~/.pyenv/versions/3.6.5/envs/shareupd/lib/python3.6/site-packages/dask/dataframe/io/csv.py in read_pandas(reader, urlpath, blocksize, collection, lineterminator, compression, sample, enforce, assume_missing, storage_options, **kwargs)
+    300                                   sample=sample,
+    301                                   compression=compression,
+--> 302                                   **(storage_options or {}))
+    303
+    304     if not isinstance(values[0], (tuple, list)):
+
+~/.pyenv/versions/3.6.5/envs/shareupd/lib/python3.6/site-packages/dask/bytes/core.py in read_bytes(urlpath, delimiter, not_zero, blocksize, sample, compression, **kwargs)
+     87         for path in paths:
+     88             try:
+---> 89                 size = logical_size(fs, path, compression)
+     90             except ValueError:
+     91                 raise ValueError(""Cannot do chunked reads on files compressed ""
+
+~/.pyenv/versions/3.6.5/envs/shareupd/lib/python3.6/site-packages/dask/bytes/core.py in logical_size(fs, path, compression)
+    509
+    510     if compression is None:
+--> 511         return fs.size(path)
+    512     elif compression in seekable_files:
+    513         with OpenFile(fs, path, compression=compression) as f:
+
+~/.pyenv/versions/3.6.5/envs/shareupd/lib/python3.6/site-packages/dask/bytes/local.py in size(self, path)
+     65     def size(self, path):
+     66         """"""Size in bytes of the file at path""""""
+---> 67         return os.stat(self._normalize_path(path)).st_size
+     68
+     69     def _get_pyarrow_filesystem(self):
+
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/irina/repos/data/shares_updater/csv/2018-07-02/apikey=foo.com/*.csv'
+```
+
+This fixes the problem.
+
+- [x] Tests added / passed
+- [x] Passes `flake8 dask`
+"
+https://api.github.com/repos/dask/dask/issues/3827,https://api.github.com/repos/dask/dask/issues/3827/comments,Resample Dask Dataframe results in loss of index column name,"I created this self containable example to demonstrate a bug I found when resampling a Dask Dataframe. As can be seen below, after resampling the Pandas Dataframe it still contains the name of the index, but after resampling the Dask Dataframe it loses the name of the index. It's interesting to note that when doing `df2.index.name` it shows the correct index name, but when doing `df2.head()` this doesn't happen. 
+
+<details>
+<summary>Code</summary>
+
+```
+import numpy as np
+import pandas as pd
+from numpy import sqrt
+import matplotlib.pyplot as plt
+import dask
+import dask.dataframe as dd
+from datetime import datetime, timedelta
+
+# Create random time series
+date_today = datetime.now()
+days = pd.date_range(date_today, date_today + timedelta(20), freq='D')
+
+np.random.seed(seed=1111)
+data = np.random.randint(1, high=100, size=len(days))
+
+# Create Pandas Dataframe
+df = pd.DataFrame({'date': days, 'values': data})
+df = df.set_index('date')
+print(df.head())
+print(df.resample('D').mean().head())
+
+# Create Dask Dataframe
+df2 = dd.from_pandas(df, npartitions=4)
+print(df2.head())
+print(df2.resample('D').mean().head())
+
+df2.index.name
+
+```
+
+</details>
+
+<details>
+<summary>Output</summary>
+
+```
+                            values
+date                              
+2018-07-30 16:10:31.049569      29
+2018-07-31 16:10:31.049569      56
+2018-08-01 16:10:31.049569      82
+2018-08-02 16:10:31.049569      13
+2018-08-03 16:10:31.049569      35
+            values
+date              
+2018-07-30      29
+2018-07-31      56
+2018-08-01      82
+2018-08-02      13
+2018-08-03      35
+                            values
+date                              
+2018-07-30 16:10:31.049569      29
+2018-07-31 16:10:31.049569      56
+2018-08-01 16:10:31.049569      82
+2018-08-02 16:10:31.049569      13
+2018-08-03 16:10:31.049569      35
+            values
+2018-07-30      29
+2018-07-31      56
+2018-08-01      82
+2018-08-02      13
+2018-08-03      35
+'date'
+
+```
+
+</details>"
+https://api.github.com/repos/dask/dask/issues/3826,https://api.github.com/repos/dask/dask/issues/3826/comments,Fix typo in import statement of diagnostics,
